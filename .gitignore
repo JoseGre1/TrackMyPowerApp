@@ -15,3 +15,8 @@
 /log/*
 !/log/.keep
 /tmp
+bundler_stubs/
+.DS_Store
+.project
+doc/
+*.swp
