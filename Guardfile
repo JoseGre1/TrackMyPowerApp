@@ -24,7 +24,7 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-guard :rspec, cmd: "bundle exec rspec", :version => 2, :all_after_pass => false do
+guard :rspec, cmd: "bundle exec rspec", :version => 2, :all_after_pass => false, :cli => '--drb' do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
   #This is added because of the Rails book (Michael) --> To avoid repeating tests

@@ -50,4 +50,5 @@ group :test do
   gem 'capybara' , '2.2'
   gem 'rb-inotify'
   gem 'libnotify'
+  gem 'zeus'
 end
