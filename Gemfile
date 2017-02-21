@@ -4,7 +4,9 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 # Use PostgreSQL as Active Records database
 gem 'pg'
-#Use sqlite3
+# Rename the entire application
+gem 'rename'
+# Use sqlite3
 gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
