@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.1'
 # Use Bootstrap
 gem 'bootstrap-sass', '3.3.6'
-# Use PostgreSQL as Active Records database
+# Use PostgreSQL as Active Records database 
 gem 'pg'
 # Rename the entire application
 gem 'rename'
