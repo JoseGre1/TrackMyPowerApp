@@ -11,6 +11,8 @@ gem 'rails', '5.0.1'
 gem 'bootstrap-sass', '3.3.6'
 # Rename the entire application
 gem 'rename'
+# Use PostgreSQL as Active Records database
+gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
@@ -44,8 +46,6 @@ gem 'unicorn'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # Use sqlite3
-  gem 'sqlite3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -58,11 +58,6 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.0.5'
-end
-
-group :production do
-  # Use PostgreSQL as Active Records database
-  gem 'pg'
 end
 
 group :test do
