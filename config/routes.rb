@@ -4,6 +4,13 @@ Rails.application.routes.draw do
   get '/about', to: 'static_pages#about'
   get  '/contact', to: 'static_pages#contact'
   get '/signup', to: 'users#new'
+  post '/signup',  to: 'users#create'
+  resources :users
+  #route for generating users via HTTP POST
+  get '/gen-us', to: 'users#post_it'
+
+
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

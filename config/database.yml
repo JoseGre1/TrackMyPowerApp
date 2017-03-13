@@ -4,9 +4,16 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
+<<<<<<< HEAD
   host: localhost
   username: rails
   password: <%= ENV['APP_DATABASE_PASSWORD'] %>
+=======
+  host: 138.197.104.91
+  port: 5432
+  username: admin
+  password: mauro1234
+>>>>>>> working-local
 
 development:
   <<: *default
@@ -22,5 +29,10 @@ test:
 production:
   <<: *default
   database: track_my_power_app_production
+<<<<<<< HEAD
   username: rails
   password: <%= ENV['APP_DATABASE_PASSWORD'] %>
+=======
+  username: admin
+  password: mauro1234
+>>>>>>> working-local
