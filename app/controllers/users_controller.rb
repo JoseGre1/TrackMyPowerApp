@@ -11,6 +11,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      #logging user in using log_in method (from SessionsHelper)
+      log_in @user
       #show message of sucessfull @user creation in @user page
       flash[:success] = "Welcome to the TrackMyPower App!"
       #redirect after sucessful save of new @user
