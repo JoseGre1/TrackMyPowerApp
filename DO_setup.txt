@@ -1,0 +1,10 @@
+Steps for setting up DO server:
+
+. /etc/default/unicorn
+RAILS_ENV=production rake db:create
+RAILS_ENV=production rake db:migrate
+rm -rf public/assets
+RAILS_ENV=production rake assets:precompile
+chown -R rails: /home/rails/TrackMyPowerApp/
+service unicorn restart
+service nginx reload
