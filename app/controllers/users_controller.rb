@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   #User's profile web page
   def show
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
   end
 
   #User signup web page
@@ -25,12 +25,10 @@ class UsersController < ApplicationController
     end
   end
 
-  #Extract user params from POST request in a safe way
-  private
-    def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
-    end
+  #Edit user in DB
+  def edit
+
+  end
 
   #Sample code for posting info from arduino
   def post_it
@@ -38,4 +36,12 @@ class UsersController < ApplicationController
     @user.save
     render "User #{params[:name]} saved successfully!"
   end
-end
+
+
+  #Extract user params from POST request in a safe way
+  private
+    def user_params
+      params.require(:user).permit(:name, :email, :password,
+                                   :password_confirmation, :username)
+    end
+  end
