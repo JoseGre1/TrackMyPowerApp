@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
-
+  #Before filters: correct user logged in
+  before_action :logged_in_user, only: [:show, :edit, :update]
+  before_action :correct_user,   only: [:show, :edit, :update]
   #User's profile web page
   def show
-    @user = User.friendly.find(params[:id])
+    @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
   end
 
   #User signup web page
@@ -27,7 +29,18 @@ class UsersController < ApplicationController
 
   #Edit user in DB
   def edit
+    @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
+  end
 
+  #Update user info in DB
+  def update
+    @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
+    if @user.update_attributes(user_params)
+      flash[:success] = "Profile updated"
+      redirect_to @user
+    else
+      render 'edit'
+    end
   end
 
   #Sample code for posting info from arduino
@@ -38,10 +51,27 @@ class UsersController < ApplicationController
   end
 
 
-  #Extract user params from POST request in a safe way
   private
+    #Extract user params from POST request in a safe way
     def user_params
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation, :username)
+    end
+
+    # Before filters
+
+    # Confirms a logged-in user.
+    def logged_in_user
+      unless logged_in?
+        store_location
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+    end
+
+    # Confirms the correct logged-in user.
+    def correct_user
+      @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
+      redirect_to(root_url) unless current_user?(@user)
     end
   end

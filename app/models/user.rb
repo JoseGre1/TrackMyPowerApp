@@ -2,6 +2,7 @@ class User < ApplicationRecord
   #Using friendly_id gem for more beautiful user routes
   extend FriendlyId
   friendly_id :username
+  
   #downcasing whole email address before saving it to DB
   before_save { email.downcase! }
 
@@ -18,7 +19,7 @@ class User < ApplicationRecord
   #Implementing secure password
   has_secure_password
   #User's password validation
-  validates :password, presence: true, length: { minimum: 8 }
+  validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
 
   #REGEX: Regular Expresion for e-mail format validation
   VALID_USERNAME_REGEX = /\A[a-zA-Z0-9]+$\z/i
