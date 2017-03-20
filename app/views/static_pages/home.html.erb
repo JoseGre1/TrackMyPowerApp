@@ -1,14 +1,34 @@
-<div class="center jumbotron">
-  <h1>Welcome to the Sample App</h1>
+<% content_for :about do %>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 text-center">
+              <h2 class="section-heading">We've got what you need!</h2>
+              <hr class="light">
+              <p class="text-faded">The ultimate remote sensing solution for HRE Systems! It is time to take your power generation to the next level. TrackMyPower offers the most reliable and simplest tools to help you optimize, configure and get the best out of your HRE System! Try it NOW!  </p>
+              <%= link_to 'Sign Up',signup_path , class: "btn btn-default btn-xl sr-button" %>
+          </div>
+      </div>
+  </div>
+<% end %>
 
-  <h2>
-    This is the home page for the
-    <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
-    sample application.
-  </h2>
-
-  <%= link_to "Sign up now!", signup_path , class: "btn btn-lg btn-primary" %>
-</div>
-
-<%= link_to image_tag("rails.png", alt: "Rails logo"),
-            'http://rubyonrails.org/' %>
+<% provide(:tel_number, ' (57) (5) 3509509- ext. 3120') %>
+<% provide(:email, 'mpardo@uninorte.edu.co') %>
+<% content_for :contact do %>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 text-center">
+              <h2 class="section-heading">Let's Get In Touch!</h2>
+              <hr class="primary">
+              <p>Want to obtain more information about our project? That's great! Give us a call or send us an email and we will get back to you as soon as possible! </p>
+          </div>
+          <div class="col-lg-4 col-lg-offset-2 text-center">
+              <i class="fa fa-phone fa-3x sr-contact"></i>
+              <p><%= yield(:tel_number) %></p>
+          </div>
+          <div class="col-lg-4 text-center">
+              <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+              <p><a href="mailto:<%= yield(:email) %>"><%= yield(:email) %></a></p>
+          </div>
+      </div>
+  </div>
+<% end %>

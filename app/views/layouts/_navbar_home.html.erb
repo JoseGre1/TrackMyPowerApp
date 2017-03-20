@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <%= render partial: "layouts/app_name_home", locals: {app_name: my_app_name} %>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <% top_navbar_locals.each do |locals| %>
+            <%= render partial: "layouts/top_navbar_element", locals: {locals: locals} %>
+          <% end %>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</div>
+<!-- /.container-fluid -->

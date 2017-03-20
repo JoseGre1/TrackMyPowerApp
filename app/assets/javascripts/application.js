@@ -13,5 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-sprockets
 //= require turbolinks
-//= require_tree .
+//= require magnific-popup
+//= require scrollReveal
+
+$(function() {
+  window.scrollReveal = new scrollReveal();
+});
+
+//= require_tree ./sitewide
