@@ -26,5 +26,6 @@ module TrackMyPowerApp
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Bogota'
     config.autoload_paths += %W(#{config.root}/app/channels)
+    config.watchable_dirs['app/lib'] = [:rb]
   end
 end
