@@ -1,4 +1,4 @@
-require_dependency 'app/lib/Hbrick.rb'
+require "Hbrick"
 class StaticPagesController < ApplicationController
   #Sample code for using custom layout for specific controller
   #Not using default layout (application.html.erb --> home.html.erb)
