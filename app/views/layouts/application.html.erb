@@ -1,20 +1,10 @@
-<% provide(:author, 'José Hernández, Hector García') %>
-<% provide(:description, 'Modular App for tracking electrical and environmental
-                          variables related to power generation in a hybrid
-                          renewable energy system (HRES).') %>
+<!-- Loading META-INFO -->
+<%= render 'layouts/meta_tags' %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--Meta, title, links, scripts -->
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= yield(:description) %>">
-  <meta name="author" content="<%= yield(:author) %>">
-  <title><%= full_title(yield(:title)) %></title>
-  <%= render 'layouts/rails_default' %>
-  <%= render 'layouts/shim' %>
+  <!-- Main Head -->
+  <%= render 'layouts/main_head' %>
 </head>
 <body>
   <%= render 'layouts/header' %>

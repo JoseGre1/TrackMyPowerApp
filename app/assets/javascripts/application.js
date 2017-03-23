@@ -17,6 +17,8 @@
 //= require turbolinks
 //= require magnific-popup
 //= require scrollReveal
+//= require nprogress
+//= require nprogress-ajax
 
 $(function() {
   window.scrollReveal = new scrollReveal();

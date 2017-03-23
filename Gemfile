@@ -51,6 +51,8 @@ gem 'magnific-popup-rails', '~> 1.1.0'
 
 #CSS-vendors related gems
 gem "font-awesome-rails"
+gem 'nprogress-rails'
+gem 'animate-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  layout "login"
 
   #Action for new session form (login)
   def new

@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   # Returns the base title on a per-page basis.
   def my_app_title
     "Power Tracking Services"

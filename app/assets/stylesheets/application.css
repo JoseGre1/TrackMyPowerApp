@@ -12,6 +12,10 @@
  *
  *= require magnific-popup
  *= require font-awesome
+ *= require nprogress
+ *= require nprogress-bootstrap
+ *= require nprogress-turbolinks5
+ *= require animate
  *= require_tree .
  *= require_self
  */
