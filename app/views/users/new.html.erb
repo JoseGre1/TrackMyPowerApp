@@ -1,10 +1,10 @@
-<% provide(:title, 'Sign up') %>
+<% provide(:title, "Create Account") %>
+<% provide(:form_title, "Create Account") %>
 <% provide(:button_text, 'Create my account') %>
 <% provide(:url, signup_path ) %>
-<h1>Sign up</h1>
-
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= render 'form' %>
-  </div>
-</div>
+<% content_for :form do %>
+  <%= render 'form' %>
+<% end %>
+<% content_for :errors do %>
+  <%= render 'shared/error_messages', object: @user %>
+<% end %>

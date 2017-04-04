@@ -19,9 +19,12 @@
 //= require scrollReveal
 //= require nprogress
 //= require nprogress-ajax
+//= require fastclick
 
-$(function() {
-  window.scrollReveal = new scrollReveal();
+/*enables dropdowns*/
+$(document).ready(function() {
+    $(".dropdown-toggle").dropdown();
 });
+/*enables dropdowns*/
 
 //= require_tree ./sitewide

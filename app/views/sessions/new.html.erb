@@ -1,27 +1,18 @@
 <% provide(:title, "Log in") %>
-<div class="login_wrapper">
-  <div class="animate form login_form">
-    <section class="login_content">
-      <%= form_for(:session, url: login_path) do |f| %>
-        <h1>Log in</h1>
-        <%= f.text_field :email, class: 'form-control', placeholder: 'Email or Username'%>
 
-        <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+<% content_for :form do %>
+  <%= form_for(:session, url: login_path) do |f| %>
+    <h1><%= yield(:title) %></h1>
+    <%= f.text_field :email, class: 'form-control', placeholder: 'Email or Username'%>
 
-        <!--<div><%= f.submit "Log in", class: "btn btn-primary" %> </div>-->
-        <%= f.button "Log in", class: "btn btn-primary" %>
-        <div class="clearfix"></div>
+    <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
 
-        <div class="separator">
-          <small>New user? <%= link_to "Sign up now!", signup_path, class: 'to_register'%></small>
-          <div class="clearfix"></div>
-          <br />
-          <div>
-            <h1><i class="fa fa-bolt"></i> <%= full_title("") %></h1>
-            <small>©<%= Time.current.year %> All Rights Reserved. Universidad del Norte.</small>
-          </div>
-        </div>
-      <% end %>
-    </section>
-  </div>
-</div>
+    <%= f.button "Log in", class: "btn btn-primary" %>
+  <% end %>
+<% end %>
+
+<% content_for :no_user do %>
+  <small>New user? <%= link_to "Sign up now!", signup_path, class: 'to_register'%></small>
+  <div class="clearfix"></div>
+  <br />
+<% end %>

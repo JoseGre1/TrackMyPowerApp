@@ -1,0 +1,25 @@
+/dashboard/home/home
+/dashboard/visual/charts
+/dashboard/visual/stats
+/dashboard/export/tables
+
+
+/user/Settings
+/logout
+
+
+DB Tables and Elements:
+
+-User has_only_one Dashboard
+
+-Dashboard has_many NavbarMainTabs
+-NavbarMainTab has_many NavbarSubTabs
+
+-Dashboard has_many PageGrids
+-PageGrid has_many Blocks
+
+-Dashboard: id,name
+-NavbarMainTabs: id,icon,title
+-NavbarSubTabs: id,main_id,title
+-PageGrid:id,row
+

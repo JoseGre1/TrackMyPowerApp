@@ -3,6 +3,13 @@ class StaticPagesController < ApplicationController
   #Sample code for using custom layout for specific controller
   #Not using default layout (application.html.erb --> home.html.erb)
   layout 'home', only: [:home]
+  before_filter :set_cache_buster, :only => :home
+  def set_cache_buster
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
   def home
     #BRICK START
     #Brick: string variables needed in corresponding view (ex. 'home.html.erb' view)

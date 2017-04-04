@@ -48,6 +48,7 @@ gem 'unicorn'
 #Javascript-vendors related gems
 gem "scrollreveal-rails"
 gem 'magnific-popup-rails', '~> 1.1.0'
+gem 'fastclick-rails'
 
 #CSS-vendors related gems
 gem "font-awesome-rails"

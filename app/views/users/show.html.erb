@@ -1,11 +1,7 @@
-<% provide(:title, @user.username) %>
-<div class="row">
-  <aside class="col-md-4">
-    <section class="user_info">
-      <h1>
-        <%= gravatar_for @user, size: 50 %>
-        <%= @user.name %> (<%= @user.username %>)
-      </h1>
-    </section>
-  </aside>
-</div>
+<% provide(:title, "Welcome") %>
+<section class="user_info">
+  <h1>
+    <%= @user.name %> (<%= @user.username %>)
+  </h1>
+  <br>
+</section>

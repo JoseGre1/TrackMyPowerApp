@@ -9,12 +9,18 @@ class UsersController < ApplicationController
 
   #User signup web page
   def new
-    @user = User.new
+    if logged_in?
+      redirect_to current_user
+    else
+      @user = User.new
+      render layout:'user_form'
+    end
   end
 
   #Create new user in DB
   def create
     @user = User.new(user_params)
+    @user.dashboard = Dashboard.find_by(description: "Default")
     if @user.save
       #logging user in using log_in method (from SessionsHelper)
       log_in @user
@@ -23,7 +29,7 @@ class UsersController < ApplicationController
       #redirect after sucessful save of new @user
       redirect_to @user
     else
-      render 'new'
+      render :new, layout:'user_form'
     end
   end
 

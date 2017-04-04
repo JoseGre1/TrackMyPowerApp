@@ -5,18 +5,30 @@
 <head>
   <!-- Main Head -->
   <%= render 'layouts/main_head' %>
+  <!-- Custom Theme Style -->
+  <link href="/css/custom.css" type="text/css" rel="stylesheet">
 </head>
-<body>
-  <%= render 'layouts/header' %>
-  <div class="container">
-    <% flash.each do |message_type, message| %>
-      <!-- The following line is the same as:
-      <div class="<%= "alert alert-#{message_type}" %>"><%= message %></div> -->
-      <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-    <% end %>
-    <%= yield %>
-    <%= render 'layouts/footer' %>
-    <%= debug(params)  %>
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+      <%= render 'layouts/app_sidebar' %>
+      <%= render 'layouts/app_top_navbar' %>
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <% flash.each do |message_type, message| %>
+          <!-- The following line is the same as:
+          <div class="<%= "alert alert-#{message_type}" %>"><%= message %></div> -->
+          <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
+        <% end %>
+        <%= yield %>
+      </div>
+      <!-- /page content -->
+      <%= render 'layouts/footer' %>
+    </div>
   </div>
+  <!-- Javascript default: Loads application.js -->
+  <%= render 'layouts/js_default' %>
+  <!-- Custom Theme Scripts -->
+  <script src="/javascript/custom.js"></script>
 </body>
 </html>

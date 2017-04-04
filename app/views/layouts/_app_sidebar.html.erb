@@ -1,0 +1,35 @@
+<div class="col-md-3 left_col menu_fixed">
+  <div class="left_col scroll-view">
+    <!-- sidebar title -->
+    <div class="navbar nav_title" style="border: 0;">
+      <%= link_to welcome_path, class:"site_title" do %>
+        <i class="fa fa-bolt"></i> <span><%= full_title("") %></span>
+      <% end %>
+    </div>
+    <!-- sidebar title -->
+
+    <div class="clearfix"></div>
+
+    <!-- menu profile quick info -->
+    <div class="profile">
+      <div class="profile_pic">
+        <%= gravatar_for @user, "img-circle profile_img" %>
+      </div>
+      <div class="profile_info">
+        <span>Welcome,</span>
+        <h2>  <%= @user.name.split(" ")[0] %> (<%= @user.username %>)</h2>
+      </div>
+    </div>
+    <!-- /menu profile quick info -->
+
+    <br />
+
+    <!-- sidebar menu -->
+    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+      <div class="menu_section">
+        <%= render 'layouts/app_sidebar_menu' %>
+      </div>
+    </div>
+    <!-- /sidebar menu -->
+  </div>
+</div>

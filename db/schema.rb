@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314213638) do
+ActiveRecord::Schema.define(version: 20170331151045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blocks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "subtitle"
+    t.string   "description"
+    t.boolean  "minimizable"
+    t.boolean  "closable"
+    t.boolean  "movable"
+    t.integer  "pos_x"
+    t.integer  "pos_y"
+    t.integer  "size_x"
+    t.integer  "size_y"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "dashboards", force: :cascade do |t|
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -27,6 +48,33 @@ ActiveRecord::Schema.define(version: 20170314213638) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
   end
 
+  create_table "navbar_main_tabs", force: :cascade do |t|
+    t.string   "title"
+    t.string   "icon"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "dashboard_id"
+    t.boolean  "dropdown"
+    t.string   "link"
+    t.index ["dashboard_id"], name: "index_navbar_main_tabs_on_dashboard_id", using: :btree
+  end
+
+  create_table "navbar_sub_tabs", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "navbar_main_tab_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "link"
+    t.index ["navbar_main_tab_id"], name: "index_navbar_sub_tabs_on_navbar_main_tab_id", using: :btree
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "title"
+    t.string   "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -34,7 +82,12 @@ ActiveRecord::Schema.define(version: 20170314213638) do
     t.datetime "updated_at",      null: false
     t.string   "password_digest"
     t.string   "username"
+    t.integer  "dashboard_id"
+    t.index ["dashboard_id"], name: "index_users_on_dashboard_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "navbar_main_tabs", "dashboards"
+  add_foreign_key "navbar_sub_tabs", "navbar_main_tabs"
+  add_foreign_key "users", "dashboards"
 end

@@ -1,4 +1,17 @@
 @charset "UTF-8";
+
+/** Customized custom.css for TrackMyPower **/
+/** icon **/
+.fa-bolt {
+  color: #F1F41A; }
+/** login **/
+.login {
+  color: rgba(255, 255, 255, 0.7);
+  background: #2A3F54; }
+.login .logo-link {
+  color: rgba(255, 255, 255, 0.7); }
+/** /Customized custom.css for TrackMyPower **/
+
 .left_col {
   background: #2A3F54; }
 
@@ -328,8 +341,7 @@ body .container.body .right_col {
   background: #D9DEE4; }
 
 body {
-  /*color: #73879C;*/
-  color: rgba(255, 255, 255, 0.7);
+  color: #73879C;
   background: #2A3F54;
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
@@ -3117,9 +3129,6 @@ ul.project_files li a i {
   font-size: 35px; }
 
 /* *********  /ecommerce  **************************** */
-/** login **/
-.login {
-  background: #2A3F54; }
 
 .login .fa-paw {
   font-size: 26px; }
@@ -3198,7 +3207,7 @@ a.hiddenanchor {
 
 .login_content {
   margin: 0 auto;
-  padding: 25px 0 0;
+  padding: 0px 0 0;
   position: relative;
   text-align: center;
   text-shadow: 0 1px 0 #fff;

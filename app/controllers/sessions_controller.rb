@@ -1,8 +1,11 @@
 class SessionsController < ApplicationController
-  layout "login"
+  layout "user_form"
 
   #Action for new session form (login)
   def new
+    if logged_in?
+      redirect_to current_user
+    end
   end
 
   #create session

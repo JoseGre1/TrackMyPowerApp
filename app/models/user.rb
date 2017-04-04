@@ -2,7 +2,7 @@ class User < ApplicationRecord
   #Using friendly_id gem for more beautiful user routes
   extend FriendlyId
   friendly_id :username
-  
+
   #downcasing whole email address before saving it to DB
   before_save { email.downcase! }
 
@@ -27,6 +27,11 @@ class User < ApplicationRecord
   validates :username, presence: true, length: {maximum: 20},
                        format: { with: VALID_USERNAME_REGEX },
                        uniqueness: { case_sensitive: false }
+
+  #ActiveModel associations
+  belongs_to :dashboard
+  validates :dashboard_id, presence: true
+  has_many :notifications, dependent: :destroy
 
   # Returns the hash digest of the given string.
   def User.digest(string)

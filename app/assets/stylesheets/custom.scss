@@ -10,6 +10,22 @@ $gray-medium-light: #eaeaea;
   -webkit-box-sizing: border-box;
   box-sizing:         border-box;
 }
+
+#error_explanation {
+  color: red;
+  ul {
+    color: red;
+    margin: 0 0 30px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .has-error;
+  .form-control {
+    color: $state-danger-text;
+  }
+}
+
 // /* universal */
 //
 // body {
@@ -148,7 +164,7 @@ $gray-medium-light: #eaeaea;
 //   margin-top: 15px;
 // }
 //
-// /* forms */
+/* forms */
 //
 // input, textarea, select, .uneditable-input {
 //   border: 1px solid #bbb;
@@ -161,17 +177,3 @@ $gray-medium-light: #eaeaea;
 //   height: auto !important;
 // }
 //
-// #error_explanation {
-//   color: red;
-//   ul {
-//     color: red;
-//     margin: 0 0 30px 0;
-//   }
-// }
-//
-// .field_with_errors {
-//   @extend .has-error;
-//   .form-control {
-//     color: $state-danger-text;
-//   }
-// }
