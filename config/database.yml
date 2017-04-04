@@ -26,5 +26,5 @@ production:
   <<: *default
   host: localhost
   database: track_my_power_app_production
-  username: rails
-  password: <%= ENV['APP_DATABASE_PASSWORD'] %>
+  username: admin
+  password: mauro1234

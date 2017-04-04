@@ -3,7 +3,7 @@ class NavbarSubTab < ApplicationRecord
   belongs_to :navbar_main_tab
   validates :title, presence: true, length: { maximum: 20 }
   validates :link, presence: true, length: { maximum: 20 }
-  validates :navbar_main_tab_id, presence: true, if:
+  validates :navbar_main_tab_id, presence: true
 
   private
     def check_subs
