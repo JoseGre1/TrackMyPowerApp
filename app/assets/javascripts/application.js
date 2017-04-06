@@ -18,7 +18,6 @@
 //= require magnific-popup
 //= require scrollReveal
 //= require nprogress
-//= require nprogress-ajax
 //= require fastclick
 
 /*enables dropdowns*/
@@ -26,5 +25,12 @@ $(document).ready(function() {
     $(".dropdown-toggle").dropdown();
 });
 /*enables dropdowns*/
-
+NProgress.start();
+NProgress.set(0.4);
+//Increment
+var interval = setInterval(function() { NProgress.inc(); }, 1000);
+$(document).ready(function(){
+    NProgress.done();
+    clearInterval(interval);
+});
 //= require_tree ./sitewide

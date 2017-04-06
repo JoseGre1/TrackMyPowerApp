@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331151045) do
+ActiveRecord::Schema.define(version: 20170406160642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,14 +26,23 @@ ActiveRecord::Schema.define(version: 20170331151045) do
     t.integer  "pos_y"
     t.integer  "size_x"
     t.integer  "size_y"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "dashboard_id"
+    t.index ["dashboard_id"], name: "index_blocks_on_dashboard_id", using: :btree
   end
 
   create_table "dashboards", force: :cascade do |t|
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "dashboards_navbar_main_tabs", id: false, force: :cascade do |t|
+    t.integer "dashboard_id",       null: false
+    t.integer "navbar_main_tab_id", null: false
+    t.index ["dashboard_id"], name: "index_dashboards_navbar_main_tabs_on_dashboard_id", using: :btree
+    t.index ["navbar_main_tab_id"], name: "index_dashboards_navbar_main_tabs_on_navbar_main_tab_id", using: :btree
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -51,12 +60,10 @@ ActiveRecord::Schema.define(version: 20170331151045) do
   create_table "navbar_main_tabs", force: :cascade do |t|
     t.string   "title"
     t.string   "icon"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "dashboard_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean  "dropdown"
     t.string   "link"
-    t.index ["dashboard_id"], name: "index_navbar_main_tabs_on_dashboard_id", using: :btree
   end
 
   create_table "navbar_sub_tabs", force: :cascade do |t|
@@ -75,6 +82,13 @@ ActiveRecord::Schema.define(version: 20170331151045) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pages", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -87,7 +101,7 @@ ActiveRecord::Schema.define(version: 20170331151045) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
-  add_foreign_key "navbar_main_tabs", "dashboards"
+  add_foreign_key "blocks", "dashboards"
   add_foreign_key "navbar_sub_tabs", "navbar_main_tabs"
   add_foreign_key "users", "dashboards"
 end

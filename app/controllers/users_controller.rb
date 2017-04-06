@@ -7,6 +7,17 @@ class UsersController < ApplicationController
     @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
   end
 
+  def dashboard
+    debugger
+    if logged_in?
+      @user = User.friendly.where('lower(username) = ?', current_user.username).first
+      render 'show'
+      return
+    else
+      redirect_to(root_url)
+    end
+  end
+
   #User signup web page
   def new
     if logged_in?

@@ -2,7 +2,7 @@
   <div class="left_col scroll-view">
     <!-- sidebar title -->
     <div class="navbar nav_title" style="border: 0;">
-      <%= link_to welcome_path, class:"site_title" do %>
+      <%= link_to @user, class:"site_title" do %>
         <i class="fa fa-bolt"></i> <span><%= full_title("") %></span>
       <% end %>
     </div>

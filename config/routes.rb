@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
   root    'static_pages#home'
-  #get     '/help',    to: 'static_pages#help'
-  #get     '/about',   to: 'static_pages#about'
-  #get     '/contact', to: 'static_pages#contact'
-  get       '/signup',  to: 'users#new'
-  post      '/signup',  to: 'users#create'
-  get       '/login',   to: 'sessions#new'
-  post      '/login',   to: 'sessions#create'
-  delete    '/logout',  to: 'sessions#destroy'
-  get     '/welcome', to: 'users#show'
-  resources :users
+  get      '/signup',  to: 'users#new'
+  post     '/signup',  to: 'users#create'
+  get      '/login',   to: 'sessions#new'
+  post     '/login',   to: 'sessions#create'
+  delete   '/logout',  to: 'sessions#destroy'
+  dynamic_pages =  ["dashboard", "charts_data", "export_tables", "alerts"]
+  dynamic_pages.each do |page|
+    get "#{page.gsub("_","/")}/users/:id", to: "dynamic_pages##{page}", as: page.to_sym
+  end
+  resources :users, only: [:update, :edit, :show]
   #route for generating users via HTTP POST
   get '/gen-us', to: 'users#post_it'
 

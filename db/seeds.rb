@@ -26,14 +26,16 @@ dashboard_list.each do |description|
 end
 
 navbar_main_tab_list = [
-  [ "Home", "fa fa-home", Dashboard.find_by(description: "Default"), false, router.root_path ],
-  [ "Charts and Stats", "fa fa-bar-chart-o", Dashboard.find_by(description: "Default"), true, "javascript:;" ],
-  [ "Export", "fa fa-download", Dashboard.find_by(description: "Default"), true, "javascript:;" ],
-  [ "Alerts", "fa fa-bell", Dashboard.find_by(description: "Default"), false, "/notifications" ]
+  [ "Dashboard", "fa fa-tachometer", false, router.dashboard_path ],
+  [ "Charts and Stats", "fa fa-bar-chart-o", true, "javascript:;" ],
+  [ "Export", "fa fa-download", true, "javascript:;" ],
+  [ "Alerts", "fa fa-bell", false, "/alerts" ]
 ]
 
-navbar_main_tab_list.each do |title, icon, dashboard, dropdown, link|
-  NavbarMainTab.create( title: title, icon: icon, dashboard: dashboard, dropdown: dropdown, link: link )
+navbar_main_tab_list.each do |title, icon, dropdown, link|
+  NavbarMainTab.create( title: title, icon: icon, dropdown: dropdown, link: link )
+  NavbarMainTab.find_by(title: title).dashboard << Dashboard.find_by(description: 'Default')
+  NavbarMainTab.find_by(title: title).dashboard << Dashboard.find_by(description: 'Blank')
 end
 
 navbar_sub_tab_list = [

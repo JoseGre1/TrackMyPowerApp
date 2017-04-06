@@ -37,15 +37,4 @@ class StaticPagesController < ApplicationController
     render 'home', locals: {home_brick: home_brick.export}
     #BRICK END
   end
-
-  def help
-  end
-
-  def about
-  end
-
-  def contact
-  end
-
-
 end
