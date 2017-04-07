@@ -1,7 +1,7 @@
 require 'ForModules'
 class NavbarMainTab < ApplicationRecord
   include ForModules
-  has_and_belongs_to_many :dashboard
+  has_and_belongs_to_many :dashboard, uniq: true
   has_many :navbar_sub_tabs, dependent: :destroy
   has_one :page, as: :grid
   validates :title, presence: true,
