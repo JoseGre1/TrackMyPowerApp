@@ -8,5 +8,5 @@ class NavbarSubTab < ApplicationRecord
                                   message: "NavbarSubTab already exists in NavbarMainTab" }
   validates :link, presence: true, length: { maximum: 20 }
   validates :navbar_main_tab_id, presence: true
-  validates :page_id, presence: true
+  #validates :page_id, presence: true
 end
