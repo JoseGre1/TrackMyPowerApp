@@ -26,7 +26,7 @@ dashboard_list.each do |description|
 end
 
 navbar_main_tab_list = [
-  [ "Dashboard", "fa fa-tachometer", false, router.dashboard_path ],
+  [ "Dashboard", "fa fa-tachometer", false, "/dashboards" ],
   [ "Charts and Stats", "fa fa-bar-chart-o", true, "javascript:;" ],
   [ "Export", "fa fa-download", true, "javascript:;" ],
   [ "Alerts", "fa fa-bell", false, "/alerts" ]
