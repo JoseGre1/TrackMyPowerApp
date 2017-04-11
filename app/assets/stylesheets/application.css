@@ -11,11 +11,13 @@
  * It is generally better to create a new file per style scope.
  *
  *= require magnific-popup
- *= require font-awesome
  *= require nprogress
  *= require nprogress-bootstrap
  *= require nprogress-turbolinks5
  *= require animate
+ *= require font-awesome
+ *= require weather-icons
+ *= require weather-icons-wind
  *= require_tree .
  *= require_self
  */

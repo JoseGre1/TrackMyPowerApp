@@ -1,21 +1,16 @@
 class UsersController < ApplicationController
   #Before filters: correct user logged in
-  before_action :logged_in_user, only: [:show, :edit, :update]
-  before_action :correct_user,   only: [:show, :edit, :update]
+  before_action :logged_in_user, only: [:show, :edit, :update, :dashboard]
+  before_action :correct_user,   only: [:show, :edit, :update, :dashboard]
   #User's profile web page
   def show
     @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
+    redirect_to dashboard_url(@user) 
   end
 
   def dashboard
-    debugger
-    if logged_in?
-      @user = User.friendly.where('lower(username) = ?', current_user.username).first
-      render 'show'
-      return
-    else
-      redirect_to(root_url)
-    end
+    @user = User.friendly.where('lower(username) = ?', current_user.username).first
+    render 'show'
   end
 
   #User signup web page
@@ -67,28 +62,10 @@ class UsersController < ApplicationController
     render "User #{params[:name]} saved successfully!"
   end
 
-
   private
     #Extract user params from POST request in a safe way
     def user_params
       params.require(:user).permit(:name, :email, :password,
                                    :password_confirmation, :username)
-    end
-
-    # Before filters
-
-    # Confirms a logged-in user.
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
-
-    # Confirms the correct logged-in user.
-    def correct_user
-      @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
-      redirect_to(root_url) unless current_user?(@user)
     end
   end

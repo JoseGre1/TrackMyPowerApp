@@ -1,5 +1,6 @@
 class Tile < ApplicationRecord
   belongs_to :page
+  default_scope -> { order(order: :desc) }
   validates :title, presence: true, length: { maximum: 25 },
     uniqueness: { scope: :page, message: "Tile has already this title" }
   validates :description, presence: true, length: { maximum: 25 }

@@ -54,6 +54,8 @@ gem 'fastclick-rails'
 gem "font-awesome-rails"
 gem 'nprogress-rails'
 gem 'animate-rails'
+#gem 'weather-icons-rails', :git => 'git://github.com/JoseGre1/weather-icons-rails.git'
+gem 'weather-icons-for-rails', :git => 'git://github.com/JoseGre1/weather-icons-for-rails.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -89,4 +91,5 @@ gem 'friendly_id', '~> 5.1.0'
 #Simulates multiple-table-inheritance (MTI) for ActiveRecord models
 gem 'active_record-acts_as'
 
+#DB queries results as tables in rails console
 gem 'hirb'

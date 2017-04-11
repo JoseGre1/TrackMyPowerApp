@@ -1,5 +1,6 @@
 class Row < ApplicationRecord
   belongs_to :page
+  has_many :panels
   before_validation :default_values
   validates :capacity, numericality: {
                          only_integer: true,
