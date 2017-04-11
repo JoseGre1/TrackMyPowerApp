@@ -10,27 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406160642) do
+ActiveRecord::Schema.define(version: 20170410202137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "blocks", force: :cascade do |t|
-    t.string   "title"
-    t.string   "subtitle"
-    t.string   "description"
-    t.boolean  "minimizable"
-    t.boolean  "closable"
-    t.boolean  "movable"
-    t.integer  "pos_x"
-    t.integer  "pos_y"
-    t.integer  "size_x"
-    t.integer  "size_y"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "dashboard_id"
-    t.index ["dashboard_id"], name: "index_blocks_on_dashboard_id", using: :btree
-  end
 
   create_table "dashboards", force: :cascade do |t|
     t.string   "description"
@@ -41,8 +24,6 @@ ActiveRecord::Schema.define(version: 20170406160642) do
   create_table "dashboards_navbar_main_tabs", id: false, force: :cascade do |t|
     t.integer "dashboard_id",       null: false
     t.integer "navbar_main_tab_id", null: false
-    t.index ["dashboard_id"], name: "index_dashboards_navbar_main_tabs_on_dashboard_id", using: :btree
-    t.index ["navbar_main_tab_id"], name: "index_dashboards_navbar_main_tabs_on_navbar_main_tab_id", using: :btree
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -85,8 +66,49 @@ ActiveRecord::Schema.define(version: 20170406160642) do
   create_table "pages", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "navbar_tab_type"
+    t.integer  "navbar_tab_id"
+    t.integer  "dashboard_id"
+    t.index ["dashboard_id"], name: "index_pages_on_dashboard_id", using: :btree
+    t.index ["navbar_tab_type", "navbar_tab_id"], name: "index_pages_on_navbar_tab_type_and_navbar_tab_id", using: :btree
+  end
+
+  create_table "panels", force: :cascade do |t|
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "subtitle"
+    t.boolean  "minimizable"
+    t.boolean  "closable"
+    t.boolean  "movable"
+    t.string   "title"
+    t.string   "description"
+    t.integer  "order"
+    t.integer  "width"
+    t.integer  "row_id"
+    t.index ["row_id"], name: "index_panels_on_row_id", using: :btree
+  end
+
+  create_table "rows", force: :cascade do |t|
+    t.integer  "capacity"
+    t.integer  "height"
+    t.integer  "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "order"
+    t.index ["page_id"], name: "index_rows_on_page_id", using: :btree
+  end
+
+  create_table "tiles", force: :cascade do |t|
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "icon"
+    t.integer  "order"
+    t.string   "title"
+    t.string   "description"
+    t.integer  "page_id"
+    t.index ["page_id"], name: "index_tiles_on_page_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -101,7 +123,10 @@ ActiveRecord::Schema.define(version: 20170406160642) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
-  add_foreign_key "blocks", "dashboards"
   add_foreign_key "navbar_sub_tabs", "navbar_main_tabs"
+  add_foreign_key "pages", "dashboards"
+  add_foreign_key "panels", "rows"
+  add_foreign_key "rows", "pages"
+  add_foreign_key "tiles", "pages"
   add_foreign_key "users", "dashboards"
 end

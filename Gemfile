@@ -68,6 +68,8 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.0.5'
+  # Database diagrams
+  gem "rails-erd"
 end
 
 group :test do
@@ -83,3 +85,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Routes id manager. Ex: "/users/1" --> "/users/JoseGre"
 gem 'friendly_id', '~> 5.1.0'
+
+#Simulates multiple-table-inheritance (MTI) for ActiveRecord models
+gem 'active_record-acts_as'
+
+gem 'hirb'
