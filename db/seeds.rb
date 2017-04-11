@@ -104,7 +104,6 @@ panels_list = [
 ]
 
 panels_list.each do |row, title, subtitle, description, width, order, movable, minimizable, closable|
-  pan=Panel.create(row: row, title: title, subtitle: subtitle, description: description, width: width,
+  Panel.create(row: row, title: title, subtitle: subtitle, description: description, width: width,
                order: order, movable: movable, minimizable: minimizable, closable: closable)
-  puts pan.errors.messages
 end
