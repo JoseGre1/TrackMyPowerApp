@@ -99,7 +99,7 @@ panels_list = [
   [Row.find_by(order: 1, page: Page.find_by(title:"Data Charts")), "Voltage", "last 2 days", nil, nil, 12, nil, nil, nil ],
   [Row.find_by(order: 2, page: Page.find_by(title:"Data Charts")), "Energy", "monthly and cumulative", nil, nil, 12, nil, nil, nil ],
   [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts")), "Wind", "last 3 days", nil, nil, 6, nil, nil, nil ],
-  [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts")), "HSP", "daily", nil, nil, 6, nil, nil, nil ],
+  [Row.find_by(order: 4, page: Page.find_by(title:"Data Charts")), "HSP", "daily", nil, nil, 6, nil, nil, nil ],
   [Row.find_by(order: 1, page: Page.find_by(title:"Tables")), "Tables", "filter results", nil, nil, 12, nil, nil, nil ],
 ]
 
