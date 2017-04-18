@@ -1,5 +1,7 @@
 class MeasurementsController < ApplicationController
   before_action :authenticate
+  layout 'blank'
+
   def new_electrical
     accepted = {}
     accepted[:voltage_med1] = params[:voltage_med1]
@@ -12,9 +14,9 @@ class MeasurementsController < ApplicationController
     @electrical_measurement = ElectricalMeasurement.new(accepted)
     attempt = @electrical_measurement.save
     if attempt
-      render html: "ElectricalMeasurements #{accepted} saved successfully!"
+      render html: "ElectricalMeasurements #{accepted} saved successfully!", layout: true
     else
-      render html: "Error saving to DB. Please check your GET URL."
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
   end
 
@@ -25,9 +27,9 @@ class MeasurementsController < ApplicationController
     @internal_conditions_measurement = InternalConditionsMeasurement.new(accepted)
     attempt = @internal_conditions_measurement.save
     if attempt
-      render html: "InternalConditionsMeasurements #{accepted} saved successfully!"
+      render html: "InternalConditionsMeasurements #{accepted} saved successfully!", layout: true
     else
-      render html: "Error saving to DB. Please check your GET URL."
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
   end
 
@@ -42,9 +44,9 @@ class MeasurementsController < ApplicationController
     @meteorological_measurement = MeteorologicalMeasurement.new(accepted)
     attempt = @meteorological_measurement.save
     if attempt
-      render html: "MeteorologicalMeasurements #{accepted} saved successfully!"
+      render html: "MeteorologicalMeasurements #{accepted} saved successfully!", layout: true
     else
-      render html: "Error saving to DB. Please check your GET URL."
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
   end
 

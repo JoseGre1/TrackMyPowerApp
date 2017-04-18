@@ -24,8 +24,6 @@ Rails.application.routes.draw do
   get '/load_metereological', to: 'ajax_calls#load_metereological', as: :load_metereological
   get '/load_internal', to: 'ajax_calls#load_internal', as: :load_internal
 
-
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
