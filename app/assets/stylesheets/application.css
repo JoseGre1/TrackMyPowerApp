@@ -18,8 +18,7 @@
  *= require weather-icons
  *= require weather-icons-wind
  *= require switchery
+ *= require icheck/square/_all
  *= require_tree .
  *= require_self
  */
-
- @import "icheck/square/_all.scss";
