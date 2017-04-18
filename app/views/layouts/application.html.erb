@@ -30,5 +30,8 @@
   <%= render 'layouts/js_default' %>
   <!-- Custom Theme Scripts -->
   <script src="/javascript/custom.js"></script>
+  <% if content_for?(:page_scripts) %>
+    <%= yield(:page_scripts) %>
+  <% end %>
 </body>
 </html>

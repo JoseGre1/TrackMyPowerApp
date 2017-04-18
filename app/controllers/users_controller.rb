@@ -5,14 +5,9 @@ class UsersController < ApplicationController
   #User's profile web page
   def show
     @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
-    redirect_to dashboard_url(@user) 
+    redirect_to dashboard_url(@user)
   end
-
-  def dashboard
-    @user = User.friendly.where('lower(username) = ?', current_user.username).first
-    render 'show'
-  end
-
+  
   #User signup web page
   def new
     if logged_in?
@@ -53,13 +48,6 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
-  end
-
-  #Sample code for posting info from arduino
-  def post_it
-    @user = User.new(name: params[:name], email: params[:email], password: params[:password], password_confirmation: params[:confirm])
-    @user.save
-    render "User #{params[:name]} saved successfully!"
   end
 
   private

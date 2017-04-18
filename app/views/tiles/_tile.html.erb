@@ -1,5 +1,5 @@
 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count pull-right" style="padding-bottom: 0px;">
   <span class="count_top" style="text-align:center; display:block;margin: 0 auto;"><i class="<%= tile.icon %>"></i> <%= tile.title %></span>
-  <div id="" class="count" style="text-align:center">67%</div>
-  <span id="" class="count_bottom" style="display: block; text-align: center;">2017-04-11 00:41:04</span>
+  <div id="<%= tile.title.parameterize.underscore %>" class="count" style="text-align:center"></div>
+  <span id="<%= tile.title.parameterize.underscore %>_timestamp" class="count_bottom" style="display: block; text-align: center;"></span>
 </div>

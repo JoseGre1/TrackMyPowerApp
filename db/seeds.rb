@@ -76,8 +76,8 @@ end
 # ROWS:
 #   [page, capacity, height, order]
 rows_list = [
-  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), 2, nil, nil],
-  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), 3, nil, nil],
+  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), 2, 420, nil],
+  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), 3, 340, nil],
   [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, nil, nil],
   [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, nil, nil],
   [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 2, nil, nil],

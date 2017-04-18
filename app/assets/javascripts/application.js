@@ -14,11 +14,14 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-sprockets
-//= require turbolinks
 //= require magnific-popup
 //= require scrollReveal
 //= require nprogress
 //= require fastclick
+//= require 'icheck'
+//= require switchery
+//= require gauge
+//= require skycons
 
 /*enables dropdowns*/
 $(document).ready(function() {

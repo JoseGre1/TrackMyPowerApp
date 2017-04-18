@@ -49,13 +49,15 @@ gem 'unicorn'
 gem "scrollreveal-rails"
 gem 'magnific-popup-rails', '~> 1.1.0'
 gem 'fastclick-rails'
+gem 'icheck-rails'
+gem 'switchery-rails'
 
 #CSS-vendors related gems
 gem "font-awesome-rails"
 gem 'nprogress-rails'
 gem 'animate-rails'
-#gem 'weather-icons-rails', :git => 'git://github.com/JoseGre1/weather-icons-rails.git'
 gem 'weather-icons-for-rails', :git => 'git://github.com/JoseGre1/weather-icons-for-rails.git'
+gem 'bootstrap_progressbar'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -13,11 +13,13 @@
  *= require magnific-popup
  *= require nprogress
  *= require nprogress-bootstrap
- *= require nprogress-turbolinks5
  *= require animate
  *= require font-awesome
  *= require weather-icons
  *= require weather-icons-wind
+ *= require switchery
  *= require_tree .
  *= require_self
  */
+
+ @import 'icheck/square/_all' //includes all color schemes;

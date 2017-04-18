@@ -1,7 +1,7 @@
 <!-- Full Panel-->
 <div class="col-md-<%= panel.width %> col-sm-6 col-xs-12">
   <!--Panel Content -->
-  <div id="panel_electrical" class="x_panel tile">
+  <div id="panel_<%= panel.title.parameterize.underscore %>" class="x_panel tile" style="height: <%= panel.row.height %>px;">
     <!--Title -->
     <div class="x_title">
       <h2><%= panel.title %><small><%= panel.subtitle %></small></h2>
@@ -21,7 +21,7 @@
     <!--Content -->
     <div class="x_content">
       <div class="dashboard-widget-content">
-
+        <%= content_for panel.title.parameterize.underscore.to_sym %>
       </div>
     </div> <!-- /Content -->
   </div> <!--/Panel Content -->

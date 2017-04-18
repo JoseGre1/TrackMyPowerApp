@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410202137) do
+ActiveRecord::Schema.define(version: 20170412222600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,18 @@ ActiveRecord::Schema.define(version: 20170410202137) do
     t.integer "navbar_main_tab_id", null: false
   end
 
+  create_table "electrical_measurements", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.float    "voltage_med1"
+    t.float    "current_med1"
+    t.float    "energy_med1"
+    t.float    "power_med1"
+    t.float    "pf_med1"
+    t.float    "voltage_batt1"
+    t.float    "voltage_batt2"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -36,6 +48,24 @@ ActiveRecord::Schema.define(version: 20170410202137) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+  end
+
+  create_table "internal_conditions_measurements", force: :cascade do |t|
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.float    "temperature_int"
+    t.float    "humidity_int"
+  end
+
+  create_table "meteorological_measurements", force: :cascade do |t|
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.float    "temperature"
+    t.float    "humidity"
+    t.float    "wind_speed"
+    t.float    "uv_index"
+    t.float    "solar_radiation"
+    t.float    "wind_direction"
   end
 
   create_table "navbar_main_tabs", force: :cascade do |t|

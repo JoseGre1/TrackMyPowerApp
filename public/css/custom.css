@@ -1,6 +1,64 @@
 @charset "UTF-8";
 
 /** Customized custom.css for TrackMyPower **/
+/** page: dashboard **/
+.videoWrapper {
+	position: relative;
+	padding-bottom: 80%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+label{
+  margin-bottom: 10%;
+  font-weight: inherit;
+}
+#map {
+  height: 320px;
+  width: 100%;
+  background-color: grey;
+}
+.iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 50%; /* Ratio 16:9 ( 100%/16*9 = 56.25% ) */
+  margin-bottom: 25px;
+  background: #eee;
+}
+.iframe-container > *{
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+.centered-canvas{
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.centered-ico{
+  text-align: center;
+  display: block;
+}
+[data-icon]:before {
+  font-family: icons; /* BYO icon font, mapped smartly */
+  content: attr(data-icon);
+  speak: none; /* Not to be trusted, but hey. */
+}
 /** icon **/
 .fa-bolt {
   color: #F1F41A; }
@@ -1482,7 +1540,7 @@ span.right {
 
 @media (min-width: 768px) {
   .tile_count .tile_stats_count .count {
-    font-size: 40px; } }
+    font-size: 35px; } }
 @media (min-width: 992px) and (max-width: 1100px) {
   .tile_count .tile_stats_count .count {
     font-size: 30px; } }
@@ -3419,16 +3477,6 @@ div[data-role="editor-toolbar"] {
   border: 1px solid #ccc; }
 
 /** /Select2 **/
-/** Switchery **/
-.switchery {
-  width: 32px;
-  height: 20px; }
-
-.switchery > small {
-  width: 20px;
-  height: 20px; }
-
-/** /Switchery **/
 /** Normalize.css **/
 fieldset {
   border: none;

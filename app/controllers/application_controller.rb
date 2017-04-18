@@ -3,4 +3,5 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   include DynamicPagesHelper
   include UsersHelper
+  include MeasurementsHelper
 end

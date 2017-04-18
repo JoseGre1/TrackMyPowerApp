@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  #Main Application Controllers routes
   root    'static_pages#home'
   get      '/signup',  to: 'users#new'
   post     '/signup',  to: 'users#create'
@@ -10,8 +12,18 @@ Rails.application.routes.draw do
     get "#{page.gsub("_","/")}/users/:id", to: "dynamic_pages##{page}", as: page.to_sym
   end
   resources :users, only: [:update, :edit, :show]
-  #route for generating users via HTTP POST
-  get '/gen-us', to: 'users#post_it'
+
+  #route for generating measurements via HTTP GET - TELEMETRY
+  get 'measurements/electrical/new', to:'measurements#new_electrical'
+  get 'measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
+  get 'measurements/meteorological/new', to:'measurements#new_meteorological'
+  get 'measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
+
+  #routes for AJAX Calls controller
+  get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
+  get '/load_metereological', to: 'ajax_calls#load_metereological', as: :load_metereological
+  get '/load_internal', to: 'ajax_calls#load_internal', as: :load_internal
+
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
