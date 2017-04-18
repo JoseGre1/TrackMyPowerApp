@@ -18,7 +18,7 @@
 //= require scrollReveal
 //= require nprogress
 //= require fastclick
-//= require 'icheck'
+//= require icheck
 //= require switchery
 //= require gauge
 //= require skycons
