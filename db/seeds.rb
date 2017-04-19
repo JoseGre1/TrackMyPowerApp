@@ -78,9 +78,9 @@ end
 rows_list = [
   [Page.find_by(title: "Dashboard", dashboard: default_dashboard), 2, 420, nil],
   [Page.find_by(title: "Dashboard", dashboard: default_dashboard), 3, 340, nil],
-  [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, nil, nil],
-  [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, nil, nil],
-  [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 2, nil, nil],
+  [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, 370, nil],
+  [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, 370, nil],
+  [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 2, 370, nil],
   [Page.find_by(title: "Tables", dashboard: default_dashboard), 1, nil, nil],
 ]
 
@@ -97,7 +97,7 @@ panels_list = [
   [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard")), "Control Panel", nil, nil, 4, nil, nil, nil, nil ],
   [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard")), "Live Stream", nil, nil, 4, nil, nil, nil, nil ],
   [Row.find_by(order: 1, page: Page.find_by(title:"Data Charts")), "Voltage", "last 2 days",  nil, 12, nil, nil, nil, nil ],
-  [Row.find_by(order: 2, page: Page.find_by(title:"Data Charts")), "Energy", "monthly and cumulative", nil, 12, nil, nil, nil, nil ],
+  [Row.find_by(order: 2, page: Page.find_by(title:"Data Charts")), "Energy", "monthly", nil, 12, nil, nil, nil, nil ],
   [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts")), "Wind", "last 3 days", nil, 6, nil, nil, nil, nil ],
   [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts")), "HSP", "daily", nil, 6, nil, nil, nil, nil ],
   [Row.find_by(order: 1, page: Page.find_by(title:"Tables")), "Tables", "filter results", nil, 12, nil, nil, nil, nil ],

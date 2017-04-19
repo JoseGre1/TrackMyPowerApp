@@ -51,6 +51,9 @@ gem 'magnific-popup-rails', '~> 1.1.0'
 gem 'fastclick-rails'
 gem 'icheck-rails'
 gem 'switchery-rails'
+gem 'momentjs-rails'
+gem 'chart-js-rails'
+gem 'plotlyjs-rails'
 
 #CSS-vendors related gems
 gem "font-awesome-rails"

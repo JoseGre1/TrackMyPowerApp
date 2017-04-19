@@ -22,6 +22,10 @@
 //= require switchery
 //= require gauge
 //= require skycons
+//= require moment
+//= require Chart
+//= require hammer.min
+//= require chartjs-plugin-zoom.min
 
 /*enables dropdowns*/
 $(document).ready(function() {

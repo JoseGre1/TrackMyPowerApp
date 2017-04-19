@@ -1,3 +1,4 @@
+<% provide(:title, @page.title) %>
 <% content_for :electrical_variables do %>
   <ul class="quick-list">
     <li><i class="fa fa-power-off"></i>Voltage: </br><span id="voltage_med1"></span></li></br>
@@ -109,7 +110,6 @@
     <!-- Copy & Pasted from YouTube -->
     <iframe width="280" height="240" src="https://www.youtube.com/embed/Sagg08DrO5U" frameborder="0" allowfullscreen></iframe>
 </div>
-
 <% end %>
 
 <% content_for :page_scripts do %>
@@ -254,7 +254,7 @@ function unitsTemperature(element){
         units: units
       },
       beforeSend: function(req) {
-        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:admin1234'));
+        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
       },
       cache: false,
       success: function(data){
@@ -619,7 +619,7 @@ function unitsTemperature(element){
         ShowWeather();
         ShowElectrical();
         ShowInternal();
-    }, 5000);
+    }, 60000);
   });
 </script>
 <!--/AJAX Refresh -->

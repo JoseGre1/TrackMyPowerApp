@@ -67,6 +67,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    chart-js-rails (0.1.2)
+      railties (> 3.1)
     choice (0.2.0)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -135,6 +137,8 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
+    momentjs-rails (2.17.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     nenv (0.3.0)
     nio4r (1.2.1)
@@ -145,6 +149,8 @@ GEM
       shellany (~> 0.0)
     nprogress-rails (0.2.0.2)
     pg (0.20.0)
+    plotlyjs-rails (1.0.0)
+      rails (>= 3.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -278,6 +284,7 @@ DEPENDENCIES
   bootstrap_progressbar
   byebug
   capybara (= 2.2)
+  chart-js-rails
   coffee-rails (~> 4.2)
   fastclick-rails
   font-awesome-rails
@@ -290,8 +297,10 @@ DEPENDENCIES
   libnotify
   listen (~> 3.0.5)
   magnific-popup-rails (~> 1.1.0)
+  momentjs-rails
   nprogress-rails
   pg
+  plotlyjs-rails
   puma (~> 3.0)
   rails (= 5.0.1)
   rails-erd

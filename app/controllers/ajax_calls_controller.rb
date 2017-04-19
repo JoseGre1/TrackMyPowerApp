@@ -9,15 +9,9 @@ class AjaxCallsController < ApplicationController
     @result = ElectricalMeasurement.last[variable]
     if variable.downcase == "energy_med1"
       query = "extract(month from created_at) = ? and extract(year from created_at) = ? and energy_med1 != 0"
-      max_current_month = ElectricalMeasurement.where(query, Time.now.month, Time.now.year ).maximum(variable)
-      min_current_month = ElectricalMeasurement.where(query, Time.now.month, Time.now.year ).minimum(variable)
+      max_current_month = ElectricalMeasurement.where(query, Time.now.month, Time.now.year ).maximum(variable).to_f
+      min_current_month = ElectricalMeasurement.where(query, Time.now.month, Time.now.year ).minimum(variable).to_f
       @result = max_current_month - min_current_month
-      #monthly_energy = {}
-      #(1..12).to_a.each do |month|
-      #    min_month = ElectricalMeasurement.where(query, month, Time.now.year ).minimum(variable)
-      #    max_month = ElectricalMeasurement.where(query, month, Time.now.year ).minimum(variable)
-      #    monthly_energy[Date::MONTHNAMES[month]] = max_month - min_month
-      #end
     end
     if variable.downcase == "total_delivered_energy"
       @result = ElectricalMeasurement.maximum("energy_med1")
@@ -57,6 +51,34 @@ class AjaxCallsController < ApplicationController
       @result = 'N/A'
     end
     render json: { result: @result, variable: variable }, layout: true
+  end
+
+  def voltage_chart
+    @result = ElectricalMeasurement.where('created_at >= ?', 1.day.ago.change(hour: 0, min: 0, sec: 0)).order(:created_at).select(:voltage_med1, :created_at)
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:voltage_med1)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def energy_chart
+    variable = params[:variable]
+    monthly_energy = {}
+    query = "extract(month from created_at) = ? and extract(year from created_at) = ? and energy_med1 != 0"
+    (1..12).to_a.each do |month|
+       min_month = ElectricalMeasurement.where(query, month, Time.now.year ).minimum(variable).to_f
+       max_month = ElectricalMeasurement.where(query, month, Time.now.year ).maximum(variable).to_f
+       monthly_energy[Date::MONTHNAMES[month]] = max_month - min_month
+    end
+    render json: { months: monthly_energy.keys, y_data: monthly_energy.values }
+  end
+
+  def wind_chart
+
+  end
+
+  def hsp_chart
+
   end
 
   private
