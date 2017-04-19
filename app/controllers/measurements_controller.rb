@@ -63,7 +63,7 @@ class MeasurementsController < ApplicationController
   private
     def authenticate
       authenticate_or_request_with_http_basic('Administration') do |username, password|
-        username == 'admin' && password == 'admin1234'
+        username == 'admin' && password == 'uninorte'
       end
     end
 end

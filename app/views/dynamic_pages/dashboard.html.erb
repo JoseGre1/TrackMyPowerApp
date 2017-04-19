@@ -283,11 +283,21 @@ function unitsTemperature(element){
   }
 
   function ShowElectrical() {
+    function battery_load(voltage){
+      voltage = parseFloat(voltage);
+      if (voltage<8) {
+        return parseInt(0);
+      }else if (voltage>= 8 && voltage<12){
+        return parseInt((voltage-8)*25);
+      }else if (voltage>=12){
+        return parseInt(100);
+      }
+    }
     var load_electrical = function (data) {
       variable = data.variable;
       result = data.result;
       if (variable.includes("voltage_batt")) {
-        $("#".concat(variable).concat(".progress-bar")).css("width", parseInt(result) + "%");
+        $("#".concat(variable).concat(".progress-bar")).css("width", battery_load(result) + "%");
         document.getElementById(variable).innerHTML = result;
         //auto_loadcont(variable,parseInt(result));
       } else if (variable == "energy_med1") {

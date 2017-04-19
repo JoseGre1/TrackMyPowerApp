@@ -1,6 +1,7 @@
 class AjaxCallsController < ApplicationController
-  before_action :authenticate
   require 'date'
+  before_action :authenticate
+  layout 'blank'
 
   def load_electrical
     variable = params[:variable]
@@ -26,7 +27,7 @@ class AjaxCallsController < ApplicationController
     if @result.blank?
       @result = 'N/A'
     end
-    render json: { result: @result, variable: variable, timestamp: timestamp }
+    render json: { result: @result, variable: variable, timestamp: timestamp }, layout: true
   end
 
   def load_internal
@@ -44,7 +45,7 @@ class AjaxCallsController < ApplicationController
     when "humidity_int"
       variable = "internal_humidity"
     end
-    render json: { result: @result, variable: variable, timestamp: timestamp }
+    render json: { result: @result, variable: variable, timestamp: timestamp }, layout: true
   end
 
   def load_metereological
@@ -55,13 +56,13 @@ class AjaxCallsController < ApplicationController
     if @result.blank?
       @result = 'N/A'
     end
-    render json: { result: @result, variable: variable }
+    render json: { result: @result, variable: variable }, layout: true
   end
 
   private
     def authenticate
       authenticate_or_request_with_http_basic('Administration') do |username, password|
-        username == 'admin' && password == 'admin1234'
+        username == 'admin' && password == 'uninorte'
       end
     end
 end

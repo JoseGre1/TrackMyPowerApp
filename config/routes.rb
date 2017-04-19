@@ -14,10 +14,10 @@ Rails.application.routes.draw do
   resources :users, only: [:update, :edit, :show]
 
   #route for generating measurements via HTTP GET - TELEMETRY
-  get 'measurements/electrical/new', to:'measurements#new_electrical'
-  get 'measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
-  get 'measurements/meteorological/new', to:'measurements#new_meteorological'
-  get 'measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
+  get '/measurements/electrical/new', to:'measurements#new_electrical'
+  get '/measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
+  get '/measurements/meteorological/new', to:'measurements#new_meteorological'
+  get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
 
   #routes for AJAX Calls controller
   get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
