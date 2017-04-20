@@ -244,25 +244,6 @@ function unitsTemperature(element){
 
 <!--AJAX Refresh -->
 <script>
-  function ajax_call(variable, url, func, units) {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      dataType: 'json',
-      data: {
-        variable: variable,
-        units: units
-      },
-      beforeSend: function(req) {
-        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
-      },
-      cache: false,
-      success: function(data){
-        func(data);
-      }
-    });
-  }
-
   function ShowWeather() {
     var load_metereological = function (data) {
       variable = data.variable;

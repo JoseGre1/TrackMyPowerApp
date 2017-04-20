@@ -74,11 +74,29 @@ class AjaxCallsController < ApplicationController
   end
 
   def wind_chart
-
+    output_hash = {}
+    cardinals = ["North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest", "North"]
+    2.downto(0).to_a.each do |n_day|
+    	start=n_day.day.ago.change(hour: 0, min: 0, sec: 0)
+    	stop=n_day.day.ago.change(hour: 23, min: 59, sec: 59)
+      max_speed = {}
+      (0..8).to_a.each do |norm_direction|
+        result = MeteorologicalMeasurement.where("created_at >= ? and created_at <= ? and
+            round(wind_direction/45) = #{norm_direction}", start, stop).maximum(:wind_speed)
+        if norm_direction == 8
+          result = [result.to_f, max_speed[:North]].max
+        end
+        max_speed[cardinals[norm_direction].to_sym] = result.to_f
+      end
+      output_hash[n_day] = { result: max_speed, date: start.strftime("%m-%d") }
+    end
+    cardinals.pop
+    output_hash[:labels] = cardinals
+    render json: output_hash
   end
 
   def hsp_chart
-
+    
   end
 
   private

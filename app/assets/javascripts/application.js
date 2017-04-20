@@ -26,6 +26,7 @@
 //= require Chart
 //= require hammer.min
 //= require chartjs-plugin-zoom.min
+//= require plotly
 
 /*enables dropdowns*/
 $(document).ready(function() {
@@ -40,4 +41,23 @@ $(document).ready(function(){
     NProgress.done();
     clearInterval(interval);
 });
+//Ajax calls
+function ajax_call(variable, url, func, units) {
+  $.ajax({
+    url: url,
+    type: 'GET',
+    dataType: 'json',
+    data: {
+      variable: variable,
+      units: units
+    },
+    beforeSend: function(req) {
+      req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
+    },
+    cache: false,
+    success: function(data){
+      func(data);
+    }
+  });
+}
 //= require_tree ./sitewide

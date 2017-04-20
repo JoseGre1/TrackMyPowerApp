@@ -2,7 +2,7 @@
 
 /** Customized custom.css for TrackMyPower **/
 /** page: charts_data **/
-	.chartjs .responsive {
+	.chartjs-responsive {
 		width: 100% !important;
 		height: auto !important;
 		-moz-user-select: none;
