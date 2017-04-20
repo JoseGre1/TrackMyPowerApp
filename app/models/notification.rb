@@ -1,3 +1,2 @@
-class Notification < ApplicationRecord
-  belongs_to :user
+class Notification < ApplicationRecords
 end

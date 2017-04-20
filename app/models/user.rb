@@ -31,7 +31,6 @@ class User < ApplicationRecord
   #ActiveModel associations
   belongs_to :dashboard
   validates :dashboard_id, presence: true
-  has_many :notifications, dependent: :destroy
 
   # Returns the hash digest of the given string.
   def User.digest(string)
