@@ -105,12 +105,16 @@ class AjaxCallsController < ApplicationController
       query = MeteorologicalMeasurement.where("created_at >= ? and created_at <= ?", start, stop)
       calc = 0.0
       query.select(:solar_radiation).each_with_index do |entry, index|
+        debugger
         if index == 0 || index == query.count-1
           calc = calc + entry.solar_radiation/24.0
+          debugger
         else
           calc = calc + entry.solar_radiation/12.0
+          debugger
         end
       end
+      debugger
       hsps.push(calc/1000.0)
       days.push(day_name)
     end
