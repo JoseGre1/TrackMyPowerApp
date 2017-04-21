@@ -111,7 +111,7 @@ class AjaxCallsController < ApplicationController
           calc = calc + entry.solar_radiation/12.0
         end
       end
-      hsps.push(calc/1000.0)
+      hsps.push(round(calc/10.0)/100.0)
       days.push(day_name)
     end
     days.pop and days.push("Today")
