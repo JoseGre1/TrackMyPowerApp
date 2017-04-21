@@ -98,7 +98,7 @@ class AjaxCallsController < ApplicationController
   def hsp_chart
     hsps = []
     days = []
-    7.downto(0).to_a.each do |n_day|
+    6.downto(0).to_a.each do |n_day|
       start = n_day.day.ago.change(hour: 0, min: 0, sec: 0)
       stop = n_day.day.ago.change(hour: 23, min: 59, sec: 59)
       day_name = start.strftime("%A")
