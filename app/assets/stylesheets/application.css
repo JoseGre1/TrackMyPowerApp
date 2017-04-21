@@ -18,7 +18,10 @@
  *= require weather-icons
  *= require weather-icons-wind
  *= require switchery
- *= require icheck/square/_all
+ *= require icheck/flat/green
  *= require_tree .
+ *= require dataTables/extras/dataTables.responsive
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require daterangepicker-bs3
  *= require_self
  */

@@ -54,6 +54,8 @@ gem 'switchery-rails'
 gem 'momentjs-rails'
 gem 'chart-js-rails'
 gem 'plotlyjs-rails'
+gem 'jquery-datatables-rails', '~> 3.4.0'
+gem 'bootstrap-daterangepicker-rails'
 
 #CSS-vendors related gems
 gem "font-awesome-rails"

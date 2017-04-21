@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+.no-margin {
+	margin-bottom: 0%;
+  font-weight: 700;
+	padding-top: 8px;
+}
+
+.btn-default {
+	color: #73879C;
+}
 /** Customized custom.css for TrackMyPower **/
 /** page: charts_data **/
 	.chartjs-responsive {

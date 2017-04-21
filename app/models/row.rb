@@ -6,7 +6,7 @@ class Row < ApplicationRecord
                          only_integer: true,
                          less_than_or_equal_to: 3,
                          greater_than_or_equal_to: 1 }
-  validates :height, numericality: {
+ validates :height, numericality: {
                          only_integer: true,
                          greater_than_or_equal_to: 280 }
   validates :order, uniqueness: { scope: :page, message: "Row has already this order number" },
@@ -15,7 +15,7 @@ class Row < ApplicationRecord
   protected
     def default_values
       self.capacity ||= 1
-      self.height ||= 280
+      self.height ||= nil
       self.order ||= self.class.where(page: self.page).maximum(:order).to_i + 1
     end
 end
