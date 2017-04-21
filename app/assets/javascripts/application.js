@@ -28,7 +28,6 @@
 //= require skycons
 //= require moment
 //= require Chart
-//= require hammer.min
 //= require chartjs-plugin-zoom.min
 //= require daterangepicker
 //= require plotly
