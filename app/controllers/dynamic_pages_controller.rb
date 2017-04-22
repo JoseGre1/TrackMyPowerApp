@@ -17,7 +17,6 @@ class DynamicPagesController < ApplicationController
     @electrical_columns = ElectricalMeasurement.column_names - ["id", "created_at"]
     @internal_columns = InternalConditionsMeasurement.column_names - ["id", "created_at"]
     @meteorological_columns = MeteorologicalMeasurement.column_names - ["id", "created_at"]
-    
   end
 
   def alerts

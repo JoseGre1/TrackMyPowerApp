@@ -27,92 +27,10 @@
     </br>
   </div>
   <!-- Checkboxes -->
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="ID" id="id"> ID
-      </label>
-    </div>
-  </div>
+  ["Id", "Date and Time", "Temperature", "Humidity", "Wind Speed", "Voltage (Meter 1)","Current (Meter 1)", "Energy (Meter 1)", "Power (Meter 1)" ]
 
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Timestamp" id="date_time"> Date and Time
-      </label>
-    </div>
-  </div>
+  <div id="checkboxes">
 
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Temperature" id="temperature">  Temperature
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Humidity" id="humidity"> Humidity
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Wind Spd" id="wind_speed"> Wind Speed
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Voltage (M.1)" id="voltage_med1"> Voltage (Meter 1)
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Current (M.1)" id="curr_med1"> Current (Meter 1)
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Energy (M.1)" id="energy_med1"> Energy (Meter 1)
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Power (M.1)" id="power_med1"> Power (Meter 1)
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Latitude" id="latitude"> Latitude
-      </label>
-    </div>
-  </div>
-
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" class="flat" name="toShow" value="Longitude" id="longitude"> Longitude
-      </label>
-    </div>
   </div>
 
   <div class="col-md-12 col-sm-12 col-xs-12"></div>
@@ -142,6 +60,9 @@
     </div>
   </div>
 <% end %>
+
 <% content_for :page_scripts do %>
+
 <% end %>
+
 <%= render @page %>

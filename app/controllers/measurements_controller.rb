@@ -41,6 +41,7 @@ class MeasurementsController < ApplicationController
     accepted[:uv_index] = params[:uv_index]
     accepted[:solar_radiation] = params[:solar_radiation]
     accepted[:wind_direction] = params[:wind_direction]
+    accepted[:ip_server] = params[:ip_server]
     @meteorological_measurement = MeteorologicalMeasurement.new(accepted)
     attempt = @meteorological_measurement.save
     if attempt
@@ -54,10 +55,12 @@ class MeasurementsController < ApplicationController
     station_id = 'IATLNTIC4'
     w_info = open("http://api.wunderground.com/api/606f3f6977348613/conditions/q/pws:#{station_id}.json")
     data = JSON.parse(w_info.read)["current_observation"]
+    local_ip = request.remote_ip
     redirect_to controller: 'measurements', action: 'new_meteorological',
                 temperature: data["temp_c"], humidity: data["relative_humidity"],
                 wind_speed: data["wind_kph"], uv_index: data["UV"],
-                solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"]
+                solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"],
+                ip_server: local_ip
   end
 
   private
