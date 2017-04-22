@@ -1,6 +1,7 @@
 class MeasurementsController < ApplicationController
   before_action :authenticate
   layout 'blank'
+  require 'socket'
 
   def new_electrical
     accepted = {}
@@ -55,12 +56,12 @@ class MeasurementsController < ApplicationController
     station_id = 'IATLNTIC4'
     w_info = open("http://api.wunderground.com/api/606f3f6977348613/conditions/q/pws:#{station_id}.json")
     data = JSON.parse(w_info.read)["current_observation"]
-    local_ip = request.remote_ip
+    my_local_ip = local_ip
     redirect_to controller: 'measurements', action: 'new_meteorological',
                 temperature: data["temp_c"], humidity: data["relative_humidity"],
                 wind_speed: data["wind_kph"], uv_index: data["UV"],
                 solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"],
-                ip_server: local_ip
+                ip_server: my_local_ip
   end
 
   private
@@ -69,4 +70,15 @@ class MeasurementsController < ApplicationController
         username == 'admin' && password == 'uninorte'
       end
     end
+
+    #function to get ip of client
+    def local_ip
+      orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
+      UDPSocket.open do |s|
+        s.connect '64.233.187.99', 1
+        s.addr.last
+      end
+      ensure
+        Socket.do_not_reverse_lookup = orig
+  end
 end
