@@ -1,7 +1,6 @@
 class MeasurementsController < ApplicationController
   before_action :authenticate
   layout 'blank'
-  require 'socket'
 
   def new_electrical
     accepted = {}
@@ -42,7 +41,6 @@ class MeasurementsController < ApplicationController
     accepted[:uv_index] = params[:uv_index]
     accepted[:solar_radiation] = params[:solar_radiation]
     accepted[:wind_direction] = params[:wind_direction]
-    accepted[:ip_server] = params[:ip_server]
     @meteorological_measurement = MeteorologicalMeasurement.new(accepted)
     attempt = @meteorological_measurement.save
     if attempt
@@ -56,29 +54,19 @@ class MeasurementsController < ApplicationController
     station_id = 'IATLNTIC4'
     w_info = open("http://api.wunderground.com/api/606f3f6977348613/conditions/q/pws:#{station_id}.json")
     data = JSON.parse(w_info.read)["current_observation"]
-    my_local_ip = local_ip
     redirect_to controller: 'measurements', action: 'new_meteorological',
                 temperature: data["temp_c"], humidity: data["relative_humidity"],
                 wind_speed: data["wind_kph"], uv_index: data["UV"],
-                solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"],
-                ip_server: my_local_ip
+                solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"]
   end
 
   private
     def authenticate
-      authenticate_or_request_with_http_basic('Administration') do |username, password|
-        username == 'admin' && password == 'uninorte'
+      debugger
+      if request.content_type.downcase != "Basic YWRtaW46dW5pbm9ydGU=".downcase
+        authenticate_or_request_with_http_basic('Administration') do |username, password|
+          username == 'admin' && password == 'uninorte'
+        end
       end
     end
-
-    #function to get ip of client
-    def local_ip
-      orig, Socket.do_not_reverse_lookup = Socket.do_not_reverse_lookup, true  # turn off reverse DNS resolution temporarily
-      UDPSocket.open do |s|
-        s.connect '64.233.187.99', 1
-        s.addr.last
-      end
-      ensure
-        Socket.do_not_reverse_lookup = orig
-  end
 end
