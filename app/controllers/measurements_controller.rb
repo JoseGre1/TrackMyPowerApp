@@ -62,7 +62,7 @@ class MeasurementsController < ApplicationController
 
   private
     def authenticate
-      if request.content_type.downcase != "Basic YWRtaW46dW5pbm9ydGU=".downcase
+      if request.content_type.to_s.downcase != "Basic YWRtaW46dW5pbm9ydGU=".downcase
         authenticate_or_request_with_http_basic('Administration') do |username, password|
           username == 'admin' && password == 'uninorte'
         end
