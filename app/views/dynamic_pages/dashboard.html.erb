@@ -106,7 +106,7 @@
 <% end %>
 
 <% content_for :live_stream do %>
-<img id="stream" src="<%= Stream.last.url %>"></img>
+<img id="stream" src="<%= Stream.last.url if !Stream.last.nil? %>"></img>
 <% end %>
 
 <% content_for :page_scripts do %>

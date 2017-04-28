@@ -54,7 +54,8 @@ class AjaxCallsController < ApplicationController
   end
 
   def load_stream
-    render json: { url: Stream.last["url"] }
+    url = Stream.last["url"] if !Stream.last.nil?
+    render json: { url: url }
   end
 
   def voltage_chart
