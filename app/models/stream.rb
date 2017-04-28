@@ -1,7 +1,7 @@
 class Stream < ApplicationRecord
-  after_save :clean_up
+  before_save :clean_up
   protected
     def clean_up
-      self.class.where('created_at < ?', self.created_at).destroy_all
+      self.class.last.delete
     end
 end

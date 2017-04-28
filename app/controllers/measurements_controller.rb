@@ -61,14 +61,11 @@ class MeasurementsController < ApplicationController
   end
 
   def new_stream
-    accepted = {}
-    accepted[:url] = params[:url]
-    @stream = Stream.new(accepted)
-    attempt = @stream.save
+    attempt = Stream.create(url: params[:url])
     if attempt
-      render html: "Stream Image #{accepted} saved successfully!", layout: true
+      render json: { msg: "Stream Image #{params[:url]} saved"}
     else
-      render html: "Error saving to DB. Please check your GET URL.", layout: true
+      render json: { msg: "Error saving to DB" }
     end
   end
 

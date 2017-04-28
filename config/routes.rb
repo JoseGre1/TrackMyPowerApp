@@ -24,11 +24,12 @@ Rails.application.routes.draw do
   get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
   get '/load_metereological', to: 'ajax_calls#load_metereological', as: :load_metereological
   get '/load_internal', to: 'ajax_calls#load_internal', as: :load_internal
+  get '/load_stream', to: 'ajax_calls#load_stream', as: :load_stream
   get '/voltage_chart', to: 'ajax_calls#voltage_chart', as: :voltage_chart
   get '/energy_chart', to: 'ajax_calls#energy_chart', as: :energy_chart
   get '/wind_chart', to: 'ajax_calls#wind_chart', as: :wind_chart
   get '/hsp_chart', to: 'ajax_calls#hsp_chart', as: :hsp_chart
-  get 'refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
+  get '/refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

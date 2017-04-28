@@ -53,6 +53,10 @@ class AjaxCallsController < ApplicationController
     render json: { result: @result, variable: variable }, layout: true
   end
 
+  def load_stream
+    render json: { url: Stream.last["url"] }
+  end
+
   def voltage_chart
     @result = ElectricalMeasurement.where('created_at >= ?', 1.day.ago.change(hour: 0, min: 0, sec: 0)).order(:created_at).select(:voltage_med1, :created_at)
     timestamp =  @result.pluck(:created_at)

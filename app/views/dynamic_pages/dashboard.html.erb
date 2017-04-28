@@ -106,10 +106,7 @@
 <% end %>
 
 <% content_for :live_stream do %>
-<div class="videoWrapper">
-    <!-- Copy & Pasted from YouTube -->
-    <iframe width="280" height="240" src="https://www.youtube.com/embed/Sagg08DrO5U" frameborder="0" allowfullscreen></iframe>
-</div>
+<img id="stream" src="<%= Stream.last.url %>"></img>
 <% end %>
 
 <% content_for :page_scripts do %>
@@ -314,263 +311,13 @@ function unitsTemperature(element){
     ajax_call("json", "humidity_int", '<%= load_internal_path %>', load_internal, true);
   }
 
-  // function loadcont(variable){
-  //   $.ajax({
-  //     url: "/mysql/loadcontrol.php",
-  //     method: "POST",
-  //     data: {
-  //       variable: variable,
-  //       origin: window.location.pathname
-  //     },
-  //     cache: false,
-  //     success: function(data) {
-  //       var result = $.parseJSON(data);
-  //       before = result[0];
-  //       after = result[1];
-  //
-  //       if (before == after){
-  //         if (before == 1){
-  //           switch (variable) {
-  //             case "inv_xantrex" :
-  //               $('#xantrex').click();
-  //               break;
-  //             case  "batt1":
-  //               $('#batt1').click();
-  //               break;
-  //             case  "batt2":
-  //               $('#batt2').click();
-  //               break;
-  //             default :
-  //          }
-  //         }
-  //       }else{
-  //         if (before==0){
-  //           switch (variable) {
-  //             case "inv_xantrex" :
-  //               $('#xantrex').click();
-  //               $('#xantrex').attr("disabled",true);
-  //               break;
-  //             case  "batt1":
-  //               $('#batt1').click();
-  //               $('#batt1').attr("disabled",true);
-  //               break;
-  //             case  "batt2":
-  //               $('#batt2').click();
-  //               $('#batt2').attr("disabled",true);
-  //               break;
-  //             default :
-  //
-  //          }
-  //         }else{
-  //           switch (variable) {
-  //             case "inv_xantrex" :
-  //               $('#xantrex').attr("disabled",true);
-  //               break;
-  //             case  "batt1":
-  //               $('#batt1').attr("disabled",true);
-  //               break;
-  //             case  "batt2":
-  //               $('#batt2').attr("disabled",true);
-  //
-  //               break;
-  //             default :
-  //          }
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
-  //
-  // function ShowControl(){
-  //   loadcont("inv_xantrex");
-  //   loadcont("batt1");
-  //   loadcont("batt2");
-  // }
-  //
-  //
-  // function auto_loadcont(variable,measure){
-  //
-  //   switch (variable) {
-  //     case 'voltage_med1' :
-  //         var id_switch = "inv_xantrex";
-  //         var $id = 1;
-  //       break;
-  //     case  'vbatt1':
-  //         var id_switch = "batt1";
-  //         var $id = 2;
-  //       break;
-  //     case  'vbatt2':
-  //         var id_switch = "batt2";
-  //         var $id = 2;
-  //       break;
-  //     default :
-  //   }
-  //
-  //   $.ajax({
-  //     url: "/mysql/loadcontrol.php",
-  //     method: "POST",
-  //     data: {
-  //       variable: id_switch,
-  //       origin: window.location.pathname
-  //     },
-  //     cache: false,
-  //     success: function(data) {
-  //       var result = $.parseJSON(data);
-  //       before = result[0];
-  //       after = result[1];
-  //
-  //       if (before == after){
-  //         if (before==0 &&  measure!=0){
-  //           before = 1;
-  //           after = 1;
-  //
-  //           switch (variable){
-  //             case 'voltage_med1':
-  //             $('#xantrex').click();
-  //             case 'vbatt1':
-  //             $('#batt1').click();
-  //             case 'vbatt2':
-  //             $('#batt2').click();
-  //             default:
-  //           }
-  //
-  //
-  //         }else if (before==1 && measure==0){
-  //           before = 0;
-  //           after = 0;
-  //
-  //           switch (variable){
-  //             case 'voltage_med1':
-  //             $('#xantrex').click();
-  //             case 'vbatt1':
-  //             $('#batt1').click();
-  //             case 'vbatt2':
-  //             $('#batt2').click();
-  //             default:
-  //           }
-  //
-  //
-  //         }
-  //       }else{
-  //         if (before==0 &&  measure!=0){
-  //
-  //           before = 1;
-  //           after = 1;
-  //
-  //           switch (variable){
-  //             case 'voltage_med1':
-  //             $('#xantrex').attr("disabled",false);
-  //             case 'vbatt1':
-  //             $('#batt1').attr("disabled",false);
-  //             case 'vbatt2':
-  //             $('#batt2').attr("disabled",false);
-  //             default:
-  //           }
-  //
-  //
-  //         }else if (before==1 && measure==0){
-  //           before = 0;
-  //           after = 0;
-  //
-  //           switch (variable){
-  //             case 'voltage_med1':
-  //             $('#xantrex').attr("disabled",false);
-  //             case 'vbatt1':
-  //             $('#batt1').attr("disabled",false);
-  //             case 'vbatt2':
-  //             $('#batt2').attr("disabled",false);
-  //             default:
-  //           }
-  //
-  //         }
-  //       }
-  //       $.post("/mysql/uploadcontrol2.php", {
-  //         id: $id,
-  //         b: before,
-  //         a: after,
-  //       }, function(data) {
-  //
-  //       });
-  //     }
-  //   });
-  // }
-  //
-  // function uploadcont(variable){
-  //
-  //     $.ajax({
-  //     url: "/mysql/loadcontrol.php",
-  //     method: "POST",
-  //     data: {
-  //       variable: variable,
-  //       origin: window.location.pathname
-  //     },
-  //     cache: false,
-  //     success: function(data) {
-  //       var result = $.parseJSON(data);
-  //       before = result[0];
-  //       after = result[1];
-  //
-  //       if (before == after){
-  //
-  //         switch (variable) {
-  //           case "inv_xantrex" :
-  //               var $id = 1;
-  //               var $state = changeCheckbox1.checked;
-  //             break;
-  //           case  "batt1":
-  //               var $id = 2;
-  //               var $state = changeCheckbox2.checked;
-  //             break;
-  //           case  "batt2":
-  //               var $id = 3;
-  //               var $state = changeCheckbox3.checked;
-  //             break;
-  //           default :
-  //         }
-  //
-  //         $.post("/mysql/uploadcontrol.php", {
-  //           id: $id,
-  //           state: $state,
-  //         }, function(data) {
-  //            $.ajax({
-  //             url: "/mysql/loadcontrol.php",
-  //             method: "POST",
-  //             data: {
-  //               variable: variable,
-  //               origin: window.location.pathname
-  //             },
-  //             cache: false,
-  //             success: function(data) {
-  //               var result = $.parseJSON(data);
-  //               before = result[0];
-  //               after = result[1];
-  //
-  //               if (before != after){
-  //                 switch (variable) {
-  //                   case "inv_xantrex" :
-  //                     $('#xantrex').attr("disabled",true);
-  //                     break;
-  //                   case  "batt1":
-  //                      $('#batt1').attr("disabled",true);
-  //                     break;
-  //                   case  "batt2":
-  //                      $('#batt2').attr("disabled",true);
-  //                     break;
-  //                   default :
-  //                 }
-  //               }
-  //             }
-  //           });
-  //         });
-  //       }
-  //     }
-  //   });
-  //
-  //
-  //
-  //
-  // }
-
+  function ShowStream() {
+    var refresh_image = function (data) {
+      url = data.url;
+      document.getElementById("stream").src = url;
+    }
+    ajax_call("json", "url", '<%= load_stream_path %>', refresh_image, true );
+  }
 
   $(document).ready(function() {
     var opts = {
@@ -601,6 +348,9 @@ function unitsTemperature(element){
         ShowElectrical();
         ShowInternal();
     }, 60000);
+    setInterval(function() {
+        ShowStream();
+    }, 400);
   });
 </script>
 <!--/AJAX Refresh -->
