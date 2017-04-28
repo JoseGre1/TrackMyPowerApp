@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422205453) do
+ActiveRecord::Schema.define(version: 20170428083209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(version: 20170422205453) do
     t.float    "uv_index"
     t.float    "solar_radiation"
     t.float    "wind_direction"
-    t.string   "ip_server"
   end
 
   create_table "navbar_main_tabs", force: :cascade do |t|
@@ -129,6 +128,12 @@ ActiveRecord::Schema.define(version: 20170422205453) do
     t.datetime "updated_at", null: false
     t.integer  "order"
     t.index ["page_id"], name: "index_rows_on_page_id", using: :btree
+  end
+
+  create_table "streams", force: :cascade do |t|
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tiles", force: :cascade do |t|

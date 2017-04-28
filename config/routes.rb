@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
   get '/measurements/meteorological/new', to:'measurements#new_meteorological'
   get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
+  get '/stream/new', to:'measurements#new_stream'
 
   #routes for AJAX Calls controller
   get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
@@ -27,6 +28,8 @@ Rails.application.routes.draw do
   get '/energy_chart', to: 'ajax_calls#energy_chart', as: :energy_chart
   get '/wind_chart', to: 'ajax_calls#wind_chart', as: :wind_chart
   get '/hsp_chart', to: 'ajax_calls#hsp_chart', as: :hsp_chart
+  get 'refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # The priority is based upon order of creation: first created -> highest priority.

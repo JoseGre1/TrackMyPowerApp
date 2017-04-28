@@ -46,11 +46,11 @@ $(document).ready(function(){
     clearInterval(interval);
 });
 //Ajax calls
-function ajax_call(variable, url, func, units) {
+function ajax_call(type, variable, url, func, units) {
   $.ajax({
     url: url,
     type: 'GET',
-    dataType: 'json',
+    dataType: type,
     data: {
       variable: variable,
       units: units

@@ -60,6 +60,18 @@ class MeasurementsController < ApplicationController
                 solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"]
   end
 
+  def new_stream
+    accepted = {}
+    accepted[:url] = params[:url]
+    @stream = Stream.new(accepted)
+    attempt = @stream.save
+    if attempt
+      render html: "Stream Image #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
+
   private
     def authenticate
       if request.content_type.to_s.downcase != "Basic YWRtaW46dW5pbm9ydGU=".downcase

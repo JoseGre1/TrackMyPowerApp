@@ -1,36 +1,27 @@
 <% provide(:page_title, @page.title) %>
 <% provide(:title, @page.title) %>
 <% content_for :tables do %>
-    <label class="no-margin col-md-1 col-sm-1 col-xs-12">Time Interval </label>
-      <div class="no-margin col-md-4 col-sm-4 col-xs-12">
-        <div id="calendar" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-          <span style="font-weight: normal;">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-        </div>
-      </div>
-      <label class="no-margin col-md-1 col-sm-1 col-xs-12">Group </label>
-      <div class="col-md-6 col-sm-6 col-xs-12">
-        <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-default active">
-            <input type="radio" name="options" id="electrical"> Electrical
-          </label>
-          <label class="btn btn-default">
-            <input type="radio" name="options" id="internal_conditions"> Internal Conditions
-          </label>
-          <label class="btn btn-default">
-            <input type="radio" name="table" id="meteorological"> Meteorological
-          </label>
-        </div>
-      </div>
+<label class="no-margin col-md-1 col-sm-1 col-xs-12">Time Interval </label>
+  <div class="no-margin col-md-4 col-sm-4 col-xs-12">
+    <div id="calendar" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+      <span style="font-weight: normal;">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+    </div>
+  </div>
+  <label class="no-margin col-md-1 col-sm-1 col-xs-12">Group </label>
+  <div class="col-md-6 col-sm-6 col-xs-12">
+    <div id="selector" class="btn-group" data-toggle="buttons">
+      <%= render 'buttons' %>
+    </div>
+  </div>
   <!--Blank line -->
   <div class="col-md-12 col-sm-12 col-xs-12">
     </br>
   </div>
   <!-- Checkboxes -->
-  ["Id", "Date and Time", "Temperature", "Humidity", "Wind Speed", "Voltage (Meter 1)","Current (Meter 1)", "Energy (Meter 1)", "Power (Meter 1)" ]
-
-  <div id="checkboxes">
-
+  <!--["Id", "Date and Time", "Temperature", "Humidity", "Wind Speed", "Voltage (Meter 1)","Current (Meter 1)", "Energy (Meter 1)", "Power (Meter 1)" ]-->
+  <div id="checkbox_list">
+    <%= render partial: 'checkbox_list', locals: { variables: @electrical_variables }  %>
   </div>
 
   <div class="col-md-12 col-sm-12 col-xs-12"></div>
@@ -62,7 +53,15 @@
 <% end %>
 
 <% content_for :page_scripts do %>
-
+<script>
+var refresh_checkboxes = function(data){}
+$(document).ready(function() {
+  $('#selector label').click(function() {
+    $(this).addClass('active').siblings().removeClass('active');
+    ajax_call("js", this.id, '<%= refresh_checkboxes_tables_path(format: :js) %>', refresh_checkboxes, false);
+  });
+});
+</script>
 <% end %>
 
 <%= render @page %>

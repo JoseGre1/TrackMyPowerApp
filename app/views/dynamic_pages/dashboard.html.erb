@@ -259,18 +259,18 @@ function unitsTemperature(element){
     }
     variable_list = ["temperature","uv_index", "solar_radiation", "humidity", "wind_speed"];
     variable_list.forEach(function(item){
-      ajax_call(item, '<%= load_metereological_path %>', load_metereological, false);
+      ajax_call("json", item, '<%= load_metereological_path %>', load_metereological, false);
     });
   }
 
   function ShowElectrical() {
     function battery_load(voltage){
       voltage = parseFloat(voltage);
-      if (voltage<8) {
+      if (voltage<9) {
         return parseInt(0);
-      }else if (voltage>= 8 && voltage<12){
-        return parseInt((voltage-8)*25);
-      }else if (voltage>=12){
+      }else if (voltage>= 9 && voltage<15){
+        return parseInt((voltage-9)*100/(15-9));
+      }else if (voltage>=15){
         return parseInt(100);
       }
     }
@@ -293,13 +293,13 @@ function unitsTemperature(element){
         document.getElementById(variable).innerHTML = result;
       }
     }
-    ajax_call("voltage_med1", '<%= load_electrical_path %>', load_electrical, true);
-    ajax_call("power_med1", '<%= load_electrical_path %>', load_electrical, true);
-    ajax_call("pf_med1", '<%= load_electrical_path %>', load_electrical, true);
-    ajax_call("energy_med1", '<%= load_electrical_path %>', load_electrical, false);
-    ajax_call("voltage_batt1", '<%= load_electrical_path %>', load_electrical, false);
-    ajax_call("voltage_batt2", '<%= load_electrical_path %>', load_electrical, false);
-    ajax_call("total_delivered_energy", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "voltage_med1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "power_med1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "pf_med1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "energy_med1", '<%= load_electrical_path %>', load_electrical, false);
+    ajax_call("json", "voltage_batt1", '<%= load_electrical_path %>', load_electrical, false);
+    ajax_call("json", "voltage_batt2", '<%= load_electrical_path %>', load_electrical, false);
+    ajax_call("json", "total_delivered_energy", '<%= load_electrical_path %>', load_electrical, true);
   }
 
   function ShowInternal() {
@@ -310,8 +310,8 @@ function unitsTemperature(element){
       document.getElementById(variable).innerHTML = result;
       document.getElementById(variable.concat("_timestamp")).innerHTML = timestamp;
     }
-    ajax_call("temperature_int", '<%= load_internal_path %>', load_internal, true);
-    ajax_call("humidity_int", '<%= load_internal_path %>', load_internal, true);
+    ajax_call("json", "temperature_int", '<%= load_internal_path %>', load_internal, true);
+    ajax_call("json", "humidity_int", '<%= load_internal_path %>', load_internal, true);
   }
 
   // function loadcont(variable){

@@ -118,6 +118,16 @@ class AjaxCallsController < ApplicationController
     render json: { values: hsps, labels: days }
   end
 
+  def refresh_checkboxes_tables
+    group = params[:variable]
+    group_class = group.classify.constantize
+    if group.include? "measurement"
+      @column_names = group_class.column_names - ["id", "created_at"]
+    end
+    debugger
+    render "refresh_checkboxes_tables.js", layout: false
+  end
+
   private
     def authenticate
       authenticate_or_request_with_http_basic('Administration') do |username, password|
