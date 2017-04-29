@@ -4,7 +4,7 @@
   <div id="panel_<%= panel.title.parameterize.underscore %>" class="x_panel tile" style="height: <%= panel.row.height %>px;">
     <!--Title -->
     <div class="x_title">
-      <h2><%= panel.title %><small><%= panel.subtitle %></small></h2>
+      <h2><%= panel.title %><small id='<%= "subtitle_#{panel.title.parameterize.underscore}" %>'><%= panel.subtitle %></small></h2>
       <ul class="nav navbar-right panel_toolbox">
         <% if panel.minimizable %>
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

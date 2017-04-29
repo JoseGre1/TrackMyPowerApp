@@ -1,5 +1,6 @@
 class AjaxCallsController < ApplicationController
   require 'date'
+  include ActionView::Helpers::DateHelper
   before_action :authenticate
   layout 'blank'
 
@@ -18,6 +19,9 @@ class AjaxCallsController < ApplicationController
       timestamp = "Since August 2016"
     end
     @result = "#{@result} #{units(variable)}" if units == "true"
+    if variable.downcase == "timestamp"
+      @result = "#{time_ago_in_words(ElectricalMeasurement.last.created_at)} ago"
+    end
     if @result.blank? || @result.nil?
       @result = 'N/A'
     end
@@ -51,16 +55,21 @@ class AjaxCallsController < ApplicationController
     variable = params[:variable]
     units = params[:units]
     @result = MeteorologicalMeasurement.last[variable] if !MeteorologicalMeasurement.last.nil?
+    timestamp = "#{time_ago_in_words(MeteorologicalMeasurement.last.created_at)} ago" if !MeteorologicalMeasurement.last.nil?
     @result =  "<h3>#{@result.to_i}</h3>" if variable != "temperature"
+    if variable.downcase == "timestamp"
+      @result = "#{time_ago_in_words(MeteorologicalMeasurement.last.created_at)} ago"
+    end
     if @result.blank?
       @result = 'N/A'
     end
-    render json: { result: @result, variable: variable }, layout: true
+    render json: { result: @result, variable: variable, timestamp: timestamp}, layout: true
   end
 
   def load_stream
     url = Stream.last["url"] if !Stream.last.nil?
-    render json: { url: url }
+    timestamp = "#{time_ago_in_words(Stream.last.created_at)} ago" if !Stream.last.nil?
+    render json: { url: url, timestamp: timestamp }
   end
 
   def voltage_chart
