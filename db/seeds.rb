@@ -64,9 +64,10 @@ end
 # TILES:
 #   [page, title, icon, description, order]
 tiles_list = [
-  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Internal Humidity", "wi wi-humidity", "Internal Humidity", 1],
-  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Internal Temperature", "wi wi-thermometer", "Internal Temperature", 2],
-  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Total Delivered Energy", "fa fa-plug", "Total Delivered Energy", 3]
+  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Last Update", "fa fa-refresh", "Last Update", 1],
+  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Internal Humidity", "wi wi-humidity", "Internal Humidity", 2],
+  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Internal Temperature", "wi wi-thermometer", "Internal Temperature", 3],
+  [Page.find_by(title: "Dashboard", dashboard: default_dashboard), "Total Delivered Energy", "fa fa-plug", "Total Delivered Energy", 4]
 ]
 
 tiles_list.each do |page, title, icon, description, order|
@@ -107,3 +108,5 @@ panels_list.each do |row, title, subtitle, description, width, order, movable, m
   Panel.create(row: row, title: title, subtitle: subtitle, description: description, width: width,
                order: order, movable: movable, minimizable: minimizable, closable: closable)
 end
+
+User.create(name: "José Hernández", email: "gjhernandez@uninorte.edu.co", password: "jose1234", password_confirmation: "jose1234", username: "JoseGre1", dashboard: default_dashboard)

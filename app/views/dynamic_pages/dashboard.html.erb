@@ -294,8 +294,8 @@ function unitsTemperature(element){
     ajax_call("json", "power_med1", '<%= load_electrical_path %>', load_electrical, true);
     ajax_call("json", "pf_med1", '<%= load_electrical_path %>', load_electrical, true);
     ajax_call("json", "energy_med1", '<%= load_electrical_path %>', load_electrical, false);
-    ajax_call("json", "voltage_batt1", '<%= load_electrical_path %>', load_electrical, false);
-    ajax_call("json", "voltage_batt2", '<%= load_electrical_path %>', load_electrical, false);
+    ajax_call("json", "voltage_batt1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "voltage_batt2", '<%= load_electrical_path %>', load_electrical, true);
     ajax_call("json", "total_delivered_energy", '<%= load_electrical_path %>', load_electrical, true);
   }
 
@@ -309,6 +309,7 @@ function unitsTemperature(element){
     }
     ajax_call("json", "temperature_int", '<%= load_internal_path %>', load_internal, true);
     ajax_call("json", "humidity_int", '<%= load_internal_path %>', load_internal, true);
+    ajax_call("json", "last_update", '<%= load_internal_path %>', load_internal, false);
   }
 
   function ShowStream() {

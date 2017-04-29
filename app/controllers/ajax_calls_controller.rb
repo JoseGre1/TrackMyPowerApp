@@ -6,7 +6,7 @@ class AjaxCallsController < ApplicationController
   def load_electrical
     variable = params[:variable]
     units = params[:units]
-    @result = ElectricalMeasurement.last[variable]
+    @result = ElectricalMeasurement.last[variable] if !ElectricalMeasurement.last.nil?
     if variable.downcase == "energy_med1"
       query = "extract(month from created_at) = ? and extract(year from created_at) = ? and energy_med1 != 0"
       max_current_month = ElectricalMeasurement.where(query, Time.now.month, Time.now.year ).maximum(variable).to_f
@@ -17,8 +17,8 @@ class AjaxCallsController < ApplicationController
       @result = ElectricalMeasurement.maximum("energy_med1")
       timestamp = "Since August 2016"
     end
-    @result = "#{@result} #{units(variable)}" if units
-    if @result.blank?
+    @result = "#{@result} #{units(variable)}" if units == "true"
+    if @result.blank? || @result.nil?
       @result = 'N/A'
     end
     render json: { result: @result, variable: variable, timestamp: timestamp }, layout: true
@@ -27,17 +27,22 @@ class AjaxCallsController < ApplicationController
   def load_internal
     variable = params[:variable]
     units = params[:units]
-    @result = InternalConditionsMeasurement.last[variable]
-    @result = "#{@result.to_i}#{units(variable)}" if units
-    timestamp = InternalConditionsMeasurement.last.created_at.strftime("%F %T")
-    if @result.blank?
-      @result = 'N/A'
-    end
+    variable = "created_at" if variable.downcase == "last_update"
+    @result = InternalConditionsMeasurement.last[variable] if !InternalConditionsMeasurement.last.nil?
+    @result = "#{@result.to_i}#{units(variable)}" if units == "true"
+    @result = 'N/A' if @result.blank?
     case variable
     when "temperature_int"
       variable = "internal_temperature"
+      timestamp = "Control Room"
     when "humidity_int"
       variable = "internal_humidity"
+      timestamp = "Control Room"
+    when "created_at"
+      @result = ElectricalMeasurement.last[variable] if !ElectricalMeasurement.last.nil?
+      timestamp = @result.strftime("%F")
+      @result = @result.strftime("%T")
+      variable = "last_update"
     end
     render json: { result: @result, variable: variable, timestamp: timestamp }, layout: true
   end
@@ -45,7 +50,7 @@ class AjaxCallsController < ApplicationController
   def load_metereological
     variable = params[:variable]
     units = params[:units]
-    @result = MeteorologicalMeasurement.last[variable]
+    @result = MeteorologicalMeasurement.last[variable] if !MeteorologicalMeasurement.last.nil?
     @result =  "<h3>#{@result.to_i}</h3>" if variable != "temperature"
     if @result.blank?
       @result = 'N/A'
