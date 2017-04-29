@@ -69,6 +69,7 @@ class AjaxCallsController < ApplicationController
   def load_stream
     url = Stream.last["url"] if !Stream.last.nil?
     timestamp = "#{time_ago_in_words(Stream.last.created_at)} ago" if !Stream.last.nil?
+    timestamp = "live now" if timestamp == "less than a minute ago"
     render json: { url: url, timestamp: timestamp }
   end
 
