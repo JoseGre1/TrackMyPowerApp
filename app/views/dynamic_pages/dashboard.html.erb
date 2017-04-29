@@ -290,7 +290,7 @@ function unitsTemperature(element){
         document.getElementById("goal-text").innerHTML =  100;
       }else if (variable == "total_delivered_energy"){
         timestamp = data.timestamp;
-        document.getElementById(variable).innerHTML = result;
+        document.getElementById(variable).innerHTML = parseFloat(result).toFixed(1) + result.split(" ")[1];
         document.getElementById(variable.concat("_timestamp")).innerHTML = timestamp;
       }else if (variable == "timestamp" ){
         document.getElementById("subtitle_electrical_variables").innerHTML = result;
