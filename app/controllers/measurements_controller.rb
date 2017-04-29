@@ -41,6 +41,7 @@ class MeasurementsController < ApplicationController
     accepted[:uv_index] = params[:uv_index]
     accepted[:solar_radiation] = params[:solar_radiation]
     accepted[:wind_direction] = params[:wind_direction]
+    accepted[:created_at] = params[:created_at]
     @meteorological_measurement = MeteorologicalMeasurement.new(accepted)
     attempt = @meteorological_measurement.save
     if attempt
@@ -57,7 +58,8 @@ class MeasurementsController < ApplicationController
     redirect_to controller: 'measurements', action: 'new_meteorological',
                 temperature: data["temp_c"], humidity: data["relative_humidity"],
                 wind_speed: data["wind_kph"], uv_index: data["UV"],
-                solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"]
+                solar_radiation: data["solarradiation"], wind_direction: data["wind_degrees"],
+                created_at: data["observation_time_rfc822"]
   end
 
   def new_stream
