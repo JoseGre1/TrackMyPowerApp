@@ -1,3 +1,4 @@
+SET time_zone = "-05:00";
 INSERT INTO internal_conditions_measurements (id, created_at, updated_at, temperature_int, humidity_int) VALUES
 (1, '2017-02-03 17:13:24', '2017-02-03 17:13:24', 32, 59),
 (2, '2017-02-03 17:23:46', '2017-02-03 17:23:46', 31, 61),

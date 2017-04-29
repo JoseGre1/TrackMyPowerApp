@@ -1,3 +1,4 @@
+SET time_zone = "-05:00";
 INSERT INTO electrical_measurements (id, created_at, updated_at, voltage_med1, current_med1, energy_med1, power_med1, pf_med1, voltage_batt1, voltage_batt2) VALUES
 (1, '2017-02-03 17:13:24', '2017-02-03 17:13:24', 0, 0, 0, 0, 0, 0, 0),
 (2, '2017-02-03 17:23:46', '2017-02-03 17:23:46', 0, 0, 0, 0, 0, 0, 0),
