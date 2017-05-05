@@ -142,10 +142,16 @@ class AjaxCallsController < ApplicationController
     group = params[:variable]
     group_class = group.classify.constantize
     if group.include? "measurement"
-      @column_names = group_class.column_names - ["id", "created_at"]
+      column_names = group_class.column_names - ["created_at"]
     end
-    debugger
-    render "refresh_checkboxes_tables.js", layout: false
+    render partial: 'checkbox_list', locals: { variables: column_names }
+  end
+
+  def refresh_table
+    x_json = params[:x_json]
+    columns = x_json[:columns]
+    x_json.select {|key, value| value == 1}.keys
+
   end
 
   private

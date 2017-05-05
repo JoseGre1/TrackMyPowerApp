@@ -338,9 +338,8 @@ body .container.body .right_col {
   .tile, .graph {
     zoom: 85%;
     height: inherit; } }
-@media (max-width: 1270px) and (min-width: 192px) {
-  .x_title h2 small {
-    display: none; } }
+@media (max-width: 1270px) and (min-width: 192px) {	
+}
 .left_col .mCSB_scrollTools {
   width: 6px; }
 

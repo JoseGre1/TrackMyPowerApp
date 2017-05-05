@@ -29,7 +29,6 @@
 //= require moment
 //= require Chart
 //= require chartjs-plugin-zoom.min
-//= require daterangepicker
 //= require plotly
 
 /*enables dropdowns*/

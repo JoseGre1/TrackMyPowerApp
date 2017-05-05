@@ -257,7 +257,6 @@ function unitsTemperature(element){
         }
         document.getElementById(variable).innerHTML = result;
       }
-
     }
     variable_list = ["temperature","uv_index", "solar_radiation", "humidity", "wind_speed"];
     variable_list.forEach(function(item){
@@ -351,7 +350,6 @@ function unitsTemperature(element){
     gauge = new Gauge(target).setOptions(opts);
     gauge.animationSpeed = 32;
     gauge.setTextField(document.getElementById("gauge-text"));
-    //ShowControl();
     ShowWeather();
     ShowElectrical();
     ShowInternal();
@@ -367,5 +365,4 @@ function unitsTemperature(element){
 </script>
 <!--/AJAX Refresh -->
 <% end %>
-
 <%= render @page %>
