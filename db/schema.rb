@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428083209) do
+ActiveRecord::Schema.define(version: 20170506082934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alerts", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "type"
+    t.string   "variable"
+    t.string   "comparator"
+    t.float    "value1"
+    t.float    "value2"
+    t.boolean  "enabled?"
+    t.boolean  "email?"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_alerts_on_user_id", using: :btree
+  end
 
   create_table "dashboards", force: :cascade do |t|
     t.string   "description"
@@ -91,6 +105,9 @@ ActiveRecord::Schema.define(version: 20170428083209) do
     t.string   "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "type"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id", using: :btree
   end
 
   create_table "pages", force: :cascade do |t|
@@ -159,7 +176,9 @@ ActiveRecord::Schema.define(version: 20170428083209) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "alerts", "users"
   add_foreign_key "navbar_sub_tabs", "navbar_main_tabs"
+  add_foreign_key "notifications", "users"
   add_foreign_key "pages", "dashboards"
   add_foreign_key "panels", "rows"
   add_foreign_key "rows", "pages"

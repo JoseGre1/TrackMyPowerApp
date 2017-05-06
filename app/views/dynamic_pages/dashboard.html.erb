@@ -192,10 +192,8 @@ function unitsTemperature(element){
         "fog"
       ],
       i;
-
     for (i = list.length; i--;)
       icons.set(list[i], list[i]);
-
     icons.play();
   });
 </script>
@@ -204,8 +202,6 @@ function unitsTemperature(element){
 <!-- Responsive size of panels -->
 <script>
   $(document).ready(function() {
-    $("canvas#gauge").css("height","100%");
-    $("canvas#gauge").css("width","100%");
     var map_height = parseFloat($("div#panel_map").css("height"));
     var electrical_height = parseFloat($("div#panel_electrical").css("height"));
     if (electrical_height>map_height){
@@ -348,8 +344,10 @@ function unitsTemperature(element){
     };
     var target = document.getElementById('gauge');
     gauge = new Gauge(target).setOptions(opts);
+    document.getElementById("gauge").removeAttribute("style");
     gauge.animationSpeed = 32;
     gauge.setTextField(document.getElementById("gauge-text"));
+    $('#gauge').css("width", "100%");
     ShowWeather();
     ShowElectrical();
     ShowInternal();
