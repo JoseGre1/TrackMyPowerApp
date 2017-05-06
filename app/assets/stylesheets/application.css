@@ -18,8 +18,6 @@
  *= require weather-icons-wind
  *= require switchery
  *= require icheck/flat/green
- *= require dataTables/extras/dataTables.responsive
- *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require_tree .
  *= require_self
  */

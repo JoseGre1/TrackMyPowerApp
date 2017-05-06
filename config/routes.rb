@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   get '/wind_chart', to: 'ajax_calls#wind_chart', as: :wind_chart
   get '/hsp_chart', to: 'ajax_calls#hsp_chart', as: :hsp_chart
   get '/refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
+  get '/refresh_table', to: 'ajax_calls#refresh_table', as: :refresh_table
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

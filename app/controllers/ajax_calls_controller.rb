@@ -148,10 +148,20 @@ class AjaxCallsController < ApplicationController
   end
 
   def refresh_table
-    x_json = params[:x_json]
-    columns = x_json[:columns]
-    x_json.select {|key, value| value == 1}.keys
-
+    table_info = params[:variable]
+    group = table_info["type"].classify.constantize
+    start_date = table_info["start_date"]
+    end_date = table_info["end_date"]
+    columns = table_info["columns"]
+    dataSet = group.where("updated_at >= ? and updated_at <= ?", start_date, end_date).as_json(only: columns)
+    if columns.include? 'updated_at'
+      dataSet.map{ |x| x["updated_at"] = x["updated_at"].strftime("%F %T") }
+    end
+    columns_hash = []
+    columns.each do |column|
+      columns_hash.push({title: column.humanize.titleize, data: column})
+    end
+    render json: { columns: columns_hash, dataSet: dataSet }
   end
 
   private
