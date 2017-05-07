@@ -1,4 +1,4 @@
-#!/bin/bash         
+#!/bin/bash
 
 echo "Running /etc/default/unicorn..."
 . /etc/default/unicorn
@@ -6,6 +6,7 @@ echo "Running /etc/default/unicorn..."
 echo "Creating and Migrating DB in production environment..."
 RAILS_ENV=production rake db:create
 RAILS_ENV=production rake db:migrate
+RAILS_ENV=production rails db:seed:reload
 
 echo "Removing old public/assets files..."
 rm -rf public/assets

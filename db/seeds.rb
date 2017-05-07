@@ -83,6 +83,8 @@ rows_list = [
   [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 1, 370, nil],
   [Page.find_by(title: "Data Charts", dashboard: default_dashboard), 2, 370, nil],
   [Page.find_by(title: "Tables", dashboard: default_dashboard), 1, nil, nil],
+  [Page.find_by(title: "Alerts", dashboard: default_dashboard), 1, nil, nil],
+  [Page.find_by(title: "Alerts", dashboard: default_dashboard), 1, nil, nil]
 ]
 
 rows_list.each do |page, capacity, height, order|
@@ -102,6 +104,8 @@ panels_list = [
   [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts")), "Wind", "last 3 days", nil, 6, nil, nil, nil, nil ],
   [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts")), "HSP", "last 7 days", nil, 6, nil, nil, nil, nil ],
   [Row.find_by(order: 1, page: Page.find_by(title:"Tables")), "Tables", "filter results", nil, 12, nil, nil, nil, nil ],
+  [Row.find_by(order: 1, page: Page.find_by(title:"Alerts")), "Notifications", nil, nil, 12, nil, nil, nil, nil ],
+  [Row.find_by(order: 2, page: Page.find_by(title:"Alerts")), "Settings", nil, nil, 12, nil, nil, nil, nil ]
 ]
 
 panels_list.each do |row, title, subtitle, description, width, order, movable, minimizable, closable|
