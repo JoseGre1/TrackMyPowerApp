@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.control-label{
+	font-weight: 700;
+}
+
 .no-margin {
 	margin-bottom: 0%;
   font-weight: 700;
@@ -12,7 +16,7 @@
 /** Customized custom.css for TrackMyPower **/
 /** page: charts_data **/
 	.chartjs-responsive {
-		width: 100% !important;		
+		width: 100% !important;
 		-moz-user-select: none;
 		-webkit-user-select: none;
 		-ms-user-select: none;

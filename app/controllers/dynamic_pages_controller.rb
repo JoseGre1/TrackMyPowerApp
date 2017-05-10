@@ -22,6 +22,9 @@ class DynamicPagesController < ApplicationController
 
   def alerts
     @user = current_user
+    @alerts = @user.alerts.paginate(:page => 1, :per_page => 10)
     @page = Page.find_by(title:"Alerts",dashboard:current_dashboard)
+    @group = ActiveRecord::Base.connection.tables
+    @electrical_variables = ElectricalMeasurement.column_names - ["id", "created_at","updated_at"]
   end
 end

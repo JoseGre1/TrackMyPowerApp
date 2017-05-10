@@ -15,11 +15,7 @@
       <%= render 'layouts/app_top_navbar' %>
       <!-- page content -->
       <div class="right_col" role="main">
-        <% flash.each do |message_type, message| %>
-          <!-- The following line is the same as:
-          <div class="<%= "alert alert-#{message_type}" %>"><%= message %></div> -->
-          <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-        <% end %>
+        <%= render 'layouts/flash' %>
         <%= yield %>
       </div>
       <!-- /page content -->

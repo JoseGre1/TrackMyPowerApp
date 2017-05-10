@@ -1,7 +1,7 @@
 class AjaxCallsController < ApplicationController
   require 'date'
   include ActionView::Helpers::DateHelper
-  before_action :authenticate
+  before_action :authenticate, except: :refresh_alert_list
   layout 'blank'
 
   def load_electrical
@@ -140,11 +140,14 @@ class AjaxCallsController < ApplicationController
 
   def refresh_checkboxes_tables
     group = params[:variable]
-    group_class = group.classify.constantize
+    group_class = group.squish.downcase.tr(" ","_").classify.constantize
     if group.include? "measurement"
       column_names = group_class.column_names - ["created_at"]
     end
-    render partial: 'checkbox_list', locals: { variables: column_names }
+    respond_to do |format|
+      format.html { render partial: 'checkbox_list', locals: { variables: column_names } }
+      format.json { render json: { column_names: column_names.map{|x| "#{x.humanize.titleize}#{" [#{units(x.downcase)}]" if !units(x.downcase).empty?}"} - ["Id", "Updated At"] } }
+    end
   end
 
   def refresh_table
@@ -162,6 +165,54 @@ class AjaxCallsController < ApplicationController
       columns_hash.push({title: column.humanize.titleize, data: column})
     end
     render json: { columns: columns_hash, dataSet: dataSet }
+  end
+
+  def new_alert
+    alert_params = params.require(:variable).permit(:type,:variable,:comparator,:value1,:value2,:email?,:enabled?)
+    alert_params["type"] = alert_params["type"].squish.parameterize(separator: '_')
+    alert_params["variable"] = alert_params["variable"].split("[")[0].squish.parameterize(separator: '_')
+    alert_params["comparator"] = alert_params["comparator"].squish.parameterize(separator: '_')
+    alert_params["email?"] = (true if "true") || (false if "false") || false
+    alert_params["enabled?"] = true
+    alert_params["user"] = current_user
+    alert = Alert.create(alert_params)
+    message = {}
+    if alert.errors.any?
+      type = "error"
+      title = "Alert could not be created"
+      text = "The form contains #{alert.errors.count} #{"error".pluralize(alert.errors.count)}: <br>"
+      alert.errors.full_messages.each do |msg|
+        text << "<li>#{msg}</li>"
+      end
+    else
+      type= "success"
+      title = "New Alert created"
+      text = "Alert succesfuly created!"
+    end
+    message = {type: type, title: title, text: text }
+    render json: message
+  end
+
+  def refresh_alert_list
+    page = params["variable"]
+    @alerts = current_user.alerts.paginate(:page => page, :per_page => 10)
+    render partial: 'dynamic_pages/list_alerts', locals: { alerts: current_user.alerts }
+  end
+
+  def delete_alert
+    my_alert = params["variable"]
+    if my_alert == "all"
+      n_alerts = current_user.alerts.count
+      current_user.alerts.destroy_all
+    else
+      n_alerts = 1
+      current_user.alerts.destroy(my_alert.to_i)
+    end
+    type= "success"
+    title = "Success"
+    text = "#{'Alert'.pluralize(n_alerts)} sucessfuly deleted!"
+    message = {type: type, title: title, text: text }
+    render json: message
   end
 
   private

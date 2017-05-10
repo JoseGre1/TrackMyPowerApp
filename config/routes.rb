@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   delete   '/logout',  to: 'sessions#destroy'
   dynamic_pages =  ["dashboard", "charts_data", "export_tables", "alerts"]
   dynamic_pages.each do |page|
-    get "#{page.gsub("_","/")}/users/:id", to: "dynamic_pages##{page}", as: page.to_sym
+    get "/users/:id/#{page.gsub("_","/")}", to: "dynamic_pages##{page}", as: page.to_sym
   end
   resources :users, only: [:update, :edit, :show]
 
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get '/measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
   get '/measurements/meteorological/new', to:'measurements#new_meteorological'
   get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
-  get '/notifications/new'
+  # MODIFY --------------> get '/notifications/new'
   get '/stream/new', to:'measurements#new_stream'
 
   #routes for AJAX Calls controller
@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   get '/hsp_chart', to: 'ajax_calls#hsp_chart', as: :hsp_chart
   get '/refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
   get '/refresh_table', to: 'ajax_calls#refresh_table', as: :refresh_table
+  get '/refresh_alert_list', to:'ajax_calls#refresh_alert_list', as: :refresh_alert_list
+  post '/users/:id/alerts/new', to: 'ajax_calls#new_alert', as: :new_alert
+  delete '/delete_alert', to: 'ajax_calls#delete_alert', as: :delete_alert
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

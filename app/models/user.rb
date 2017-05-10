@@ -2,7 +2,8 @@ class User < ApplicationRecord
   #Using friendly_id gem for more beautiful user routes
   extend FriendlyId
   friendly_id :username
-
+  has_many :alerts
+  has_many :notifications
   #downcasing whole email address before saving it to DB
   before_save { email.downcase! }
 

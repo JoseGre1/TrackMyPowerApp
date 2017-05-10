@@ -3,10 +3,14 @@ module MeasurementsHelper
     units = {}
     units_list = [
       ["voltage", "V"],
+      ["current", "A"],
       ["power", "W"],
       ["energy", "kWh"],
       ["temperature", "°C"],
-      ["humidity", "%"]
+      ["humidity", "%"],
+      ["solar", "W/m²"],
+      ["speed", "km/h"],
+      ["direction", "deg"]
     ]
     units_list.each do |var, unit|
       units[var] = unit

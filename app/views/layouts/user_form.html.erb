@@ -13,9 +13,7 @@
   <div>
     <div class="login_wrapper">
       <div class="animate form login_form">
-        <% flash.each do |message_type, message| %>
-          <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
-        <% end %>
+        <%= render 'layouts/flash' %>
         <%= yield(:errors) %>
         <section class="login_content">
           <%= yield(:form) %>

@@ -56,6 +56,7 @@ gem 'chart-js-rails'
 gem 'plotlyjs-rails'
 gem 'jquery-datatables-rails', '~> 3.4.0'
 gem 'bootstrap-daterangepicker-rails'
+gem 'pnotify-rails'
 
 #CSS-vendors related gems
 gem "font-awesome-rails"
@@ -100,3 +101,7 @@ gem 'active_record-acts_as'
 
 #DB queries results as tables in rails console
 gem 'hirb'
+
+#Pagination /w Bootstrap
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'

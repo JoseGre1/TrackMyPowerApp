@@ -26,6 +26,7 @@
 //= require Chart
 //= require chartjs-plugin-zoom.min
 //= require plotly
+//= require pnotify
 
 /*enables dropdowns*/
 $(document).ready(function() {

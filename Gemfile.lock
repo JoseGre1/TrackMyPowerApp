@@ -60,6 +60,8 @@ GEM
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bootstrap-will_paginate (1.0.0)
+      will_paginate
     bootstrap_progressbar (0.2.0)
     builder (3.2.3)
     byebug (9.0.6)
@@ -158,6 +160,7 @@ GEM
     pg (0.20.0)
     plotlyjs-rails (1.0.0)
       rails (>= 3.1)
+    pnotify-rails (3.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -275,6 +278,7 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    will_paginate (3.1.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     zeus (0.15.13)
@@ -289,6 +293,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.11)
   bootstrap-daterangepicker-rails
   bootstrap-sass (= 3.3.6)
+  bootstrap-will_paginate
   bootstrap_progressbar
   byebug
   capybara (= 2.2)
@@ -310,6 +315,7 @@ DEPENDENCIES
   nprogress-rails
   pg
   plotlyjs-rails
+  pnotify-rails
   puma (~> 3.0)
   rails (= 5.0.1)
   rails-erd
@@ -328,6 +334,7 @@ DEPENDENCIES
   unicorn
   weather-icons-for-rails!
   web-console (>= 3.3.0)
+  will_paginate
   zeus
 
 BUNDLED WITH

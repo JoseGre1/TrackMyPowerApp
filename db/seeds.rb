@@ -113,4 +113,4 @@ panels_list.each do |row, title, subtitle, description, width, order, movable, m
                order: order, movable: movable, minimizable: minimizable, closable: closable)
 end
 
-User.create(name: "José Hernández", email: "gjhernandez@uninorte.edu.co", password: "jose1234", password_confirmation: "jose1234", username: "JoseGre1", dashboard: default_dashboard)
+User.create(name: "José Hernández", email: "josegre.95@hotmail.com", password: "jose1234", password_confirmation: "jose1234", username: "JoseGre1", dashboard: default_dashboard)

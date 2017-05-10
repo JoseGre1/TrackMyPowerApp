@@ -1,4 +1,5 @@
 class Notification < ApplicationRecord
+  self.inheritance_column = nil
   belongs_to :user
   validates :type, inclusion:
     { in: ["success", "info", "warning", "error", "dark"] }

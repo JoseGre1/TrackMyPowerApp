@@ -1,0 +1,60 @@
+<table class="table table-striped projects">
+  <thead>
+    <tr>
+      <th style="width: 1%; text-align:center;">#</th>
+      <th style="width: 10%; text-align:center;">Group</th>
+      <th style="width: 15%; text-align:center;">Variable</th>
+      <th style="width: 15%; text-align:center;">Comparator</th>
+      <th style="width: 8%; text-align:center;">Value 1</th>
+      <th style="width: 8%; text-align:center;">Value 2</th>
+      <th style="width: 13%; text-align:center;">Email Notifications</th>
+      <th style="width: 7%; text-align:center;">Enabled</th>
+      <th style="width: 13%; text-align:center;">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @alerts.each_with_index do |alert, index| %>
+      <tr>
+        <td style="text-align:center;"><%= index + 1 %></td>
+        <td style="text-align:center;"><%= alert.type.humanize.titleize.gsub(" Measurements","") %></td>
+        <td style="text-align:center;"><%= "#{alert.variable.humanize.titleize} [#{units(alert.variable.humanize.titleize)}]" %></td>
+        <td style="text-align:center;"><%= alert.comparator.humanize.downcase %></td>
+        <td style="text-align:center;"><%= alert.value1 %></td>
+        <td style="text-align:center;"><%= alert.value2 %></td>
+        <td style="text-align:center;">
+          <% if alert.email? %>
+            <input name="email?" type="checkbox" class="flat" checked="checked" onclick="">
+          <% else %>
+            <input name="email?" type="checkbox" class="flat" checked="unchecked" onclick="">
+          <% end %>
+        </td>
+        <td style="text-align:center;">
+          <% if alert.enabled? %>
+            <input name="enabled?" type="checkbox" class="flat" checked="checked" onclick="">
+          <% else %>
+            <input name="enabled?" type="checkbox" class="flat" checked="unchecked" onclick="">
+          <% end %>
+        </td>
+        <td style="text-align:center;">
+          <a href="javascript:;" id="<%= alert.id %>" onclick="deleteAlerts(this.id);" class="btn btn-danger btn-xs" ><i class="fa fa-trash-o"></i> Delete </a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="row">
+  <div class="col-md-6 col-xs-6">
+    <% if @alerts.any? %>
+      <div class="text-left">
+        <label>
+          <button id="del-all-btn" action="javascript:;" onclick="deleteAlerts(this.id);" type="button" class="btn btn-danger">Delete All</button>
+        </label>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-6 col-xs-6">
+    <div class="text-right">
+      <%= will_paginate @alerts, :class => 'customized_pagination' %>
+    </div>
+  </div>
+</div>
