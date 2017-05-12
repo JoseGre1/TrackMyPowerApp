@@ -1,24 +1,25 @@
 <% provide(:page_title, @page.title) %>
 
-
 <% content_for :notifications do %>
-Notifications: View - Delete - Delete All!
+  <div id="notifications_table">
+    <%= render 'list_notifications' %>
+  </div>
 <% end %>
 
 <% content_for :settings do %>
   <div class="" role="tabpanel" data-example-id="togglable-tabs">
     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#tab_content_new" id="new-tab" role="tab" data-toggle="tab" aria-expanded="true">New Alert</a>
+      <li role="presentation" class="active"><a href="#tab_content_edit_delete" role="tab" id="edit-delete-tab" data-toggle="tab" aria-expanded="false">My Alerts</a>
       </li>
-      <li role="presentation" class=""><a href="#tab_content_edit_delete" role="tab" id="edit-delete-tab" data-toggle="tab" aria-expanded="false">My Alerts</a>
+      <li role="presentation" class=""><a href="#tab_content_new" id="new-tab" role="tab" data-toggle="tab" aria-expanded="true">New Alert</a>
       </li>
     </ul>
     <div id="myTabContent" class="tab-content">
-      <div role="tabpanel" class="tab-pane fade active in" id="tab_content_new" aria-labelledby="new-tab">
-        <%= render 'new_alert_form' %>
-      </div>
-      <div role="tabpanel" class="tab-pane fade" id="tab_content_edit_delete" aria-labelledby="edit-delete-tab">
+      <div role="tabpanel" class="tab-pane fade active in" id="tab_content_edit_delete" aria-labelledby="edit-delete-tab">
         <%= render 'list_alerts' %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="tab_content_new" aria-labelledby="new-tab">
+        <%= render 'new_alert_form' %>
       </div>
     </div>
   </div>
@@ -48,7 +49,7 @@ Notifications: View - Delete - Delete All!
     }
   }
 
-  var creationMessage = function (data) {
+  var pNotifyMessage = function (data) {
     type = data.type;
     title = data.title;
     text = data.text;
@@ -86,17 +87,7 @@ Notifications: View - Delete - Delete All!
       },
       cache: false,
       success: function(data){
-        creationMessage(data);
-      }
-    });
-  }
-
-  function reloadPagination() {
-    $(".customized_pagination a").each(function(){
-      $(this).attr("onclick","");
-      $(this).attr("href","javascript:void(0);");
-      if(!$(this).parent().hasClass("disabled")){
-        $(this).attr("onclick","changePage(this);");
+        pNotifyMessage(data);
       }
     });
   }
@@ -107,7 +98,7 @@ Notifications: View - Delete - Delete All!
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
-    reloadPagination();
+    reloadPagination('#alerts.customized_pagination a','<%= refresh_alert_list_path %>','refreshAlertList');
   }
 
   $('#edit-delete-tab').click(function(){
@@ -115,9 +106,9 @@ Notifications: View - Delete - Delete All!
     ajax_call('html','1', '<%= refresh_alert_list_path %>', refreshAlertList, false);
   });
 
-  var changePage = function(obj) {
+  var changePage = function(obj,pagination_selector,url, func) {
     var current_page = 1;
-    $(".customized_pagination a").each(function(){
+    $(pagination_selector).each(function(){
       if($(this).parent().hasClass("active")){
         current_page = this.innerHTML;
         return false;
@@ -135,7 +126,7 @@ Notifications: View - Delete - Delete All!
     } else {
       page = obj;
     }
-    ajax_call('html', page, '<%= refresh_alert_list_path %>', refreshAlertList, false);
+    ajax_call('html', page, url, func, false);
   };
 
   function deleteAlerts(id) {
@@ -155,9 +146,9 @@ Notifications: View - Delete - Delete All!
       },
       cache: false,
       success: function(notify){
-        creationMessage(notify);
+        pNotifyMessage(notify);
         var current_page = 1;
-        $(".customized_pagination a").each(function(){
+        $("#alerts.customized_pagination a").each(function(){
           if($(this).parent().hasClass("active")){
             current_page = this;
           }
@@ -165,10 +156,44 @@ Notifications: View - Delete - Delete All!
         if ($(".btn-danger.btn-xs").length == 1 && parseInt(current_page.innerHTML)> 1){
           current_page = parseInt(current_page.innerHTML) - 1;
         }
-        changePage(current_page);
+        changePage(current_page,"#alerts.customized_pagination a",'<%= refresh_alert_list_path %>',refreshAlertList);
       }
     });
   }
+
+  function deleteNotifications(id) {
+    var variable = id;
+    if (id == "del-all-btn"){
+      variable = "all";
+    }
+    $.ajax({
+      url: '<%= delete_notification_path %>',
+      type: 'DELETE',
+      dataType: 'json',
+      data: {
+        variable: variable
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
+      },
+      cache: false,
+      success: function(notify){
+        pNotifyMessage(notify);
+        var current_page = 1;
+        $("#notifications_pag.customized_pagination a").each(function(){
+          if($(this).parent().hasClass("active")){
+            current_page = this;
+          }
+        });
+        if ($(".badget").length == 1 && parseInt(current_page.innerHTML)> 1){
+          current_page = parseInt(current_page.innerHTML) - 1;
+        }
+        changePage(current_page,'#notifications_pag.customized_pagination a','<%= refresh_notification_list_path %>',refreshNotificationsTable);
+      }
+    });
+  }
+  reloadPagination('#notifications_pag.customized_pagination a','<%= refresh_notification_list_path %>','refreshNotificationsTable');
+  reloadPagination('#alerts.customized_pagination a','<%= refresh_alert_list_path %>','refreshAlertList');
 </script>
 <% end %>
 

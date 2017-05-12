@@ -4,7 +4,8 @@ class Page < ApplicationRecord
   before_validation :associate_page_to_navbar_tab
   belongs_to :navbar_tab, polymorphic: true
   belongs_to :dashboard
-  validates :title, presence: true, length: { maximum: 20 }, uniqueness: { case_sensitive: false }
+  validates :title, presence: true, length: { maximum: 20 }, uniqueness: { scope: :dashboard_id,
+            message: "page with that title already exists in dashboard", case_sensitive: false }
   validates :description, presence: true, length: { maximum: 25 }
   validates :navbar_tab_id, :navbar_tab_type, :dashboard_id, presence: true
   validate :page_to_navbar_tab_association

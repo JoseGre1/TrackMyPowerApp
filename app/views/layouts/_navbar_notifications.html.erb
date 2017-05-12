@@ -1,0 +1,22 @@
+<% @notifications.first(5).each_with_index do |notification, index| %>
+  <li>
+    <%= link_to alerts_path(@user) do %>
+      <span class="user-profile"><%= gravatar_for notification.source, "" %></span>
+      <span>
+        <span><%= notification.source.username %></span>
+        <span class="time"><%= "#{time_ago_in_words(notification.updated_at)} ago" %></span>
+      </span>
+      <span class="message">
+        <%= truncate(notification.text, length: 80,separator: ' ') %>
+      </span>
+    <% end %>
+  </li>
+<% end %>
+<li>
+  <%= link_to alerts_path(@user) do %>
+    <div class="text-center">
+        <strong>See all</strong>
+        <i class="fa fa-angle-right"></i>
+    </div>
+  <% end %>
+</li>

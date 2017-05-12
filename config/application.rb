@@ -28,5 +28,9 @@ module TrackMyPowerApp
     config.autoload_paths += %W(#{config.root}/app/channels)
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    #Change default 404, 500, 403 errors pages
+    require Rails.root.join("lib/custom_public_exceptions")
+    config.exceptions_app = CustomPublicExceptions.new(Rails.public_path)
   end
 end

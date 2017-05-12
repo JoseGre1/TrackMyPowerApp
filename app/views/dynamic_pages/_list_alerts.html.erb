@@ -23,16 +23,16 @@
         <td style="text-align:center;"><%= alert.value2 %></td>
         <td style="text-align:center;">
           <% if alert.email? %>
-            <input name="email?" type="checkbox" class="flat" checked="checked" onclick="">
+            <input name="email" type="checkbox" class="flat" checked="checked" onclick="">
           <% else %>
-            <input name="email?" type="checkbox" class="flat" checked="unchecked" onclick="">
+            <input name="email" type="checkbox" class="flat" checked="unchecked" onclick="">
           <% end %>
         </td>
         <td style="text-align:center;">
           <% if alert.enabled? %>
-            <input name="enabled?" type="checkbox" class="flat" checked="checked" onclick="">
+            <input name="enabled" type="checkbox" class="flat" checked="checked" onclick="">
           <% else %>
-            <input name="enabled?" type="checkbox" class="flat" checked="unchecked" onclick="">
+            <input name="enabled" type="checkbox" class="flat" checked="unchecked" onclick="">
           <% end %>
         </td>
         <td style="text-align:center;">
@@ -54,7 +54,7 @@
   </div>
   <div class="col-md-6 col-xs-6">
     <div class="text-right">
-      <%= will_paginate @alerts, :class => 'customized_pagination' %>
+      <%= will_paginate @alerts, {id: 'alerts',:class => 'customized_pagination'} %>
     </div>
   </div>
 </div>

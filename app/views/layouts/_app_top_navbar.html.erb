@@ -5,7 +5,6 @@
       <div class="nav toggle">
         <a id="menu_toggle"><i class="fa fa-bars"></i></a>
       </div>
-
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -17,31 +16,13 @@
             <li><%= link_to(logout_path, method: "delete") do %><i class="fa fa-sign-out pull-right"></i> Log Out<% end %></li>
           </ul>
         </li>
-
         <li role="presentation" class="dropdown">
-          <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+          <a href="javascript:;" onclick="markNotificationsAsSeen();" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-bell-o"></i>
-            <span class="badge bg-green"><!-- No. de notificaciones --></span>
+            <span id="notifications_count" class="badge bg-green"><%= @notifications.where(seen: false).count if @notifications.where(seen: false).count != 0 %></span>
           </a>
-          <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-            <li>
-              <a>
-                <span class="image"><%= gravatar_for @user, "" %></span>
-                <span>
-                  <span><%= @user.username %></span>
-                  <span class="time"><!--3 mins ago--></span>
-                </span>
-                <span class="message">
-                  <!--MESSAGE: Film festivals used to be do-or-die moments for movie makers. They were where...-->
-                </span>
-              </a>
-              <div class="text-center">
-                <%= link_to alerts_path do %>
-                  <strong>See all Alerts and Notifications</strong>
-                  <i class="fa fa-angle-right"></i>
-                <% end %>
-              </div>
-            </li>
+          <ul id="notifications_menu" class="dropdown-menu list-unstyled msg_list" role="menu">
+            <%= render 'layouts/navbar_notifications' %>
           </ul>
         </li>
       </ul>

@@ -5,4 +5,7 @@ module DynamicPagesHelper
       @current_dashboard ||= current_user.dashboard
     end
   end
+  def last_notifications
+    current_user.notifications.where(created_at: (1.month.ago)..Time.now.tomorrow.midnight).order(created_at: :desc)
+  end
 end

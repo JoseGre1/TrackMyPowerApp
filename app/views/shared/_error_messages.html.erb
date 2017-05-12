@@ -1,14 +1,6 @@
 <% if @user.errors.any? %>
   <div id="error_explanation">
     <div class="alert alert-danger">
-      <!-- pularalize: helper for making plural conjugation of words:
-           example:
-            pluralize(1, "error") => "1 error"
-            pluralize(2, "error") => "2 errors"
-
-            pluralize(1, "woman") => "1 woman"
-            pluralize(2, "woman") => "2 women"
-      -->
       The form contains <%= pluralize(@user.errors.count, "error") %>.
     </div>
     <ul>

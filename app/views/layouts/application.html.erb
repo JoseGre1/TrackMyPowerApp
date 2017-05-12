@@ -24,6 +24,7 @@
   </div>
   <!-- Javascript default: Loads application.js -->
   <%= render 'layouts/js_default' %>
+  <%= javascript_include_tag 'dynamic_pages' %>
   <!-- Custom Theme Scripts -->
   <script src="/javascript/custom.js"></script>
   <% if content_for?(:page_scripts) %>

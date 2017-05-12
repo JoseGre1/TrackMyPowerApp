@@ -28,6 +28,7 @@
 //= require plotly
 //= require pnotify
 
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers } %>
 /*enables dropdowns*/
 $(document).ready(function() {
     $(".dropdown-toggle").dropdown();
@@ -60,4 +61,3 @@ function ajax_call(type, variable, url, func, units) {
     }
   });
 }
-//= require_tree ./sitewide

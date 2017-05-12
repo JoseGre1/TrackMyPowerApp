@@ -168,12 +168,12 @@ class AjaxCallsController < ApplicationController
   end
 
   def new_alert
-    alert_params = params.require(:variable).permit(:type,:variable,:comparator,:value1,:value2,:email?,:enabled?)
+    alert_params = params.require(:variable).permit(:type,:variable,:comparator,:value1,:value2,:email,:enabled)
     alert_params["type"] = alert_params["type"].squish.parameterize(separator: '_')
     alert_params["variable"] = alert_params["variable"].split("[")[0].squish.parameterize(separator: '_')
     alert_params["comparator"] = alert_params["comparator"].squish.parameterize(separator: '_')
-    alert_params["email?"] = (true if "true") || (false if "false") || false
-    alert_params["enabled?"] = true
+    alert_params["email"] = (true if "true") || (false if "false") || false
+    alert_params["enabled"] = true
     alert_params["user"] = current_user
     alert = Alert.create(alert_params)
     message = {}
@@ -196,7 +196,7 @@ class AjaxCallsController < ApplicationController
   def refresh_alert_list
     page = params["variable"]
     @alerts = current_user.alerts.paginate(:page => page, :per_page => 10)
-    render partial: 'dynamic_pages/list_alerts', locals: { alerts: current_user.alerts }
+    render partial: 'dynamic_pages/list_alerts'
   end
 
   def delete_alert
@@ -211,6 +211,47 @@ class AjaxCallsController < ApplicationController
     type= "success"
     title = "Success"
     text = "#{'Alert'.pluralize(n_alerts)} sucessfuly deleted!"
+    message = {type: type, title: title, text: text }
+    render json: message
+  end
+
+  def check_new_notifications
+    executed_from = params[:variable]
+    pop_notifications = current_user.notifications.where(seen: false, created_at: (10.seconds.ago..Time.now)).order(created_at: :desc)
+    response = {}
+    if pop_notifications.any?
+      response[:json] = { notifications: pop_notifications.as_json(only: [:type,:title,:text]), count: current_user.notifications.where(seen: false).count }
+    else
+      response[:json] = { notifications: [], count: current_user.notifications.where(seen: false).count }
+    end
+    @notifications = last_notifications.first(5)
+    @user = current_user
+    if executed_from == "navbar"
+      Notification.where(id: @notifications.pluck(:id)).update_all seen: true
+    end
+    respond_to do |format|
+      format.html { render partial: 'layouts/navbar_notifications' }
+      format.json { render json: response[:json] }
+    end
+
+  end
+
+  def refresh_notification_list
+    page = params["variable"]
+    @notifications = last_notifications.paginate(page: page, per_page: 10)
+    Notification.where(id: @notifications.pluck(:id)).update_all seen: true
+    render partial: 'dynamic_pages/list_notifications'
+  end
+
+  def delete_notification
+    my_alert = params["variable"]
+    if my_alert == "all"
+      n_alerts = last_notifications.count
+      last_notifications.destroy_all
+    end
+    type= "success"
+    title = "Success"
+    text = "#{'Notification'.pluralize(n_alerts)} sucessfuly deleted!"
     message = {type: type, title: title, text: text }
     render json: message
   end
