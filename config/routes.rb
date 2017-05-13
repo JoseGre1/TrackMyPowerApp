@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   delete '/delete_alert', to: 'ajax_calls#delete_alert', as: :delete_alert
 
   #routes for notifications
-  # MODIFY --------------> get '/notifications/new'
+  get '/source/:id/notifications/new', to:'measurements#new_notification', as: :new_notification
   get '/check_new_notifications', to: 'ajax_calls#check_new_notifications', as: :check_new_notifications
   get '/refresh_notification_list', to:'ajax_calls#refresh_notification_list', as: :refresh_notification_list
   delete '/delete_notification', to: 'ajax_calls#delete_notification', as: :delete_notification

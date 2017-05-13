@@ -3,7 +3,7 @@ class StaticPagesController < ApplicationController
   #Sample code for using custom layout for specific controller
   #Not using default layout (application.html.erb --> home.html.erb)
   layout 'home', only: [:home]
-  before_filter :set_cache_buster, :only => :home
+  before_action :set_cache_buster, only: :home
   def set_cache_buster
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
@@ -29,7 +29,7 @@ class StaticPagesController < ApplicationController
     #id: mainHeader
     header_locals = {}
     header_locals[:title] = "A new way of keeping track of your HRE system"
-    header_locals[:button_text] = "Find out More"
+    header_locals[:button_text] = "Sign Up Now"
     #saving to html_bricks
     home_brick.add_packet(:header_locals, header_locals)
 

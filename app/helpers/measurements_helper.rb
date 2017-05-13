@@ -1,4 +1,5 @@
 module MeasurementsHelper
+
   def units(variable)
     units = {}
     units_list = [
@@ -21,4 +22,34 @@ module MeasurementsHelper
     end
     output
   end
+
+  def create_notifications(measurement_class)
+    alert_type = measurement_class.table_name
+    Alert.where(enabled: true, type: alert_type).each do |alert|
+      reference = measurement_class.last[alert.variable]
+      notification_hash = {}
+      notification_hash["source"] = User.find_by(username: "System")
+      notification_hash["user"] = alert.user
+      case alert.comparator
+      when "greater_or_equal_than"
+        notification_hash["type"] = "warning"
+        notification_hash["title"] = "Alert: Threshold value exceeded"
+        notification_hash["text"] = "#{alert.variable.humanize.titleize} value (#{reference} #{units(alert.variable)}) has exceeded the preset threshold value (#{alert.value1} #{units(alert.variable)})."
+        Notification.create(notification_hash) if reference >= alert.value1
+      when "less_or_equal_than"
+        notification_hash["type"] = "warning"
+        notification_hash["title"] = "Alert: Measurement value below threshold"
+        notification_hash["text"] = "#{alert.variable.humanize.titleize} value (#{reference} #{units(alert.variable)}) is under the preset threshold value: #{alert.value1} #{units(alert.variable)}."
+        Notification.create(notification_hash) if reference <= alert.value1
+      when "belongs_to_range"
+        notification_hash["type"] = "warning"
+        notification_hash["title"] = "Alert: Measurement value belongs to range"
+        notification_hash["text"] = "#{alert.variable.humanize.titleize} value (#{reference} #{units(alert.variable)}) is in the specified range: [#{alert.value1} ~ #{alert.value2} #{units(alert.variable)}]."
+        Notification.create(notification_hash) if reference >= alert.value1 and reference <= alert.value2
+      else
+        nil
+      end
+    end
+  end
+
 end
