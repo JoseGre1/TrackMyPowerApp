@@ -76,7 +76,7 @@
             if(press_select_all){
               check_toggles = check_toggles + 1;
               if (check_toggles == $('input.flat').length){
-                $('.checkbox').iCheck('disable');
+
                 new PNotify({
                   title: "Please wait",
                   text: "Loading database table information...",
@@ -86,7 +86,6 @@
                 });
                 refreshRequest();
                 updateTable();
-                $('.checkbox').iCheck('enable');
                 press_select_all = false;
                 check_toggles = 0;
               }
@@ -101,6 +100,8 @@
                   styling: 'bootstrap3'
                 });
                 deleteTable();
+                $('.checkbox').iCheck('enable');
+                $('.btn-group label').removeClass('disabled');
                 unchecked = true;
               }
               if (uncheck_toggles == $('input.flat').length){
@@ -116,6 +117,8 @@
               });
               if ($('input.flat:checked').length == 0) {
                 deleteTable();
+                $('.checkbox').iCheck('enable');
+                $('.btn-group label').removeClass('disabled');
               }else{
                 refreshRequest();
                 updateTable();
@@ -240,6 +243,8 @@
       responsive: true,
       fixedHeader: true
     });
+    $('.checkbox').iCheck('enable');
+    $('.btn-group label').removeClass('disabled');
   };
 
   function createTable(){
@@ -249,6 +254,8 @@
   }
 
   function deleteTable() {
+    $('.checkbox').iCheck('disable');
+    $('.btn-group label').addClass('disabled');
     if (!($('#datatable').length === 0)){
       $('#datatable').DataTable().destroy;
       document.getElementById('refreshTable').innerHTML = "";
@@ -271,6 +278,8 @@
       reloadCheckboxes();
       refreshRequest();
       deleteTable();
+      $('.checkbox').iCheck('enable');
+      $('.btn-group label').removeClass('disabled');
     }
     initCalendar();
     initRequest();
@@ -283,13 +292,18 @@
     });
     //event: click --> Group Buttons
     $('#selector label').click(function() {
-      $(this).addClass('active').siblings().removeClass('active');
-      press_select_all = false;
-      press_deselect_all = false;
-      check_toggles = 0;
-      uncheck_toggles = 0;
-      unchecked = true;
-      ajax_call('html', this.id, '<%= refresh_checkboxes_tables_path %>', refresh_checkboxes, false);
+      if(!$(this).hasClass('disabled')){
+        $(this).addClass('active').siblings().removeClass('active');
+        press_select_all = false;
+        press_deselect_all = false;
+        check_toggles = 0;
+        uncheck_toggles = 0;
+        unchecked = true;
+        deleteTable();
+        $('.checkbox').iCheck('enable');
+        $('.btn-group label').removeClass('disabled');
+        ajax_call('html', this.id, '<%= refresh_checkboxes_tables_path %>', refresh_checkboxes, false);
+      }
     });
   });
 </script>
