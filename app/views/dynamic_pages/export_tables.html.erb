@@ -292,6 +292,7 @@
     });
     //event: click --> Group Buttons
     $('#selector label').click(function() {
+      event.preventDefault();
       if(!$(this).hasClass('disabled')){
         $(this).addClass('active').siblings().removeClass('active');
         press_select_all = false;
