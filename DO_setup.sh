@@ -5,7 +5,7 @@ echo "Running /etc/default/unicorn..."
 
 echo "Creating and Migrating DB in production environment..."
 RAILS_ENV=production rake db:create
-RAILS_ENV=production rake db:schema:load
+RAILS_ENV=production rake db:migrate
 RAILS_ENV=production rails db:seed:reload
 
 echo "Removing old public/assets files..."
