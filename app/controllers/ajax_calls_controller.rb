@@ -142,7 +142,7 @@ class AjaxCallsController < ApplicationController
     group = params[:variable]
     group_class = group.squish.downcase.tr(" ","_").classify.constantize
     if group.include? "measurement"
-      column_names = group_class.column_names - ["created_at"]
+      column_names = group_class.column_names - ["created_at", "id"]
     end
     respond_to do |format|
       format.html { render partial: 'checkbox_list', locals: { variables: column_names } }

@@ -33,7 +33,7 @@ class DynamicPagesController < ApplicationController
     @notifications = last_notifications.paginate(page: notifications_page, per_page: 10)
     Notification.where(id: @notifications.pluck(:id)).update_all seen: true
     @alerts = @user.alerts.paginate(page: alerts_page, per_page: 10)
-    @group = ActiveRecord::Base.connection.tables
+    @group = ActiveRecord::Base.connection.tables.sort_by(&:downcase)
     @electrical_variables = ElectricalMeasurement.column_names - ["id", "created_at","updated_at"]
   end
 end
