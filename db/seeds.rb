@@ -141,9 +141,8 @@ panels_list_default.each do |row, title, subtitle, description, width, order, mo
                order: order, movable: movable, minimizable: minimizable, closable: closable)
 end
 
+#Create Users for RPi, Arduino, TrackMyPowerApp
 User.create(name: "José Hernández", email: "josegre.95@hotmail.com", password: "jose1234", password_confirmation: "jose1234", username: "JoseGre1", dashboard: default_dashboard)
 User.create(name: "Raspberry Pi", email: "raspberrypi_uninorte@track-mypower.tk", password: "raspberrypi1234", password_confirmation: "raspberrypi1234", username: "RaspberryPi", dashboard: default_dashboard)
 User.create(name: "Arduino", email: "arduino_uninorte@track-mypower.tk", password: "arduino1234", password_confirmation: "arduino1234", username: "Arduino", dashboard: default_dashboard)
 User.create(name: "System", email: "service@track-mypower.tk", password: "system1234", password_confirmation: "system1234", username: "System", dashboard: default_dashboard)
-
-#Create Users for RPi, Arduino, TrackMyPowerApp
