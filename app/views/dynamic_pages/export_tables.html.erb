@@ -76,14 +76,30 @@
             if(press_select_all){
               check_toggles = check_toggles + 1;
               if (check_toggles == $('input.flat').length){
+                $('.checkbox').iCheck('disable');
+                new PNotify({
+                  title: "Please wait",
+                  text: "Loading database table information...",
+                  type: "info",
+                  delay: 2000,
+                  styling: 'bootstrap3'
+                });
                 refreshRequest();
                 updateTable();
+                $('.checkbox').iCheck('enable');
                 press_select_all = false;
                 check_toggles = 0;
               }
             }else if (press_deselect_all) {
               uncheck_toggles = uncheck_toggles + 1;
               if(unchecked){
+                new PNotify({
+                  title: "Please wait",
+                  text: "Loading database table information...",
+                  type: "info",
+                  delay: 2000,
+                  styling: 'bootstrap3'
+                });
                 deleteTable();
                 unchecked = true;
               }
@@ -91,8 +107,20 @@
                 press_deselect_all = false;
               }
             }else {
-              refreshRequest();
-              updateTable();
+              new PNotify({
+                title: "Please wait",
+                text: "Loading database table information...",
+                type: "info",
+                delay: 2000,
+                styling: 'bootstrap3'
+              });
+              if ($('input.flat:checked').length == 0) {
+                deleteTable();
+              }else{
+                refreshRequest();
+                updateTable();
+              }
+
             }
           });
         });
@@ -256,6 +284,11 @@
     //event: click --> Group Buttons
     $('#selector label').click(function() {
       $(this).addClass('active').siblings().removeClass('active');
+      press_select_all = false;
+      press_deselect_all = false;
+      check_toggles = 0;
+      uncheck_toggles = 0;
+      unchecked = true;
       ajax_call('html', this.id, '<%= refresh_checkboxes_tables_path %>', refresh_checkboxes, false);
     });
   });
