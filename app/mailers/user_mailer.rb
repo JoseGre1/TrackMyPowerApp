@@ -15,9 +15,10 @@ class UserMailer < ApplicationMailer
     mg_client.send_message ENV['domain'], message_params
   end
 
-  def new_notification(user, notification)
+  def new_notification(user, notification, last_notifications)
       @user = user
       @notification = notification
+      @last_notifications = last_notifications
       @url  = "http://track-mypower.tk/users/#{@user.username}/alerts"
       mg_client = Mailgun::Client.new ENV['api_key']
       html_output = render_to_string template: "user_mailer/new_notification"
