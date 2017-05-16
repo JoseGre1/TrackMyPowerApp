@@ -5,14 +5,15 @@
 <p>
   <b><%= @notification.title %> - </b> <%= @notification.text %> <br>
 </p>
-<p>Most recent notifications: </p> <br>
+<p>
+  To check your notifications please follow this link: <%= link_to @url, @url %>
+</p>
+<br>
+<p>Other recent notifications: </p>
 <% @last_notifications.each do |last_notification| %>
   <p>
     <b><%= last_notification.title %> - </b> <%= last_notification.text %> <br>
   </p>
 <% end %>
-<p>
-  To check this notification please follow this link: <%= link_to @url, @url %>
-</p>
 <p>Yours sincerely,</p>
 <p>Track-MyPower Team</p>
