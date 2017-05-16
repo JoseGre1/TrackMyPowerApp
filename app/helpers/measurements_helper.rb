@@ -39,7 +39,9 @@ module MeasurementsHelper
         if reference >= alert.value1
           notification = Notification.create(notification_hash)
           send_email = true if (Time.now-alert.user.notifications.last(2).first["created_at"])/ 1.hours >=1
-          UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+          if alert.email?
+            UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+          end
         end
       when "less_or_equal_than"
         notification_hash["type"] = "warning"
@@ -48,7 +50,9 @@ module MeasurementsHelper
         if reference <= alert.value1
           notification = Notification.create(notification_hash)
           send_email = true if (Time.now-alert.user.notifications.last(2).first["created_at"])/ 1.hours >=1
-          UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+          if alert.email?
+            UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+          end
         end
       when "belongs_to_range"
         notification_hash["type"] = "warning"
@@ -57,7 +61,9 @@ module MeasurementsHelper
         if reference >= alert.value1 and reference <= alert.value2
           notification = Notification.create(notification_hash)
           send_email = true if (Time.now-alert.user.notifications.last(2).first["created_at"])/ 1.hours >=1
-          UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+          if alert.email?
+            UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+          end
         end
       else
         nil
