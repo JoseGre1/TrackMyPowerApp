@@ -88,7 +88,7 @@ class MeasurementsController < ApplicationController
       attempt = notification.save
       if attempt
         successful_saves = successful_saves + 1
-        last_notifications = user.notifications.where(seen: false).order(created_at: :desc).first(5)
+        last_notifications = user.notifications.order(created_at: :desc).first(5)
         UserMailer.new_notification(user, notification, last_notifications).deliver_later if notification.source.username.in?(devices)
       end
     end

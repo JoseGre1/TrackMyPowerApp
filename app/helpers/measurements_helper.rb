@@ -43,7 +43,7 @@ module MeasurementsHelper
           end
           if alert.email?
             if send_email || alert.user.notifications.count == 1
-              last_notifications = alert.user.notifications.where(seen: false).order(created_at: :desc).first(5)
+              last_notifications = user.notifications.order(created_at: :desc).first(5)
               UserMailer.new_notification(alert.user, notification, last_notifications).deliver_later
               notification["email"] = true
               notification.save
@@ -61,7 +61,7 @@ module MeasurementsHelper
           end
           if alert.email?
             if send_email || alert.user.notifications.count == 1
-              last_notifications = alert.user.notifications.where(seen: false).order(created_at: :desc).first(5)
+              last_notifications = user.notifications.order(created_at: :desc).first(5)
               UserMailer.new_notification(alert.user, notification, last_notifications).deliver_later
               notification["email"] = true
               notification.save
@@ -79,7 +79,7 @@ module MeasurementsHelper
           end
           if alert.email?
             if send_email || alert.user.notifications.count == 1
-              last_notifications = alert.user.notifications.where(seen: false).order(created_at: :desc).first(5)
+              last_notifications = user.notifications.order(created_at: :desc).first(5)
               UserMailer.new_notification(alert.user, notification, last_notifications).deliver_later
               notification["email"] = true
               notification.save
