@@ -1,0 +1,12 @@
+<p>Hi <%= @user.username %>, <br></p>
+<p>
+  You have ne notifications regarding your HRE system:<br>
+</p>
+<p>
+  <b><%= @notification.title %> - </b> <%= @notification.text %> <br>
+</p>
+<p>
+  To check this notification please follow this link: <%= link_to @url, @url %>
+</p>
+<p>Yours sincerely,</p>
+<p>Track-MyPower Team</p>

@@ -80,11 +80,18 @@ class MeasurementsController < ApplicationController
     notification_params = params.permit(:type,:title,:text)
     notification_params[:source] = current_user
     successful_saves = 0
-    (User.all.pluck(:username) - ["RaspberryPi","System","Arduino"]).each do |username|
-      notification_params[:user] = User.find_by(username: username)
-      notification = Notification.new(notification_params)      
+    system_users = ["RaspberryPi","System","Arduino"]
+    devices = system_users - ["System"]
+    User.where.not(username: system_users).all.each do |user|
+      notification_params[:user] = user
+      notification = Notification.new(notification_params)
       attempt = notification.save
-      successful_saves = successful_saves + 1 if attempt
+      send_email = false
+      if attempt
+        successful_saves = successful_saves + 1
+        send_email = true if (Time.now-User.second.notifications.last(2).first["created_at"])/ 1.hours >=1
+        UserMailer.new_notification(user, notification).deliver_later if send_email || user.notifications.count == 1 || notification.source.username.in?(devices)
+      end
     end
     if successful_saves > 0
       render html: "#{successful_saves} #{'notification'.pluralize(successful_saves)} saved successfully!", layout: true

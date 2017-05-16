@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
     redirect_to dashboard_url(@user)
   end
-  
+
   #User signup web page
   def new
     if logged_in?
@@ -23,6 +23,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.dashboard = Dashboard.find_by(description: "Default")
     if @user.save
+      # Tell the UserMailer to send a welcome email after save
+      UserMailer.welcome_email(@user).deliver_later
       #logging user in using log_in method (from SessionsHelper)
       log_in @user
       #show message of sucessfull @user creation in @user page
@@ -37,6 +39,7 @@ class UsersController < ApplicationController
   #Edit user in DB
   def edit
     @user = User.friendly.where('lower(username) = ?', params[:id].downcase).first
+    @notifications = last_notifications
   end
 
   #Update user info in DB

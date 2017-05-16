@@ -30,22 +30,35 @@ module MeasurementsHelper
       notification_hash = {}
       notification_hash["source"] = User.find_by(username: "System")
       notification_hash["user"] = alert.user
+      send_email = false
       case alert.comparator
       when "greater_or_equal_than"
         notification_hash["type"] = "warning"
         notification_hash["title"] = "Alert: Threshold value exceeded"
         notification_hash["text"] = "#{alert.variable.humanize.titleize} value (#{reference} #{units(alert.variable)}) has exceeded the preset threshold value (#{alert.value1} #{units(alert.variable)})."
-        Notification.create(notification_hash) if reference >= alert.value1
+        if reference >= alert.value1
+          notification = Notification.create(notification_hash)
+          send_email = true if (Time.now-alert.user.notifications.last(2).first["created_at"])/ 1.hours >=1
+          UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+        end
       when "less_or_equal_than"
         notification_hash["type"] = "warning"
         notification_hash["title"] = "Alert: Measurement value below threshold"
         notification_hash["text"] = "#{alert.variable.humanize.titleize} value (#{reference} #{units(alert.variable)}) is under the preset threshold value: #{alert.value1} #{units(alert.variable)}."
-        Notification.create(notification_hash) if reference <= alert.value1
+        if reference <= alert.value1
+          notification = Notification.create(notification_hash)
+          send_email = true if (Time.now-alert.user.notifications.last(2).first["created_at"])/ 1.hours >=1
+          UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+        end
       when "belongs_to_range"
         notification_hash["type"] = "warning"
         notification_hash["title"] = "Alert: Measurement value belongs to range"
         notification_hash["text"] = "#{alert.variable.humanize.titleize} value (#{reference} #{units(alert.variable)}) is in the specified range: [#{alert.value1} ~ #{alert.value2} #{units(alert.variable)}]."
-        Notification.create(notification_hash) if reference >= alert.value1 and reference <= alert.value2
+        if reference >= alert.value1 and reference <= alert.value2
+          notification = Notification.create(notification_hash)
+          send_email = true if (Time.now-alert.user.notifications.last(2).first["created_at"])/ 1.hours >=1
+          UserMailer.new_notification(alert.user, notification).deliver_later if send_email || alert.user.notifications.count == 1
+        end
       else
         nil
       end
