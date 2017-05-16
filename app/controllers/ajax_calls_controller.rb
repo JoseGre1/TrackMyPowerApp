@@ -259,7 +259,7 @@ class AjaxCallsController < ApplicationController
   private
     def authenticate
       authenticate_or_request_with_http_basic('Administration') do |username, password|
-        username == 'admin' && password == 'uninorte'
+        username == ENV['http_basic_user'] && password == ENV['http_basic_password']
       end
     end
 end

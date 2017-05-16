@@ -86,11 +86,9 @@ class MeasurementsController < ApplicationController
       notification_params[:user] = user
       notification = Notification.new(notification_params)
       attempt = notification.save
-      send_email = false
       if attempt
         successful_saves = successful_saves + 1
-        send_email = true if (Time.now-User.second.notifications.last(2).first["created_at"])/ 1.hours >=1
-        UserMailer.new_notification(user, notification).deliver_later if send_email || user.notifications.count == 1 || notification.source.username.in?(devices)
+        UserMailer.new_notification(user, notification).deliver_later if notification.source.username.in?(devices)
       end
     end
     if successful_saves > 0
@@ -102,9 +100,9 @@ class MeasurementsController < ApplicationController
 
   private
     def authenticate
-      if request.content_type.to_s.downcase != "Basic YWRtaW46dW5pbm9ydGU=".downcase
+      if request.content_type.to_s.downcase != ENV['http_key'].downcase
         authenticate_or_request_with_http_basic('Administration') do |username, password|
-          username == 'admin' && password == 'uninorte'
+          username == ENV['http_basic_user'] && password == ENV['http_basic_password']
         end
       end
     end

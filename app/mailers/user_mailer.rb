@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
     @url  = 'http://track-mypower.tk/login'
     mg_client = Mailgun::Client.new ENV['api_key']
     html_output = render_to_string template: "user_mailer/welcome_email"
-    message_params = {:from    => ENV['gmail_username'],
+    message_params = {:from    => ENV['username'],
                       :to      => @user.email,
                       :subject => 'Welcome to track-mypower.tk (Power Tracking Services)',
                       :html    => html_output.to_str,
@@ -21,7 +21,7 @@ class UserMailer < ApplicationMailer
       @url  = "http://track-mypower.tk/users/#{@user.username}/alerts"
       mg_client = Mailgun::Client.new ENV['api_key']
       html_output = render_to_string template: "user_mailer/new_notification"
-      message_params = {:from    => ENV['gmail_username'],
+      message_params = {:from    => ENV['username'],
                         :to      => @user.email,
                         :subject => 'You have new notifications (track-mypower.tk)',
                         :html    => html_output.to_str ,

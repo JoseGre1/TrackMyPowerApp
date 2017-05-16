@@ -13,5 +13,6 @@ class Notification < ApplicationRecord
   def default_values
     self.seen ||= false
     self.type ||= 'info'
+    self.email ||= false
   end
 end
