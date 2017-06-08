@@ -280,9 +280,9 @@ function unitsTemperature(element){
         document.getElementById(variable).innerHTML = result;
         //auto_loadcont(variable,parseInt(result));
       } else if (variable == "energy_med1") {
-        gauge.maxValue = parseFloat(100);
+        gauge.maxValue = parseFloat(2);
         gauge.set(parseFloat(result));
-        document.getElementById("goal-text").innerHTML =  100;
+        document.getElementById("goal-text").innerHTML = 2;
       }else if (variable == "total_delivered_energy"){
         timestamp = data.timestamp;
         document.getElementById(variable).innerHTML = parseFloat(result).toFixed(1) + result.split(" ")[1];

@@ -96,4 +96,5 @@ Rails.application.configure do
   }
 
   config.action_mailer.default_url_options = { host: "track-mypower.tk" }
+  #config.force_ssl = true
 end
