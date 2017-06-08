@@ -1,5 +1,6 @@
 class ElectricalMeasurement < ApplicationRecord
   before_save :low_voltage_adjustment
+  before_save :crazy_energy_adjustment
   before_save :default_values
   protected
     def low_voltage_adjustment
@@ -11,6 +12,12 @@ class ElectricalMeasurement < ApplicationRecord
           self.energy_med1 = self.class.maximum("energy_med1")
           self.pf_med1 = 1
         end
+      end
+    end
+    
+    def crazy_energy_adjustment
+      if self.energy_med1 > 99999
+        self.energy_med1 = self.class.maximum("energy_med1")
       end
     end
     
