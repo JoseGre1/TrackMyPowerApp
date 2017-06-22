@@ -1,4 +1,4 @@
-# README
+# Track-MyPower
 
 Modular web application written in Ruby on Rails for tracking variables related to power generation measured continuously in a hybrid renewable energy system (HRES). The system consists of a solar panel, a wind turbine and two acquisition systems (an Arduino MEGA and a Raspberry Pi that measure, process and report electrical and meteorological data in real-time, respectively). An API was developed for the reception of all the gathered data, which is stored in the application database after some validations. The application allows also the creation of users and assigns a customizable dashboard to each one. After user’s authentication information such as current, daily, weekly and monthly meteorological and electrical conditions are presented in different tables and charts. Furthermore, a notification system informs users about fails in the acquisition systems or values exceeding users customized thresholds for some variable via app and e-mail.
 
@@ -16,5 +16,4 @@ Main features:
 
 * API
 
-Live Demo:
-http://track-mypower.tk/
+Live AT: http://track-mypower.tk/
