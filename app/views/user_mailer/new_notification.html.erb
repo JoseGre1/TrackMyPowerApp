@@ -1,0 +1,20 @@
+<p>Hi <%= @user.username %>, <br></p>
+<p>
+  You have new notifications regarding your HRE system:<br>
+</p>
+<p>
+  <b><%= @notification.title %> - </b> <%= @notification.text %> <br>
+</p>
+<p>
+  To check your notifications please follow this link: <%= link_to @url, @url %>
+</p>
+<br>
+<p>Other recent notifications: </p>
+<% @last_notifications.each do |last_notification| %>
+  <p>
+    <b><%= last_notification.title %> - </b> <%= last_notification.text %> <br>
+  </p>
+<% end %>
+<br>
+<p>Yours sincerely,</p>
+<p>Track-MyPower Team</p>

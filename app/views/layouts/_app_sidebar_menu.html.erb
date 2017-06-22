@@ -1,0 +1,21 @@
+<h3>General</h3>
+<ul class="nav side-menu">
+  <% @user.dashboard.navbar_main_tabs.order(:created_at).each do |main_tab| %>
+    <li>
+      <% if main_tab.dropdown %>
+        <a href='<%= "#{main_tab.link}" %>'><i class="<%= main_tab.icon %>"></i> <%= main_tab.title %>
+          <span class="fa fa-chevron-down"></span>
+      <% else %>
+        <a href='<%= "#{user_path(@user)}#{main_tab.link}" %>'><i class="<%= main_tab.icon %>"></i> <%= main_tab.title %>
+      <% end %>
+        </a>
+      <% if main_tab.dropdown %>
+        <ul class="nav child_menu">
+          <% main_tab.navbar_sub_tabs.order(:created_at).each do |sub_tab| %>
+            <li><a href='<%= "#{user_path(@user)}#{sub_tab.link}" %>'><%= sub_tab.title %></a></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

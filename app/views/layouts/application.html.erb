@@ -1,15 +1,34 @@
+<!-- Loading META-INFO -->
+<%= render 'layouts/meta_tags' %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title><%= full_title(yield(:title)) %></title>
-  <%= render 'layouts/rails_default' %>
-  <%= render 'layouts/shim' %>
+  <!-- Main Head -->
+  <%= render 'layouts/main_head' %>
+  <!-- Custom Theme Style -->
+  <link href="/css/custom.css" type="text/css" rel="stylesheet">
 </head>
-<body>
-  <%= render 'layouts/header' %>
-  <div class="container">
-    <%= yield %>
-    <%= render 'layouts/footer' %>
+<body class="preload nav-md">
+  <div class="container body">
+    <div class="main_container">
+      <%= render 'layouts/app_sidebar' %>
+      <%= render 'layouts/app_top_navbar' %>
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <%= render 'layouts/flash' %>
+        <%= yield %>
+      </div>
+      <!-- /page content -->
+      <%= render 'layouts/footer' %>
+    </div>
   </div>
+  <!-- Javascript default: Loads application.js -->
+  <%= render 'layouts/js_default' %>
+  <%= javascript_include_tag 'dynamic_pages' %>
+  <!-- Custom Theme Scripts -->
+  <script src="/javascript/custom.js"></script>
+  <% if content_for?(:page_scripts) %>
+    <%= yield(:page_scripts) %>
+  <% end %>
 </body>
 </html>

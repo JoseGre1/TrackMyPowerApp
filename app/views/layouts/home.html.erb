@@ -1,0 +1,54 @@
+<!-- Loading META-INFO -->
+<%= render 'layouts/meta_tags' %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Main Head -->
+  <%= render 'layouts/main_head' %>
+  <!-- Custom Fonts -->
+  <%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" %>
+  <%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic" %>
+  <!-- Custom Theme Style -->
+  <link href="/css/creative2.css" type="text/css" rel="stylesheet">
+</head>
+<body id="page-top" class="preload">
+  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <!-- Rendering full navbar for home page: top_navbar_local defined in home controller -->
+    <%= render partial: "layouts/navbar_home", locals: {top_navbar_locals: home_brick[:top_navbar_locals] } %>
+  </nav>
+  <header id="mainHeader" style="height: 110%;">
+    <%= render partial: "layouts/header_home", locals: { header_locals: home_brick[:header_locals] } %>
+  </header>
+  <section id="About"class="bg-primary">
+      <%= yield(:about) %>
+  </section>
+  <section id="Contact" class="bg-dark">
+      <%= yield(:contact) %>
+  </section>
+  <!-- Javascript default: Loads application.js -->
+  <%= render 'layouts/js_default' %>
+  <!-- Plugin JavaScript -->
+  <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js" %>
+  <!-- ScrollReveal -->
+  <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+  <!-- Theme JavaScript -->
+  <script src="/javascript/creative.js"></script>
+  <!-- Background image cycle script -->
+  <script type="text/javascript" src="/javascript/background.cycle.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $("header").backgroundCycle({
+            imageUrls: ['<%= asset_path("rsz_background") %>','<%= asset_path("rsz_background2") %>','<%= asset_path("rsz_background3") %>'],
+            fadeSpeed: 2000,
+            duration: 5000,
+            backgroundSize: SCALING_MODE_STRETCH
+        });
+    });
+    /*enables scrollReveal*/
+    $(function() {
+      window.scrollReveal = new scrollReveal();
+    });
+    /*enables scrollReveal*/
+  </script>
+</body>
+</html>

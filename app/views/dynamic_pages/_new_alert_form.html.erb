@@ -1,0 +1,75 @@
+<form id="new_alert" action="javascript:;" onsubmit="createNewAlert(this);" class="form-horizontal form-label-left" >
+  <br>
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Type<span class="required">*</span></label>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <select name="type" class="form-control" required="required" onchange="reloadVariableList()">
+      <% @group.each do |type| %>
+        <% if type.include? "measurements" %>
+          <option><%= type.humanize.gsub(" measurements","") %></option>
+        <% end %>
+      <% end %>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Variable<span class="required">*</span></label>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <select name="variable" class="form-control" required="required" >
+        <% @electrical_variables.each do |type| %>
+          <option><%= "#{type.humanize.titleize} [#{units(type.humanize.titleize)}]" %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12">Comparator<span class="required">*</span></label>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <select name="comparator" class="form-control" onchange="value2Toggle()" required="required">
+        <option>greater or equal than</option>
+        <option>less or equal than</option>
+        <option>belongs to range</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="item form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Value<span class="required">*</span>
+    </label>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <input type="number" id="value1" step="0.01" name="value1" required="required" class="form-control col-md-7 col-xs-12">
+    </div>
+  </div>
+
+  <div class="item form-group">
+    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Value 2<span class="required">*</span>
+    </label>
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <input type="number" id="value2" step="0.01" name="value2" required="required" class="form-control col-md-7 col-xs-12" disabled="disabled">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 col-sm-3 col-xs-12 control-label">Email Notifications
+    </label>
+
+    <div class="col-md-9 col-sm-9 col-xs-12">
+      <div class="checkbox">
+        <label>
+          <input name="email?" type="checkbox" class="flat" checked="checked"> Receive an E-mail every time an event that satisfies the alert's comparison rule takes place.
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ln_solid"></div>
+  <div class="form-group">
+    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+      <div class="text-right">
+        <button type="submit" class="btn btn-success">Create Alert</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -13,10 +13,16 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
+!/tmp/.keep
 bundler_stubs/
 .DS_Store
 .project
 doc/
 *.swp
+.byebug_history
+
+# Ignore application configuration
+/config/application.yml
+/public/assets

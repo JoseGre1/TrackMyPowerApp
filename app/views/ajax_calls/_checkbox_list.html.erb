@@ -1,0 +1,9 @@
+<% variables.each do |type| %>
+  <div class="col-md-3 col-sm-4 col-xs-12">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" class="flat" name="toShow" value="<%= type %>" id="<%= type %>"> <%= type.humanize.titleize %>
+      </label>
+    </div>
+  </div>
+<% end %>

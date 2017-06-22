@@ -1,0 +1,312 @@
+<% provide(:page_title, @page.title) %>
+<% provide(:title, @page.title) %>
+
+<% content_for :tables do %>
+  <!--Time Interval Calendar -->
+  <label class="no-margin col-md-1 col-sm-1 col-xs-12">Time Interval </label>
+  <div class="no-margin col-md-4 col-sm-4 col-xs-12">
+    <div id="calendar" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+      <span style="font-weight: normal;">December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+    </div>
+    <!--<input type="text" class="daterange"/>-->
+  </div>
+  <!--Group Buttons -->
+  <label class="no-margin col-md-1 col-sm-1 col-xs-12">Group </label>
+  <div class="col-md-6 col-sm-6 col-xs-12">
+    <div id="selector" class="btn-group" data-toggle="buttons">
+      <%= render 'buttons' %>
+    </div>
+  </div>
+  <!--Blank line -->
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    </br>
+  </div>
+  <!--Checkboxes -->
+  <div id="checkbox_list">
+    <%= render partial: '/ajax_calls/checkbox_list', locals: { variables: @electrical_variables } %>
+  </div>
+  <!--Blank line -->
+  <div class="col-md-12 col-sm-12 col-xs-12"></div>
+  <!--Select All Button -->
+  <div class="row">
+    <div class="col-md-6 col-xs-6">
+      </br>
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <div class="text-right">
+        <label>
+          <button id="sel-all-btn" value="Select All" onclick="SelectAll()" type="button" class="btn btn-success">Select All</button>
+        </label>
+      </div>
+    </div>
+  </div>
+  <!-- Solid line -->
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="ln_solid"></div>
+  </div>
+  <!-- DataTable -->
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div id="refreshTable">
+    </div>
+  </div>
+<% end %>
+
+<% content_for :page_scripts do %>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-flash-1.3.1/b-html5-1.3.1/b-print-1.3.1/fh-3.1.2/kt-2.2.1/r-2.1.1/rr-1.2.0/sc-1.4.2/se-1.2.2/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs/jszip-3.1.3/pdfmake-0.1.27/dt-1.10.15/b-1.3.1/b-flash-1.3.1/b-html5-1.3.1/b-print-1.3.1/fh-3.1.2/kt-2.2.1/r-2.1.1/rr-1.2.0/sc-1.4.2/se-1.2.2/datatables.min.js"></script>
+<%= javascript_include_tag("manage_button") %>
+<script>
+  function reloadCheckboxes() {
+    if ($("input.flat")[0]) {
+        $(document).ready(function () {
+          press_select_all = false;
+          press_deselect_all = false;
+          check_toggles = 0;
+          uncheck_toggles = 0;
+          unchecked = true;
+          $('input.flat').iCheck({
+              checkboxClass: 'icheckbox_flat-green',
+              radioClass: 'iradio_flat-green'
+          });
+          //event: toggle --> Checkbuttons
+          $('.checkbox').on('ifToggled', function(event){
+            if(press_select_all){
+              check_toggles = check_toggles + 1;
+              if (check_toggles == $('input.flat').length){
+
+                new PNotify({
+                  title: "Please wait",
+                  text: "Loading database table information...",
+                  type: "info",
+                  delay: 2000,
+                  styling: 'bootstrap3'
+                });
+                refreshRequest();
+                updateTable();
+                press_select_all = false;
+                check_toggles = 0;
+              }
+            }else if (press_deselect_all) {
+              uncheck_toggles = uncheck_toggles + 1;
+              if(unchecked){
+                new PNotify({
+                  title: "Please wait",
+                  text: "Loading database table information...",
+                  type: "info",
+                  delay: 2000,
+                  styling: 'bootstrap3'
+                });
+                deleteTable();
+                $('.checkbox').iCheck('enable');
+                $('.btn-group label').removeClass('disabled');
+                unchecked = true;
+              }
+              if (uncheck_toggles == $('input.flat').length){
+                press_deselect_all = false;
+              }
+            }else {
+              new PNotify({
+                title: "Please wait",
+                text: "Loading database table information...",
+                type: "info",
+                delay: 2000,
+                styling: 'bootstrap3'
+              });
+              if ($('input.flat:checked').length == 0) {
+                deleteTable();
+                $('.checkbox').iCheck('enable');
+                $('.btn-group label').removeClass('disabled');
+              }else{
+                refreshRequest();
+                updateTable();
+              }
+
+            }
+          });
+        });
+    }
+
+  }
+</script>
+<script>
+  function initCalendar() {
+    var cb = function(start, end, label) {
+      $('#calendar span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    };
+
+    var optionSet1 = {
+      startDate: moment().subtract(1, 'month'),
+      endDate: moment(),
+      minDate: '07/01/2016',
+
+      dateLimit: {
+        days: 365
+      },
+      showDropdowns: true,
+      showWeekNumbers: true,
+      timePicker: true,
+      timePickerIncrement: 10,
+      timePicker12Hour: false,
+      ranges: {
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(1, 'month'), moment()],
+        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      opens: 'right',
+      format: 'MM/DD/YYYY',
+      separator: ' to ',
+      locale: {
+        applyLabel: 'Set',
+        cancelLabel: 'Clear',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        firstDay: 1
+      }
+    };
+    //default calendar date
+    $('#calendar span').html(moment().subtract(1, 'month').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+    //calendar settings
+    $('#calendar').daterangepicker(optionSet1, cb);
+  }
+</script>
+<script>
+  function getColumns(){
+    var columns=[];
+    $('input.flat').each(function(){
+      if($(this).is(':checked')){
+        columns.push($(this).attr('id'));
+      }
+    });
+    return columns;
+  }
+
+  function getVariableType(){
+    return $('label.active').attr('id');
+  }
+
+  function initRequest() {
+    request = {
+      type: getVariableType(),
+      start_date: moment().subtract(1, 'month').format(),
+      end_date: moment().format(),
+      columns: getColumns()
+    };
+  }
+
+  function refreshRequest() {
+    request["type"] = getVariableType();
+    request["columns"] = getColumns();
+    if (typeof picker_obj === 'undefined'){
+      request["start_date"] = moment().subtract(1, 'month').format();
+      request["end_date"] = moment().format();
+    }
+    else{
+      request["start_date"] = picker_obj.startDate.format();
+      request["end_date"] = picker_obj.endDate.format();
+    }
+    return request;
+  }
+</script>
+<script>
+  var newDataTable = function(response) {
+    dataSet = response.dataSet;
+    headers = response.columns;
+    $('#datatable').DataTable({
+      data: dataSet,
+      columns: headers,
+      dom: "lBfrtip",
+      buttons: [
+        {
+          extend: "copy",
+          className: "btn-sm"
+        },
+        {
+          extend: "csv",
+          className: "btn-sm"
+        },
+        {
+          extend: "excel",
+          className: "btn-sm"
+        },
+        {
+          extend: "pdf",
+          className: "btn-sm"
+        }
+      ],
+      keys: true,
+      responsive: true,
+      fixedHeader: true
+    });
+    $('.checkbox').iCheck('enable');
+    $('.btn-group label').removeClass('disabled');
+  };
+
+  function createTable(){
+    var new_table_element = '<table id="datatable" class="table table-striped table-bordered bulk_action"></table>';
+    document.getElementById('refreshTable').innerHTML = new_table_element;
+    ajax_call('json', refreshRequest(), '<%= refresh_table_path %>', newDataTable, false);
+  }
+
+  function deleteTable() {
+    $('.checkbox').iCheck('disable');
+    $('.btn-group label').addClass('disabled');
+    if (!($('#datatable').length === 0)){
+      $('#datatable').DataTable().destroy;
+      document.getElementById('refreshTable').innerHTML = "";
+    }
+  }
+
+  function updateTable() {
+    deleteTable();
+    createTable();
+  }
+</script>
+<script>
+  $(document).ready(function() {
+    var refresh_checkboxes = function (data) {
+      result = data;
+      document.getElementById('checkbox_list').innerHTML = result;
+      document.getElementById("sel-all-btn").classList.remove('btn-danger');
+      document.getElementById("sel-all-btn").classList.add('btn-success');
+      document.getElementById("sel-all-btn").childNodes[0].nodeValue = "Select All";
+      reloadCheckboxes();
+      refreshRequest();
+      deleteTable();
+      $('.checkbox').iCheck('enable');
+      $('.btn-group label').removeClass('disabled');
+    }
+    initCalendar();
+    initRequest();
+    reloadCheckboxes();
+    //event: apply/hide --> Calendar
+    $('#calendar').on('hide.daterangepicker', function(ev, picker) {
+      picker_obj = picker;
+      refreshRequest();
+      updateTable();
+    });
+    //event: click --> Group Buttons
+    $('#selector label').click(function() {
+      event.preventDefault();
+      if(!$(this).hasClass('disabled')){
+        $(this).addClass('active').siblings().removeClass('active');
+        press_select_all = false;
+        press_deselect_all = false;
+        check_toggles = 0;
+        uncheck_toggles = 0;
+        unchecked = true;
+        deleteTable();
+        $('.checkbox').iCheck('enable');
+        $('.btn-group label').removeClass('disabled');
+        ajax_call('html', this.id, '<%= refresh_checkboxes_tables_path %>', refresh_checkboxes, false);
+      }
+    });
+  });
+</script>
+<% end %>
+<%= render @page %>

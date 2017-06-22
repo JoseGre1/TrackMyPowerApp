@@ -1,0 +1,68 @@
+// Place all the behaviors and hooks related to the matching controller here.
+// All this logic will automatically be available in application.js.
+// You can use CoffeeScript in this file: http://coffeescript.org/
+
+//Reload will_paginate pagination
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers } %>
+
+function reloadPagination(pagination_selector,url,callback) {
+  $(pagination_selector).each(function(){
+    $(this).attr("onclick","");
+    $(this).attr("href","javascript:void(0);");
+    if(!$(this).parent().hasClass("disabled")){
+      on_click_func = "changePage(this,";
+      on_click_func = on_click_func.concat("'").concat(pagination_selector).concat("', ");
+      on_click_func = on_click_func.concat("'").concat(url).concat("', ");
+      on_click_func = on_click_func.concat(callback).concat(");");
+      $(this).attr("onclick",on_click_func);
+    }
+  });
+}
+
+//Get incoming notifications
+var renderNavbarNotifications = function(data) {
+  if ($("#notifications_menu").length>0){
+    $("#notifications_menu").html(data);
+  }
+};
+
+var refreshNotificationsTable = function(data){
+  $("#notifications_table").html(data);
+  reloadPagination('#notifications_pag.customized_pagination a','<%= refresh_notification_list_path %>','refreshNotificationsTable');
+}
+
+var refreshNotifications = function(data) {
+  notifications = data.notifications;
+  count = data.count;
+  notifications.forEach(function(item,index){
+    new PNotify({
+      title: item.title,
+      text: item.text,
+      type: item.type,
+      delay: 5000,
+      styling: 'bootstrap3'
+    });
+  });
+  if ($("#notifications_count").length>0){
+    if (count == 0){
+      $("#notifications_count").html("");
+    }else{
+      $("#notifications_count").html(count.toString());
+    }
+    ajax_call("html", "", "<%= check_new_notifications_path %>", renderNavbarNotifications, false);
+    if (notifications.length>0){
+      if ($("#notifications_table").length>0){
+        $("#notifications_table").html("");
+        ajax_call('html','1', '<%= refresh_notification_list_path %>', refreshNotificationsTable, false);
+      }
+    }
+  }
+};
+
+function markNotificationsAsSeen(){
+  ajax_call("html", "navbar", "<%= check_new_notifications_path %>", renderNavbarNotifications, false);
+}
+
+setInterval(function() {
+  ajax_call("json", "", "<%= check_new_notifications_path %>", refreshNotifications, false);
+}, 10000);

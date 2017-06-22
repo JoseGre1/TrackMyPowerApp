@@ -1,0 +1,366 @@
+<% provide(:title, @page.title) %>
+<% content_for :electrical_variables do %>
+  <ul class="quick-list">
+    <li><i class="fa fa-power-off"></i>Voltage: </br><span id="voltage_med1"></span></li></br>
+    <li><i class="fa fa-flash"></i> Power: </br><span id="power_med1"></span></li></br>
+    <li><span aria-hidden="true" data-icon="Φ" style="padding-right:10px;color:#757679;font-size: 18px;font-weight: 400;"></span>PF: </br><span id="pf_med1"></span></li></br>
+    <li><i class="fa fa-battery-4"></i>Battery 1: </br>
+      <div class="progress progress-striped active" style="margin-bottom: 0px;">
+        <div id="voltage_batt1" class="progress-bar" style="width: 0%; background-color: #1ABC9C;">
+        </div>
+      </div>
+    </li></br>
+    <li><i class="fa fa-battery-4"></i>Battery 2: </br>
+      <div class="progress progress-striped active" style="margin-bottom: 0px;">
+        <div id="voltage_batt2" class="progress-bar" style="width: 0%; background-color: #1ABC9C;">
+        </div>
+      </div>
+    </li></br>
+  </ul>
+  <div class="sidebar-widget" style="margin-top:0; width=100%; height=100%">
+    <h4>Energy Delivered <br> (This Month)</h4>
+    <canvas id="gauge"></canvas>
+    <div class="goal-wrapper">
+      <span class="gauge-value pull-left"></span>
+      <span id="gauge-text" class="gauge-value pull-left"></span>
+      <span id="goal-text" class="goal-value pull-right" style="float: left;"></span>
+      </br>
+      <span style="font-weight: bold;text-align: center;display: block;">kWh</span>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :location do %>
+  <div id="map"></div>
+<% end %>
+
+<% content_for :weather_report do %>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="temperature">
+        <a id="fahrenheit" onclick="unitsTemperature(this)" href="javascript:void(0);"><span id="spanF">F</span></a>
+        <a id="celsius" onclick="" href="javascript:void(0);"><span id="spanC" style="font-weight: bold">C</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="weather-icon">
+        <canvas height="84" width="84" id="partly-cloudy-day"></canvas>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <h1 id="temperature" style="text-align: right;"></h1>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row weather-days">
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>UV</b><br><small>[ Index ]</small></h2>
+        <h3 class=" " id="uv_index" style="text-align: center;"></h3>
+        <h2 style="font-size: 32px;"><i class="wi wi-hot centered-ico"></i></h2>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Solar</b> <br><small>[ W/m<sup>2</sup> ]</small></h2>
+        <h3 class=" " id="solar_radiation" style="text-align: center;"></h3>
+        <canvas class="centered-canvas" id="clear-day" width="32" height="32"></canvas>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Humidity</b> <br><small>[ % ]</small></h2>
+        <h3 class=" " id="humidity" style="text-align: center;"></h3>
+        <h2 style="font-size: 32px;"><i class="wi wi-raindrops centered-ico"></i></h2>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Wind</b> <br><small>[ km/h ]</small></h2>
+        <h3 class="" id=wind_speed style="text-align: center"></h3>
+        <canvas class="centered-canvas" height="32" width="32" id="wind"></canvas>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+<% end %>
+
+<% content_for :control_panel do %>
+  <div class="">
+    <label>
+      <input id= "xantrex" class="js-switch js-check-click" style="display:none:" data-switchery="true" type="checkbox"/> Inversor Xantrex
+   </label>
+  </div>
+  <div class="">
+    <label>
+      <input id= "batt1" class="js-switch js-check-click" style="display:none:" data-switchery="true" type="checkbox"/> Baterias 1
+    </label>
+  </div>
+  <div class="">
+    <label>
+      <input id= "batt2" class="js-switch js-check-click" style="display:none:" data-switchery="true" type="checkbox"/> Baterias 2
+    </label>
+  </div>
+<% end %>
+
+<% content_for :live_stream do %>
+<img id="stream" src="<%= Stream.last.url if !Stream.last.nil? %>"></img>
+<% end %>
+
+<% content_for :page_scripts do %>
+<!--Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBemXPT9yR9ExhHqV3ZxpNdUbEjRuLctPo&libraries=places"></script>
+<script type="text/javascript">
+  function initMap() {
+    var myLatLng = {lat: 11.020121, lng: -74.851302};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: {lat: 11.020121, lng: -74.851302},
+    });
+    var iconBase = '/images/';
+    var station = {
+      url: iconBase + 'marker.png',
+      scaledSize: new google.maps.Size(32, 32),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(16, 16)
+    };
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      icon: station,
+      map: map,
+      title: 'Uninorte km5 - Bloque K - Mapuka'
+    });
+    marker.setMap(map);
+  }
+  google.maps.event.addDomListener(window, "load", initMap);
+</script>
+<!--/Google Maps API -->
+<!-- Temperature Units Change -->
+<script>
+current_unit = "celsius";
+var temp_before, temp_after;
+function unitsTemperature(element){
+  if(element.id == "celsius")
+  {
+    if(current_unit == "fahrenheit")
+    {
+      temp_before = parseFloat(($("h1#temperature").text()).split("°")[0]);
+      temp_after = (temp_before - 32) * 5/9;
+      var newtext = "".concat(temp_after.toFixed(2),"°");
+      document.getElementById("temperature").innerHTML = newtext;
+      $("#".concat(element.id)).attr("onclick","");
+      $("#fahrenheit").attr("onclick","unitsTemperature(this)");
+      $("#spanC").css("font-weight","bold");
+      $("#spanF").css("font-weight","normal");
+      current_unit = "celsius";
+    }
+  }
+  else if (element.id == "fahrenheit")
+  {
+    if(current_unit == "celsius")
+    {
+      temp_before = parseFloat(($("h1#temperature").text()).split("°")[0]);
+      temp_after = temp_before*9/5 + 32;
+      var newtext = "".concat(temp_after.toFixed(2),"°");
+      document.getElementById("temperature").innerHTML = newtext;
+      $("#".concat(element.id)).attr("onclick","");
+      $("#celsius").attr("onclick","unitsTemperature(this)");
+      $("#spanC").css("font-weight","normal");
+      $("#spanF").css("font-weight","bold");
+      current_unit = "fahrenheit";
+    }
+  }
+  else
+  {
+    return;
+  }
+}
+</script>
+<!--/Temperature Units Change -->
+
+<!-- Skycons -->
+<script>
+  $(document).ready(function() {
+    var icons = new Skycons({
+        "color": "#73879C"
+      }),
+      list = [
+        "clear-day", "clear-night", "partly-cloudy-day",
+        "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+        "fog"
+      ],
+      i;
+    for (i = list.length; i--;)
+      icons.set(list[i], list[i]);
+    icons.play();
+  });
+</script>
+<!-- /Skycons -->
+
+<!-- Responsive size of panels -->
+<script>
+  $(document).ready(function() {
+    var map_height = parseFloat($("div#panel_map").css("height"));
+    var electrical_height = parseFloat($("div#panel_electrical").css("height"));
+    if (electrical_height>map_height){
+      $("div#panel_map").css("height",electrical_height);
+    }
+    else
+    {
+      $("div#panel_electrical").css("height",map_height);
+    }
+  });
+</script>
+<!-- /Responsive size of panels -->
+
+<!-- Control panel-->
+<script>
+  var changeCheckbox1 = document.querySelector('#xantrex');
+  changeCheckbox1.onclick = function() {
+    uploadcont("inv_xantrex");
+  };
+
+  var changeCheckbox2 = document.querySelector('#batt1');
+  changeCheckbox2.onclick = function() {
+    uploadcont("batt1");
+  };
+
+  var changeCheckbox3 = document.querySelector('#batt2');
+  changeCheckbox3.onclick = function() {
+    uploadcont("batt2");
+  };
+
+  </script>
+<!-- /Control panel-->
+
+<!--AJAX Refresh -->
+<script>
+  function ShowWeather() {
+    var load_metereological = function (data) {
+      variable = data.variable;
+      result = data.result;
+      if (variable == "timestamp"){
+        document.getElementById("subtitle_weather_report").innerHTML = result;
+      }else{
+        if (variable == "temperature"){
+          if ($("#spanF").css("font-weight")  == 'bold' || $("#spanF").css("font-weight")  == '700'){
+            result = result*9/5 + 32;
+            result = Math.round(result*100)/100;
+          }
+          result = result + '°';
+        }
+        document.getElementById(variable).innerHTML = result;
+      }
+    }
+    variable_list = ["temperature","uv_index", "solar_radiation", "humidity", "wind_speed"];
+    variable_list.forEach(function(item){
+      ajax_call("json", item, '<%= load_metereological_path %>', load_metereological, false);
+    });
+    ajax_call("json", "timestamp", '<%= load_metereological_path %>', load_metereological, false);
+  }
+
+  function ShowElectrical() {
+    function battery_load(voltage){
+      voltage = parseFloat(voltage);
+      if (voltage<9) {
+        return parseInt(0);
+      }else if (voltage>= 9 && voltage<15){
+        return parseInt((voltage-9)*100/(15-9));
+      }else if (voltage>=15){
+        return parseInt(100);
+      }
+    }
+    var load_electrical = function (data) {
+      variable = data.variable;
+      result = data.result;
+      if (variable.includes("voltage_batt")) {
+        $("#".concat(variable).concat(".progress-bar")).css("width", battery_load(result) + "%");
+        document.getElementById(variable).innerHTML = result;
+        //auto_loadcont(variable,parseInt(result));
+      } else if (variable == "energy_med1") {
+        gauge.maxValue = parseFloat(2);
+        gauge.set(parseFloat(result));
+        document.getElementById("goal-text").innerHTML = 2;
+      }else if (variable == "total_delivered_energy"){
+        timestamp = data.timestamp;
+        document.getElementById(variable).innerHTML = parseFloat(result).toFixed(1) + result.split(" ")[1];
+        document.getElementById(variable.concat("_timestamp")).innerHTML = timestamp;
+      }else if (variable == "timestamp" ){
+        document.getElementById("subtitle_electrical_variables").innerHTML = result;
+      } else {
+        document.getElementById(variable).innerHTML = result;
+      }
+    }
+    ajax_call("json", "voltage_med1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "power_med1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "pf_med1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "energy_med1", '<%= load_electrical_path %>', load_electrical, false);
+    ajax_call("json", "voltage_batt1", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "voltage_batt2", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "total_delivered_energy", '<%= load_electrical_path %>', load_electrical, true);
+    ajax_call("json", "timestamp", '<%= load_electrical_path %>', load_electrical, false);
+  }
+
+  function ShowInternal() {
+    var load_internal = function (data) {
+      variable = data.variable;
+      result = data.result;
+      timestamp = data.timestamp;
+      document.getElementById(variable).innerHTML = result;
+      document.getElementById(variable.concat("_timestamp")).innerHTML = timestamp;
+    }
+    ajax_call("json", "temperature_int", '<%= load_internal_path %>', load_internal, true);
+    ajax_call("json", "humidity_int", '<%= load_internal_path %>', load_internal, true);
+    ajax_call("json", "last_update", '<%= load_internal_path %>', load_internal, false);
+  }
+
+  function ShowStream() {
+    var refresh_image = function (data) {
+      url = data.url;
+      timestamp = data.timestamp;
+      document.getElementById("stream").src = url;
+      document.getElementById("subtitle_live_stream").innerHTML = timestamp;
+    }
+    ajax_call("json", "url", '<%= load_stream_path %>', refresh_image, true );
+  }
+
+  $(document).ready(function() {
+    var opts = {
+        lines: 12,
+        angle: 0,
+        lineWidth: 0.4,
+        pointer: {
+            length: 0.75,
+            strokeWidth: 0.042,
+            color: '#1D212A'
+        },
+        limitMax: 'false',
+        colorStart: '#1ABC9C',
+        colorStop: '#1ABC9C',
+        strokeColor: '#F0F3F3',
+        generateGradient: true
+    };
+    var target = document.getElementById('gauge');
+    gauge = new Gauge(target).setOptions(opts);
+    document.getElementById("gauge").removeAttribute("style");
+    gauge.animationSpeed = 32;
+    gauge.setTextField(document.getElementById("gauge-text"));
+    $('#gauge').css("width", "100%");
+    ShowWeather();
+    ShowElectrical();
+    ShowInternal();
+    setInterval(function() {
+        ShowWeather();
+        ShowElectrical();
+        ShowInternal();
+    }, 60000);
+    setInterval(function() {
+        ShowStream();
+    }, 400);
+  });
+</script>
+<!--/AJAX Refresh -->
+<% end %>
+<%= render @page %>

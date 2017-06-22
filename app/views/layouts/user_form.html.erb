@@ -1,0 +1,37 @@
+<!-- Loading META-INFO -->
+<%= render 'layouts/meta_tags' %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Main Head -->
+  <%= render 'layouts/main_head' %>
+  <!-- Custom Theme Style -->
+  <link href="/css/custom.css" type="text/css" rel="stylesheet">
+  <link href="/css/creative2.css" type="text/css" rel="stylesheet">
+</head>
+<body class="preload login">
+  <div>
+    <div class="login_wrapper">
+      <div class="animate form login_form">
+        <%= render 'layouts/flash' %>
+        <%= yield(:errors) %>
+        <section class="login_content">
+          <%= yield(:form) %>
+          <div class="clearfix"></div>
+          <div class="separator">
+            <%= yield(:no_user) %>
+            <div>
+              <%= link_to(root_path, controller: "static_pages", action: "home", class:"login logo-link") do %>
+                <h1><i class="fa fa-bolt"></i> <%= full_title("") %></h1>
+              <% end %>
+              <small>©<%= Time.current.year %> All Rights Reserved. Universidad del Norte.</small>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- Javascript default: Loads application.js -->
+  <%= render 'layouts/js_default' %>
+</body>
+</html>

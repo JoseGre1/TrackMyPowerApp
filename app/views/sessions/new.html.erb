@@ -1,0 +1,18 @@
+<% provide(:title, "Log in") %>
+
+<% content_for :form do %>
+  <%= form_for(:session, url: login_path) do |f| %>
+    <h1><%= yield(:title) %></h1>
+    <%= f.text_field :email, class: 'form-control', placeholder: 'Email or Username'%>
+
+    <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+
+    <%= f.button "Log in", class: "btn btn-primary" %>
+  <% end %>
+<% end %>
+
+<% content_for :no_user do %>
+  <small>New user? <%= link_to "Sign up now!", signup_path, class: 'to_register'%></small>
+  <div class="clearfix"></div>
+  <br />
+<% end %>

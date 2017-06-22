@@ -1,13 +1,40 @@
+require "Hbrick"
 class StaticPagesController < ApplicationController
+  #Sample code for using custom layout for specific controller
+  #Not using default layout (application.html.erb --> home.html.erb)
+  layout 'home', only: [:home]
+  before_action :set_cache_buster, only: :home
+  def set_cache_buster
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
   def home
-  end
+    #BRICK START
+    #Brick: string variables needed in corresponding view (ex. 'home.html.erb' view)
+    #saved as a hash
+    home_brick = Hbrick.new
 
-  def help
-  end
+    #id: mainNav
+    #To add navbar elements just push annother element to the top_navbar_locals array
+    top_navbar_locals = []
+    top_navbar_locals.push({ text: 'About', path: '#About', type: 'text' })
+    top_navbar_locals.push({ text: 'Contact', path: '#Contact', type: 'text' })
+    top_navbar_locals.push({ text: 'Log in', path: login_path, type: 'button',
+                             glyphicon: 'log-in' })
+    #saving to html_bricks
+    home_brick.add_packet(:top_navbar_locals, top_navbar_locals)
 
-  def about
-  end
+    #id: mainHeader
+    header_locals = {}
+    header_locals[:title] = "A new way of keeping track of your HRE system"
+    header_locals[:button_text] = "Sign Up Now"
+    #saving to html_bricks
+    home_brick.add_packet(:header_locals, header_locals)
 
-  def contact
+    #Rendering brick to home layout
+    render 'home', locals: {home_brick: home_brick.export}
+    #BRICK END
   end
 end

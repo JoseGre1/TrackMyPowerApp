@@ -1,0 +1,200 @@
+<% provide(:page_title, @page.title) %>
+
+<% content_for :notifications do %>
+  <div id="notifications_table">
+    <%= render 'list_notifications' %>
+  </div>
+<% end %>
+
+<% content_for :settings do %>
+  <div class="" role="tabpanel" data-example-id="togglable-tabs">
+    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#tab_content_edit_delete" role="tab" id="edit-delete-tab" data-toggle="tab" aria-expanded="false">My Alerts</a>
+      </li>
+      <li role="presentation" class=""><a href="#tab_content_new" id="new-tab" role="tab" data-toggle="tab" aria-expanded="true">New Alert</a>
+      </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div role="tabpanel" class="tab-pane fade active in" id="tab_content_edit_delete" aria-labelledby="edit-delete-tab">
+        <%= render 'list_alerts' %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="tab_content_new" aria-labelledby="new-tab">
+        <%= render 'new_alert_form' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :page_scripts do %>
+<script>
+  var addVariableListToSelectTag = function (data) {
+    var list = data.column_names;
+    $("select[name='variable']").empty();
+    $.each(list, function(val,text) {
+      $("select[name='variable']").append($('<option></option>').html(text));
+    });
+  };
+
+  function reloadVariableList() {
+    ajax_call('json', $("select[name='type']").val().concat("_measurements") , '<%= refresh_checkboxes_tables_path %>', addVariableListToSelectTag, false);
+  }
+
+  function value2Toggle() {
+    if ($("select[name='comparator']").val() == 'belongs to range') {
+      $("input[name='value2']").prop('disabled', false);
+      $("input[name='value2']").val('')
+    }else {
+      $("input[name='value2']").prop('disabled', true);
+      $("input[name='value2']").val('')
+    }
+  }
+
+  var pNotifyMessage = function (data) {
+    type = data.type;
+    title = data.title;
+    text = data.text;
+    new PNotify({
+      title: title,
+      text: text,
+      type: type,
+      delay: 2000,
+      styling: 'bootstrap3'
+    });
+  };
+
+  function createNewAlert(form) {
+    var form_data = {};
+    $("#new_alert").find("input, textarea, select").each(function() {
+      if (!(this.disabled)){
+        if($(this).attr("type") == "checkbox"){
+          form_data[this.name] = $(this).is(':checked')
+        }else{
+          form_data[this.name] = $(this).val();
+        }
+      }
+    });
+
+    form_data["type"] = form_data["type"].concat("_measurements");
+    $.ajax({
+      url: '<%= new_alert_path %>',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        variable: form_data
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
+      },
+      cache: false,
+      success: function(data){
+        pNotifyMessage(data);
+      }
+    });
+  }
+
+  var refreshAlertList = function(data){
+    document.getElementById('tab_content_edit_delete').innerHTML = data;
+    $('input.flat').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+    reloadPagination('#alerts.customized_pagination a','<%= refresh_alert_list_path %>','refreshAlertList');
+  }
+
+  $('#edit-delete-tab').click(function(){
+    document.getElementById('tab_content_edit_delete').innerHTML = "";
+    ajax_call('html','1', '<%= refresh_alert_list_path %>', refreshAlertList, false);
+  });
+
+  var changePage = function(obj,pagination_selector,url, func) {
+    var current_page = 1;
+    $(pagination_selector).each(function(){
+      if($(this).parent().hasClass("active")){
+        current_page = this.innerHTML;
+        return false;
+      }
+    });
+    var page = obj.innerHTML;
+    if (typeof page !== 'undefined'){
+      if (page.toLowerCase().includes("next")) {
+        page = parseInt(current_page) + 1;
+      }else if (page.toLowerCase().includes("previous")) {
+        page = parseInt(current_page) - 1;
+      }else {
+        page = obj.innerHTML;
+      }
+    } else {
+      page = obj;
+    }
+    ajax_call('html', page, url, func, false);
+  };
+
+  function deleteAlerts(id) {
+    var variable = id;
+    if (id == "del-all-btn"){
+      variable = "all";
+    }
+    $.ajax({
+      url: '<%= delete_alert_path %>',
+      type: 'DELETE',
+      dataType: 'json',
+      data: {
+        variable: variable
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
+      },
+      cache: false,
+      success: function(notify){
+        pNotifyMessage(notify);
+        var current_page = 1;
+        $("#alerts.customized_pagination a").each(function(){
+          if($(this).parent().hasClass("active")){
+            current_page = this;
+          }
+        });
+        if ($(".btn-danger.btn-xs").length == 1 && parseInt(current_page.innerHTML)> 1){
+          current_page = parseInt(current_page.innerHTML) - 1;
+        }
+        changePage(current_page,"#alerts.customized_pagination a",'<%= refresh_alert_list_path %>',refreshAlertList);
+      }
+    });
+  }
+
+  function deleteNotifications(id) {
+    var variable = id;
+    if (id == "del-all-btn"){
+      variable = "all";
+    }
+    $.ajax({
+      url: '<%= delete_notification_path %>',
+      type: 'DELETE',
+      dataType: 'json',
+      data: {
+        variable: variable
+      },
+      beforeSend: function(req) {
+        req.setRequestHeader('Authorization', 'Basic ' + btoa('admin:uninorte'));
+      },
+      cache: false,
+      success: function(notify){
+        pNotifyMessage(notify);
+        var current_page = 1;
+        $("#notifications_pag.customized_pagination a").each(function(){
+          if($(this).parent().hasClass("active")){
+            current_page = this;
+          }
+        });
+        if ($(".badget").length == 1 && parseInt(current_page.innerHTML)> 1){
+          current_page = parseInt(current_page.innerHTML) - 1;
+        }
+        changePage(current_page,'#notifications_pag.customized_pagination a','<%= refresh_notification_list_path %>',refreshNotificationsTable);
+      }
+    });
+  }
+  reloadPagination('#notifications_pag.customized_pagination a','<%= refresh_notification_list_path %>','refreshNotificationsTable');
+  reloadPagination('#alerts.customized_pagination a','<%= refresh_alert_list_path %>','refreshAlertList');
+</script>
+<% end %>
+
+<%= render @page %>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Main Head -->
+    <%= render 'layouts/main_head' %>
+    <!-- Custom Theme Style -->
+    <link href="/css/custom.css" type="text/css" rel="stylesheet">
+    <link href="/css/creative2.css" type="text/css" rel="stylesheet">
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <!-- page content -->
+        <div class="col-md-12">
+          <div class="col-middle">
+            <div class="text-center">
+              <%= yield %>
+              <div class="mid_center">
+                <div>
+                  <%= link_to(root_path, controller: "static_pages", action: "home", class:"login logo-link") do %>
+                    <h1><i class="fa fa-bolt"></i> <%= full_title("") %></h1>
+                  <% end %>
+                  <small>©<%= Time.current.year %> All Rights Reserved. Universidad del Norte.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+    <!-- Javascript default: Loads application.js -->
+    <%= render 'layouts/js_default' %>
+  </body>
+</html>

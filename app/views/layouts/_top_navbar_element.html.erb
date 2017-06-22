@@ -1,0 +1,11 @@
+<% if locals[:type]=='text' %>
+  <li>
+      <%= link_to locals[:text], locals[:path], class: "page-scroll" %>
+  </li>
+<% elsif locals[:type]=='button' && !!locals[:glyphicon] %>
+  <li>
+    <%= link_to locals[:path], type: "button" do %>
+      <span class="<%= "glyphicon glyphicon-#{ locals[:glyphicon] }" %>" ></span> <%= locals[:text] %>
+    <% end %>
+  </li>
+<% end %>

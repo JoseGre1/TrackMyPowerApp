@@ -1,0 +1,16 @@
+<%= form_for(@user, url: yield(:url) ) do |f| %>
+
+  <h1><%= yield(:form_title) %></h1>
+
+  <%= f.text_field :name, class: 'form-control', placeholder: 'Full Name' %>
+
+  <%= f.email_field :email, class: 'form-control', placeholder: 'Email' %>
+
+  <%= f.text_field :username, class: 'form-control', placeholder: 'Username' %>
+
+  <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+
+  <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'Re-enter password' %>
+
+  <%= f.button yield(:button_text), class: "btn btn-primary" %>
+<% end %>

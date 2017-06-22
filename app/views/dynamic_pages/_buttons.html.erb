@@ -1,0 +1,7 @@
+<% @group.each do |type| %>
+  <% if type.include? "measurements" %>
+    <label id="<%= type %>" class="btn btn-default <%= 'active' if type == 'electrical_measurements' %>">
+      <input type="radio" name="group"> <%= type.humanize.gsub(" measurements","") %>
+    </label>
+  <% end %>
+<% end %>

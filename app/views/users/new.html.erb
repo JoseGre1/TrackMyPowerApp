@@ -1,2 +1,10 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<% provide(:title, "Create Account") %>
+<% provide(:form_title, "Create Account") %>
+<% provide(:button_text, 'Create my account') %>
+<% provide(:url, signup_path ) %>
+<% content_for :form do %>
+  <%= render 'form' %>
+<% end %>
+<% content_for :errors do %>
+  <%= render 'shared/error_messages', object: @user %>
+<% end %>

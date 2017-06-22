@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+require 'spec_helper'
+>>>>>>> mailers
 require 'rails_helper'
 
 RSpec.describe "User pages" do

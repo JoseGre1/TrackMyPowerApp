@@ -1,9 +1,54 @@
 Rails.application.routes.draw do
-  root 'static_pages#home'
-  get '/help', to: 'static_pages#help'
-  get '/about', to: 'static_pages#about'
-  get  '/contact', to: 'static_pages#contact'
-  get '/signup', to: 'users#new'
+
+  #Main Application Controllers routes
+  root    'static_pages#home'
+  get      '/signup',  to: 'users#new'
+  post     '/signup',  to: 'users#create'
+  get      '/login',   to: 'sessions#new'
+  post     '/login',   to: 'sessions#create'
+  delete   '/logout',  to: 'sessions#destroy'
+  dynamic_pages =  ["dashboard", "charts_data", "export_tables", "alerts"]
+  dynamic_pages.each do |page|
+    get "/users/:id/#{page.gsub("_","/")}", to: "dynamic_pages##{page}", as: page.to_sym
+  end
+  resources :users, only: [:update, :edit, :show]
+
+  #route for generating measurements via HTTP GET - TELEMETRY
+  get '/measurements/electrical/new', to:'measurements#new_electrical'
+  get '/measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
+  get '/measurements/meteorological/new', to:'measurements#new_meteorological'
+  get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
+  get '/stream/new', to:'measurements#new_stream'
+
+  #routes for AJAX Calls controller
+  get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
+  get '/load_metereological', to: 'ajax_calls#load_metereological', as: :load_metereological
+  get '/load_internal', to: 'ajax_calls#load_internal', as: :load_internal
+  get '/load_stream', to: 'ajax_calls#load_stream', as: :load_stream
+  get '/voltage_chart', to: 'ajax_calls#voltage_chart', as: :voltage_chart
+  get '/energy_chart', to: 'ajax_calls#energy_chart', as: :energy_chart
+  get '/wind_chart', to: 'ajax_calls#wind_chart', as: :wind_chart
+  get '/hsp_chart', to: 'ajax_calls#hsp_chart', as: :hsp_chart
+  get '/refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
+  get '/refresh_table', to: 'ajax_calls#refresh_table', as: :refresh_table
+
+  #routes for alerts
+  post '/users/:id/alerts/new', to: 'ajax_calls#new_alert', as: :new_alert
+  get '/refresh_alert_list', to:'ajax_calls#refresh_alert_list', as: :refresh_alert_list
+  delete '/delete_alert', to: 'ajax_calls#delete_alert', as: :delete_alert
+
+  #routes for notifications
+  get '/source/:id/notifications/new', to:'measurements#new_notification', as: :new_notification
+  get '/check_new_notifications', to: 'ajax_calls#check_new_notifications', as: :check_new_notifications
+  get '/refresh_notification_list', to:'ajax_calls#refresh_notification_list', as: :refresh_notification_list
+  delete '/delete_notification', to: 'ajax_calls#delete_notification', as: :delete_notification
+
+  #HTTP error codes
+  match "/404" => "errors#error404", via: [ :get, :post, :patch, :delete ]
+  match "/500" => "errors#error500", via: [ :get, :post, :patch, :delete ]
+  match "/403" => "errors#error403", via: [ :get, :post, :patch, :delete ]
+
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

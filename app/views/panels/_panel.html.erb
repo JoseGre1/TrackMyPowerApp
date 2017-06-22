@@ -1,0 +1,29 @@
+<!-- Full Panel-->
+<div class="col-md-<%= panel.width %> col-sm-12 col-xs-12">
+  <!--Panel Content -->
+  <div id="panel_<%= panel.title.parameterize.underscore %>" class="x_panel tile" style="<%= 'height: ' if !panel.row.height.nil? %><%= panel.row.height %><%= 'px;' if !panel.row.height.nil? %>">
+    <!--Title -->
+    <div class="x_title">
+      <h2><%= panel.title %><small id='<%= "subtitle_#{panel.title.parameterize.underscore}" %>'><%= panel.subtitle %></small></h2>
+      <ul class="nav navbar-right panel_toolbox">
+        <% if panel.minimizable %>
+          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+        <% end %>
+      </li>
+        <% if panel.closable %>
+          <li><a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        <% end %>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+    <!--/Title -->
+    <!--Content -->
+    <div class="x_content">
+      <div class="dashboard-widget-content">
+        <%= content_for panel.title.parameterize.underscore.to_sym %>
+      </div>
+    </div> <!-- /Content -->
+  </div> <!--/Panel Content -->
+</div>
+<!-- /Full Panel -->

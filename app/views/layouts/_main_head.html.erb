@@ -1,0 +1,12 @@
+<!--Meta, title, links, scripts -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="<%= yield(:description) %>">
+<meta name="author" content="<%= yield(:author) %>">
+<title><%= full_title(yield(:title)) %></title>
+<%= render 'layouts/rails_default' %>
+<%= render 'layouts/shim' %>
+<!-- favicon icon -->
+<link rel="icon" href="/favicon.png" type="image/png">

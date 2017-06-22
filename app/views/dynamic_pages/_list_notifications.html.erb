@@ -1,0 +1,65 @@
+<table class="table table-striped projects">
+  <thead>
+    <tr>
+      <th style="width: 25%;">From</th>
+      <th style="width: 40%;">Message</th>
+      <th style="width: 20%;">Date and Time</th>
+      <th style="width: 5%; text-align:center;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @notifications.each_with_index do |notification, index| %>
+      <tr>
+        <td>
+          <div class="user-profile">
+            <%= gravatar_for notification.source, "" %>
+            <b><%= notification.source.username %></b>
+          </div>
+        </td>
+        <td>
+          <b><%= notification.title %></b>
+          <br>
+          <small><%= notification.text %></small>
+        </td>
+        <td>
+          <%= notification.created_at.strftime("%F %T") %>
+        </td>
+        <td style="text-align:center;">
+          <% case notification.type %>
+          <% when "success" %>
+            <span class="label badget label-success">Success</span>
+          <% when "info" %>
+            <span class="label badget label-info">Info</span>
+          <% when "warning" %>
+            <span class="label badget label-warning">Warning</span>
+          <% when "error" %>
+            <span class="label badget label-danger">Error</span>
+          <% else %>
+            <span class="label badget label-info">Info</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    <% if !@notifications.any? %>
+      <tr>
+        <td valign="top" colspan="8" style="text-align: center;">No notifications were found.</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="row">
+  <div class="col-md-6 col-xs-6">
+    <% if @notifications.any? %>
+      <div class="text-left">
+        <label>
+          <button id="del-all-btn" action="javascript:;" onclick="deleteNotifications(this.id);" type="button" class="btn btn-danger">Delete All</button>
+        </label>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-6 col-xs-6">
+    <div class="text-right">
+      <%= will_paginate @notifications, {id: 'notifications_pag',:class => 'customized_pagination'} %>
+    </div>
+  </div>
+</div>
