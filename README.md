@@ -16,4 +16,4 @@ Main features:
 
 * API
 
-Live AT: http://track-mypower.tk/
+Live at: http://track-mypower.tk/
