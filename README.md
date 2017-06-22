@@ -17,3 +17,5 @@ Main features:
 * API
 
 Live at: http://track-mypower.tk/
+
+Sign up and try it. It's free!
