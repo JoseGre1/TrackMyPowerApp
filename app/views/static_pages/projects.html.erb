@@ -1,0 +1,48 @@
+<% provide(:tel_number, ' (57) (5) 3509509- ext. 3120') %>
+<% provide(:email, 'mpardo@uninorte.edu.co') %>
+
+<% content_for :about do %>
+  <div class="container">
+  <center>
+    <div class="row">
+      <h1>Projects</h1>
+      <div class="col-lg-3 col-md-3 col-sm-3 gallery">
+        <img src="/harvesting.png" style="max-width: 100%;height: auto;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;">
+        <h4 class="text-center"><b>Energy Harvesting from Human Body</b></h4>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 gallery">
+        <img src="/renewable.png" style="max-width: 100%;height: auto;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;">
+        <h4 class="text-center"><b>Hybrid Renewable Energy</b></h4>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 gallery">
+        <img src="/power.png" style="max-width: 100%;height: auto;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;">
+        <h4 class="text-center"><b>Power Control Systems</b></h4>
+      </div> 
+      <div class="col-lg-3 col-md-3 col-sm-3 gallery">
+        <img src="/telemetry.png" style="max-width: 100%;height: auto;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;">
+        <h4 class="text-center"><b>Telemetry Systems</b></h4>
+      </div>
+    </div><!--/row -->
+    </center>
+  </div><!--/container -->
+<% end %>
+
+<% content_for :contact do %>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 text-center">
+              <h2 class="section-heading">Let's Get In Touch!</h2>
+              <hr class="primary">
+              <p>Want to obtain more information about our project? That's great! Give us a call or send us an email and we will get back to you as soon as possible! </p>
+          </div>
+          <div class="col-lg-4 col-lg-offset-2 text-center">
+              <i class="fa fa-phone fa-3x sr-contact"></i>
+              <p><%= yield(:tel_number) %></p>
+          </div>
+          <div class="col-lg-4 text-center">
+              <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+              <p><a href="mailto:<%= yield(:email) %>"><%= yield(:email) %></a></p>
+          </div>
+      </div>
+  </div>
+<% end %>

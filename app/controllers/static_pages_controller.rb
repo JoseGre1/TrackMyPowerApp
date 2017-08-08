@@ -2,12 +2,31 @@ require "Hbrick"
 class StaticPagesController < ApplicationController
   #Sample code for using custom layout for specific controller
   #Not using default layout (application.html.erb --> home.html.erb)
-  layout 'home', only: [:home]
-  before_action :set_cache_buster, only: :home
+  layout 'landing', only: [:home]
+
+  before_action :set_cache_buster, :define_navbar, except:[:home]
+
   def set_cache_buster
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
+  def define_navbar
+    static_brick = Hbrick.new
+
+    #id: mainNav
+    #To add navbar elements just push annother element to the top_navbar_locals array
+    top_navbar_locals = []
+    top_navbar_locals.push({ text: 'Home', path: root_path, type: 'text' })
+    top_navbar_locals.push({ text: 'About', path: about_path, type: 'text' })
+     top_navbar_locals.push({ text: 'Projects', path: projects_path, type: 'text' })
+    top_navbar_locals.push({ text: 'Publications & Courses', path: publications_path, type: 'text' })
+    top_navbar_locals.push({ text: 'Log in', path: login_path, type: 'button',
+                             glyphicon: 'log-in' })
+    #saving to html_bricks
+    static_brick.add_packet(:top_navbar_locals, top_navbar_locals)
+    render layout: 'static', locals: {static_brick: static_brick.export}
   end
 
   def home
@@ -19,8 +38,10 @@ class StaticPagesController < ApplicationController
     #id: mainNav
     #To add navbar elements just push annother element to the top_navbar_locals array
     top_navbar_locals = []
-    top_navbar_locals.push({ text: 'About', path: '#About', type: 'text' })
-    top_navbar_locals.push({ text: 'Contact', path: '#Contact', type: 'text' })
+    top_navbar_locals.push({ text: 'Home', path: root_path, type: 'text' })
+    top_navbar_locals.push({ text: 'About', path: about_path, type: 'text' })
+    top_navbar_locals.push({ text: 'Projects', path: projects_path, type: 'text' })
+    top_navbar_locals.push({ text: 'Publications & Courses', path: publications_path, type: 'text' })
     top_navbar_locals.push({ text: 'Log in', path: login_path, type: 'button',
                              glyphicon: 'log-in' })
     #saving to html_bricks
@@ -37,4 +58,18 @@ class StaticPagesController < ApplicationController
     render 'home', locals: {home_brick: home_brick.export}
     #BRICK END
   end
+
+  def about
+
+  end
+
+
+  def publications
+
+  end
+
+  def projects
+
+  end  
+
 end

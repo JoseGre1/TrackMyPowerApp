@@ -51,7 +51,7 @@ GEM
     animate-rails (1.0.10)
       rails
     arel (7.1.4)
-    autoprefixer-rails (7.1.1.2)
+    autoprefixer-rails (7.1.2.4)
       execjs
     bcrypt (3.1.11)
     bindex (0.5.0)
@@ -116,7 +116,7 @@ GEM
     hirb (0.7.3)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (0.8.4)
+    i18n (0.8.6)
     icheck-rails (1.0.2.2)
       jquery-rails
       rails (>= 3.1.0)
@@ -152,7 +152,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99.3)
     mini_portile2 (2.2.0)
-    minitest (5.10.2)
+    minitest (5.10.3)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     multi_json (1.12.1)
@@ -207,7 +207,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.18.0)
     rake (12.0.0)
-    rb-fsevent (0.9.8)
+    rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     rdoc (4.3.0)
@@ -241,7 +241,11 @@ GEM
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
     ruby-graphviz (1.2.3)
-    sass (3.4.24)
+    sass (3.5.1)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
       sass (~> 3.1)
@@ -271,7 +275,7 @@ GEM
       railties (>= 3.2, < 6.0)
     thor (0.19.4)
     thread_safe (0.3.6)
-    tilt (2.0.7)
+    tilt (2.0.8)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
@@ -355,4 +359,4 @@ DEPENDENCIES
   zeus
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
