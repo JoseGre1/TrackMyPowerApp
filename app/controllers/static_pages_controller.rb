@@ -20,7 +20,7 @@ class StaticPagesController < ApplicationController
     top_navbar_locals = []
     top_navbar_locals.push({ text: 'Home', path: root_path, type: 'text' })
     top_navbar_locals.push({ text: 'About', path: about_path, type: 'text' })
-     top_navbar_locals.push({ text: 'Projects', path: projects_path, type: 'text' })
+    top_navbar_locals.push({ text: 'Projects', path: projects_path, type: 'text' })
     top_navbar_locals.push({ text: 'Publications & Courses', path: publications_path, type: 'text' })
     top_navbar_locals.push({ text: 'Log in', path: login_path, type: 'button',
                              glyphicon: 'log-in' })
