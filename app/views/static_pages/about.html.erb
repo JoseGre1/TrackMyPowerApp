@@ -1,0 +1,116 @@
+<% provide(:tel_number, ' (57) (5) 3509509- ext. 3120') %>
+<% provide(:email, 'mpardo@uninorte.edu.co') %>
+
+<% content_for :about do %>
+<div class = "table-responsive" style="padding-right: 100px; padding-left: 100px">
+  <table class="table-condensed">
+    <tbody>
+      <tr>
+        <td>
+          <strong>Team Name</strong>
+        </td>
+        <td>
+          <em>Renewable and Unconventional Energy Sources</em>
+        </td>
+      </tr>
+
+      <tr> 
+        <td>
+          <strong>Goals</strong>
+        </td>
+        <td>
+          <p class="text-justify">To explore different forms of energy available in the environment to supply power to electronic devices that support the concept of nodesourcing. Information exchange and command-control sending are mainly considered through WiFi and / or cellular networks. The power-generation schemes configuration covers different voltage levels depending on the required solution. The fundamental pillar of the work of the group corresponds to maintaining a balance between resourcefulness and efficiency of the proposed solutions.</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <strong>Methods and Technologies</strong>
+        </td>
+        <td>
+          <p class="text-justify">Solar energy, wind energy, energy harvesters, power electronics, mixed-signal electronic design applications, web app, databases, Graphical User Interfaces, sensors, wireless communication systems, social networks.</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <strong>Graphic Description</strong>
+        </td>
+        <td>
+          <p><img src="graphic_about.png" style="max-width: 100%;height: auto"></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <strong>Research/Design Issues</strong>
+        </td>
+        <td>
+          <p class="text-justify">Power-autonomous telemetry systems, weather information systems, off-grid and grid-tie photovoltaic systems, hybrid energy systems, low-power communication systems, low-cost transmission links, energy harvesters, scalable monitoring and control systems.</p>
+        </td>
+      </tr> 
+
+      <tr>
+        <td>
+          <strong>Meeting Time</strong>
+        </td>
+        <td>
+          <p class="text-justify">Fri.  15:30 – 16:30, VIP@Uninorte Room. </p>
+        </td>
+      </div> 
+
+      <tr>
+        <td>
+          <strong>Advisor</strong>
+        </td>
+        <td>
+          <p class="text-justify">Mauricio Pardo (EEE).</p>
+        </td>
+      </tr> 
+
+      <tr>
+        <td>
+          <strong>Partners and Sponsors</strong>
+        </td>
+        <td>
+          <p class="text-justify">IEEE</p>
+          <p class="text-justify">Strategical division of Universidad del Norte, IEEE.</p>
+        </td>
+      </tr> 
+
+      <tr>
+        <td>
+          <strong>Majors, Preparation and Interests</strong>
+        </td>
+        <td>
+          <p class="text-justify"><strong>Electronics Engineering</strong> – Analog Electronics, Digital Circuits and Systems, Communication Systems, EDA, Power Electronics, DC-DC converters, Instrumentation and Control Systems, Internetworking and Programming. </p>
+          <p class="text-justify"><strong>Electrical Engineering</strong> – Photovoltaic energy, Electrical Machinery, Electrical Installations and Standards, Power Flows, Distributed Generation. </p>
+          <p class="text-justify"><strong>Computer Science</strong> – Software development, Databases, Web Pages, GUIs, Mobile apps.</p>
+          <p class="text-justify"><strong>Mechanical Engineering</strong> – Wind Turbine Dynamics, Energy Generation Systems, Electromechanical Systems.</p>
+          <p class="text-justify"><strong>Industrial Engineering</strong> – Proyect Management.</p>
+          <p class="text-justify"><strong>Industrial Design</strong> – Case and Packaing Design, Legal aspects related cases and packaging.</p>
+        </td>
+      </tr> 
+    </tbody>
+  </table>
+</div>
+<% end %>
+<% content_for :contact do %>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 text-center">
+              <h2 class="section-heading">Let's Get In Touch!</h2>
+              <hr class="primary">
+              <p>Want to obtain more information about our project? That's great! Give us a call or send us an email and we will get back to you as soon as possible! </p>
+          </div>
+          <div class="col-lg-4 col-lg-offset-2 text-center">
+              <i class="fa fa-phone fa-3x sr-contact"></i>
+              <p><%= yield(:tel_number) %></p>
+          </div>
+          <div class="col-lg-4 text-center">
+              <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+              <p><a href="mailto:<%= yield(:email) %>"><%= yield(:email) %></a></p>
+          </div>
+      </div>
+  </div>
+<% end %>
