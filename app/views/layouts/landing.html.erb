@@ -17,7 +17,7 @@
     <%= render partial: "layouts/navbar_home", locals: {top_navbar_locals: home_brick[:top_navbar_locals] } %>
   </nav>
   <header id="mainHeader" style="height: 110%;">
-    <%= render partial: "layouts/header_home", locals: { header_locals: home_brick[:header_locals] } %>
+    <%= render partial: "layouts/header_home", locals: {header_locals: home_brick[:header_locals] } %>
   </header>
   <section id="About"class="bg-primary">
       <%= yield(:about) %>

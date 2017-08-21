@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   root    'static_pages#home'
   get      '/signup',  to: 'users#new'
   post     '/signup',  to: 'users#create'
+  get      '/about',   to: 'static_pages#about'
   get      '/login',   to: 'sessions#new'
   post     '/login',   to: 'sessions#create'
   delete   '/logout',  to: 'sessions#destroy'
+  get      '/publications',  to: 'static_pages#publications'
+  get      '/projects',   to: 'static_pages#projects'
   dynamic_pages =  ["dashboard", "charts_data", "export_tables", "alerts"]
   dynamic_pages.each do |page|
     get "/users/:id/#{page.gsub("_","/")}", to: "dynamic_pages##{page}", as: page.to_sym
