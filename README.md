@@ -1,31 +1,21 @@
-# README
+# Track-MyPower
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Modular web application written in Ruby on Rails for tracking variables related to power generation measured continuously in a hybrid renewable energy system (HRES). The system consists of a solar panel, a wind turbine and two acquisition systems (an Arduino MEGA and a Raspberry Pi that measure, process and report electrical and meteorological data in real-time, respectively). An API was developed for the reception of all the gathered data, which is stored in the application database after some validations. The application allows also the creation of users and assigns a customizable dashboard to each one. After user’s authentication information such as current, daily, weekly and monthly meteorological and electrical conditions are presented in different tables and charts. Furthermore, a notification system informs users about fails in the acquisition systems or values exceeding users customized thresholds for some variable via app and e-mail.
 
-Things you may want to cover:
+A video surveillance system involving a NC220 TP-Link Camera was also implemented. The video streaming can be accessed from the web application.
 
-* Ruby version
+Main features:
 
-* System dependencies
+* Users Management
 
-* Configuration
+* E-mail and App Notifications System
 
-* Database creation
+* Video Surveillance System
 
-* Database initialization
+* Charts and Tables of Real-Time Data
 
-* How to run the test suite
+* API
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
-
-[*Ruby on Rails Tutorial: Learn Rails by Example*](http://railstutorial.org/)
-by [Michael Hartl](http://michaelhartl.com/).
+Live at: http://track-mypower.tk/
+ 
+Sign up and try it. It's free!
