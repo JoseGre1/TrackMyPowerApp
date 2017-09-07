@@ -187,26 +187,6 @@ ActiveRecord::Schema.define(version: 20170901144022) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
-  create_table "wind_turbine_speed_measurements", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "rpm"
-  end
-
-  create_table "wind_turbine_vibration_measurements", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float    "max_ejex"
-    t.float    "m_ejex"
-    t.float    "min_ejex"
-    t.float    "max_ejey"
-    t.float    "m_ejey"
-    t.float    "min_ejey"
-    t.float    "max_ejez"
-    t.float    "m_ejez"
-    t.float    "min_ejez"
-  end
-
   add_foreign_key "alerts", "users"
   add_foreign_key "navbar_sub_tabs", "navbar_main_tabs"
   add_foreign_key "notifications", "users"
