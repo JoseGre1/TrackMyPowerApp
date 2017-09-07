@@ -23,6 +23,22 @@ class MeasurementsController < ApplicationController
     end
   end
 
+  def new_training_data
+    accepted = {}
+    accepted[:x] = params[:x]
+    accepted[:y] = params[:y]
+    accepted[:z] = params[:z]
+    accepted[:label] = params[:label]
+    @training_data_measurement = TrainingDataMeasurement.new(accepted)
+    attempt = @training_data_measurement.save
+    if attempt
+      create_notifications(TrainingDataMeasurement)
+      render html: "TrainingDataMeasurements #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
+
   def new_internal_conditions
     accepted = {}
     accepted[:temperature_int] = params[:temperature_int]
