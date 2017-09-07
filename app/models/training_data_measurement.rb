@@ -1,0 +1,2 @@
+class TrainingDataMeasurement < ApplicationRecord
+end
