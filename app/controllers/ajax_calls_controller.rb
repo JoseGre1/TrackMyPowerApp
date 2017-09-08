@@ -2,6 +2,7 @@ class AjaxCallsController < ApplicationController
   require 'date'
   include ActionView::Helpers::DateHelper
 #  before_action :authenticate, except: :refresh_alert_list
+
   layout 'blank'
 
   def load_electrical
@@ -262,4 +263,5 @@ class AjaxCallsController < ApplicationController
 #        username == ENV['http_basic_user'] && password == ENV['http_basic_password']
 #      end
 #    end
+
 end

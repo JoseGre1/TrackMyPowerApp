@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   get '/measurements/electrical/new', to:'measurements#new_electrical'
   get '/measurements/internal_conditions/new', to:'measurements#new_internal_conditions'
   get '/measurements/meteorological/new', to:'measurements#new_meteorological'
+  get '/measurements/wind_turbine_speed/new', to:'measurements#new_wind_turbine_speed'
+  get '/measurements/wind_turbine_vibration/new', to:'measurements#new_wind_turbine_vibration'
   get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
   get '/stream/new', to:'measurements#new_stream'
   get '/measurements/panel_conditions/new', to:'measurements#new_panel_conditions'
