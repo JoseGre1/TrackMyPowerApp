@@ -1,5 +1,7 @@
 class MeasurementsController < ApplicationController
-  #before_action :authenticate
+
+#  before_action :authenticate
+
   before_action :logged_in_user, only: :new_notification
   before_action :correct_user, only: :new_notification
   layout 'blank'
@@ -32,6 +34,20 @@ class MeasurementsController < ApplicationController
     if attempt
       create_notifications(InternalConditionsMeasurement)
       render html: "InternalConditionsMeasurements #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
+  def new_panel_conditions
+    accepted = {}
+    accepted[:temp_ext] = params[:temp_ext]
+    accepted[:temp_panel] = params[:temp_panel]
+    accepted[:radiation] = params[:radiation]
+    @panel_condition = PanelCondition.new(accepted)
+    attempt = @panel_condition.save
+    if attempt
+      create_notifications(PanelCondition)
+      render html: "PanelCondition #{accepted} saved successfully!", layout: true
     else
       render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
@@ -133,12 +149,12 @@ class MeasurementsController < ApplicationController
     end
   end
 
-  #private
-   # def authenticate
-    #  if request.content_type.to_s.downcase != ENV['http_key'].downcase
-     #   authenticate_or_request_with_http_basic('Administration') do |username, password|
-      #    username == ENV['http_basic_user'] && password == ENV['http_basic_password']
-       # end
-     # end
-    #end
+   private
+     def authenticate
+       if request.content_type.to_s.downcase != ENV['http_key'].downcase
+         authenticate_or_request_with_http_basic('Administration') do |username, password|
+           username == ENV['http_basic_user'] && password == ENV['http_basic_password']
+         end
+       end
+     end
 end
