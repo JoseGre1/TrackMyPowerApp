@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/measurements/meteorological/new', to:'measurements#new_meteorological'
   get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
   get '/stream/new', to:'measurements#new_stream'
+  get '/measurements/panel_conditions/new', to:'measurements#new_panel_conditions'
 
   #routes for AJAX Calls controller
   get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
