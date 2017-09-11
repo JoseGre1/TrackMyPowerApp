@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901144022) do
+ActiveRecord::Schema.define(version: 20170910064229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,15 @@ ActiveRecord::Schema.define(version: 20170901144022) do
     t.index ["page_id"], name: "index_tiles_on_page_id", using: :btree
   end
 
+  create_table "training_data_measurements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float    "x"
+    t.float    "y"
+    t.float    "z"
+    t.string   "label"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -185,6 +194,26 @@ ActiveRecord::Schema.define(version: 20170901144022) do
     t.integer  "dashboard_id"
     t.index ["dashboard_id"], name: "index_users_on_dashboard_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+  end
+
+  create_table "wind_turbine_speed_measurements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "rpm"
+  end
+
+  create_table "wind_turbine_vibration_measurements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float    "max_ejex"
+    t.float    "m_ejex"
+    t.float    "min_ejex"
+    t.float    "max_ejey"
+    t.float    "m_ejey"
+    t.float    "min_ejey"
+    t.float    "max_ejez"
+    t.float    "m_ejez"
+    t.float    "min_ejez"
   end
 
   add_foreign_key "alerts", "users"
