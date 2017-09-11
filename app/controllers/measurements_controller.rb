@@ -1,5 +1,7 @@
 class MeasurementsController < ApplicationController
-  before_action :authenticate
+
+#  before_action :authenticate
+
   before_action :logged_in_user, only: :new_notification
   before_action :correct_user, only: :new_notification
   layout 'blank'
@@ -52,6 +54,20 @@ class MeasurementsController < ApplicationController
       render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
   end
+  def new_panel_conditions
+    accepted = {}
+    accepted[:temp_ext] = params[:temp_ext]
+    accepted[:temp_panel] = params[:temp_panel]
+    accepted[:radiation] = params[:radiation]
+    @panel_condition = PanelCondition.new(accepted)
+    attempt = @panel_condition.save
+    if attempt
+      create_notifications(PanelCondition)
+      render html: "PanelCondition #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
 
   def new_meteorological
     accepted = {}
@@ -67,6 +83,40 @@ class MeasurementsController < ApplicationController
     if attempt
       create_notifications(MeteorologicalMeasurement)
       render html: "MeteorologicalMeasurements #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
+
+  def new_wind_turbine_speed
+    accepted = {}
+    accepted[:rpm] = params[:rpm]
+    @wind_turbine_speed_measurement = WindTurbineSpeedMeasurement.new(accepted)
+    attempt = @wind_turbine_speed_measurement.save
+    if attempt
+      create_notifications(WindTurbineSpeedMeasurement)
+      render html: "WindTurbineSpeedMeasurements #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
+
+  def new_wind_turbine_vibration
+    accepted = {}
+    accepted[:max_ejex] = params[:max_ejex]
+    accepted[:m_ejex] = params[:m_ejex]
+    accepted[:min_ejex] = params[:min_ejex]
+    accepted[:max_ejey] = params[:max_ejey]
+    accepted[:m_ejey] = params[:m_ejey]
+    accepted[:min_ejey] = params[:min_ejey]
+    accepted[:max_ejez] = params[:max_ejez]
+    accepted[:m_ejez] = params[:m_ejez]
+    accepted[:min_ejez] = params[:min_ejez]
+    @wind_turbine_vibration_measurement = WindTurbineVibrationMeasurement.new(accepted)
+    attempt = @wind_turbine_vibration_measurement.save
+    if attempt
+      create_notifications(WindTurbineVibrationMeasurement)
+      render html: "WindTurbineVibrationMeasurements #{accepted} saved successfully!", layout: true
     else
       render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
@@ -115,12 +165,12 @@ class MeasurementsController < ApplicationController
     end
   end
 
-  private
-    def authenticate
-      if request.content_type.to_s.downcase != ENV['http_key'].downcase
-        authenticate_or_request_with_http_basic('Administration') do |username, password|
-          username == ENV['http_basic_user'] && password == ENV['http_basic_password']
-        end
-      end
-    end
+   private
+     def authenticate
+       if request.content_type.to_s.downcase != ENV['http_key'].downcase
+         authenticate_or_request_with_http_basic('Administration') do |username, password|
+           username == ENV['http_basic_user'] && password == ENV['http_basic_password']
+         end
+       end
+     end
 end
