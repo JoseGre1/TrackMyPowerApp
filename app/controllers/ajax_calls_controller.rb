@@ -1,7 +1,8 @@
 class AjaxCallsController < ApplicationController
   require 'date'
   include ActionView::Helpers::DateHelper
-  before_action :authenticate, except: :refresh_alert_list
+#  before_action :authenticate, except: :refresh_alert_list
+
   layout 'blank'
 
   def load_electrical
@@ -256,10 +257,11 @@ class AjaxCallsController < ApplicationController
     render json: message
   end
 
-  private
-    def authenticate
-      authenticate_or_request_with_http_basic('Administration') do |username, password|
-        username == ENV['http_basic_user'] && password == ENV['http_basic_password']
-      end
-    end
+#  private
+#    def authenticate
+#      authenticate_or_request_with_http_basic('Administration') do |username, password|
+#        username == ENV['http_basic_user'] && password == ENV['http_basic_password']
+#      end
+#    end
+
 end
