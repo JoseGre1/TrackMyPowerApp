@@ -113,7 +113,7 @@ def create_general_panels(dashboard)
     [Row.find_by(order: 1, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Electrical Variables", nil, nil, 4, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Location", "Uninorte km5 - Bloque K - Mapuka", nil, 8, nil, nil, nil, nil ],
     [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Weather Report", nil, nil, 4, 1, nil, nil, nil ],
-    [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Live Stream", nil, nil, 4, 3, nil, nil, nil ],
+    [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Panel Conditions", nil, nil, 4, 3, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Voltage", "last 2 days",  nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 2, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Energy", "monthly", nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Wind", "last 3 days", nil, 6, nil, nil, nil, nil ],
