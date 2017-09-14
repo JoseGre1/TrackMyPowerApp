@@ -256,12 +256,4 @@ class AjaxCallsController < ApplicationController
     message = {type: type, title: title, text: text }
     render json: message
   end
-
-#  private
-#    def authenticate
-#      authenticate_or_request_with_http_basic('Administration') do |username, password|
-#        username == ENV['http_basic_user'] && password == ENV['http_basic_password']
-#      end
-#    end
-
 end
