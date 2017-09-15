@@ -76,15 +76,15 @@ class AjaxCallsController < ApplicationController
     case variable
     when "temp_panel"
       variable = "panel_temp"
-      timestamp = "Control Room"
+      timestamp = "nil"
     when "temp_ext"
       variable = "ext_temp"
-      timestamp = "Control Room"
+      timestamp = "nil"
     when "radiation"
       variable = "radiation_panel"
-      timestamp = "Control Room"
+      timestamp = "nil"
     when "created_at"
-      @result = ElectricalMeasurement.last[variable] if !ElectricalMeasurement.last.nil?
+      @result = PanelCondition.last[variable] if !PanelCondition.last.nil?
       timestamp = @result.strftime("%F")
       @result = @result.strftime("%T")
       variable = "last_update"

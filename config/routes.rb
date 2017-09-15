@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/measurements/wind_turbine_speed/new', to:'measurements#new_wind_turbine_speed'
   get '/measurements/wind_turbine_vibration/new', to:'measurements#new_wind_turbine_vibration'
   get '/measurements/meteorological/new/wunderground', to:'measurements#new_wunderground'
+  get '/measurements/training_data/new', to:'measurements#new_training_data'
   get '/stream/new', to:'measurements#new_stream'
   get '/measurements/panel_conditions/new', to:'measurements#new_panel_conditions'
 
