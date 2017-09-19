@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get '/load_electrical', to: 'ajax_calls#load_electrical', as: :load_electrical
   get '/load_metereological', to: 'ajax_calls#load_metereological', as: :load_metereological
   get '/load_internal', to: 'ajax_calls#load_internal', as: :load_internal
+  get '/load_panel', to: 'ajax_calls#load_panel', as: :load_panel
   get '/load_stream', to: 'ajax_calls#load_stream', as: :load_stream
   get '/voltage_chart', to: 'ajax_calls#voltage_chart', as: :voltage_chart
   get '/energy_chart', to: 'ajax_calls#energy_chart', as: :energy_chart
