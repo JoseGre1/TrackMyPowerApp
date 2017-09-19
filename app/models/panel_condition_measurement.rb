@@ -1,5 +1,5 @@
 class PanelConditionMeasurement < ApplicationRecord
-	before_save :default_values
+  before_save :default_values
   protected
     def default_values
           self.temp_ext ||= 0
