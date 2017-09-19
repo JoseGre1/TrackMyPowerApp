@@ -70,7 +70,7 @@ class AjaxCallsController < ApplicationController
     variable = params[:variable]
     units = params[:units]
     variable = "created_at" if variable.downcase == "last_update"
-    @result = PanelCondition.last[variable] if !PanelCondition.last.nil?
+    @result = PanelConditionMeasurement.last[variable] if !PanelConditionMeasurement.last.nil?
     @result = "#{@result.to_i}#{units(variable)}" if units == "true"
     @result = 'N/A' if @result.blank?
     case variable
@@ -84,7 +84,7 @@ class AjaxCallsController < ApplicationController
       variable = "radiation_panel"
       timestamp = nil
     when "created_at"
-      @result = PanelCondition.last[variable] if !PanelCondition.last.nil?
+      @result = PanelConditionMeasurement.last[variable] if !PanelConditionMeasurement.last.nil?
       timestamp = @result.strftime("%F")
       @result = @result.strftime("%T")
       variable = "last_update"

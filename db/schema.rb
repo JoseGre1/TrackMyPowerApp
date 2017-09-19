@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910064229) do
+ActiveRecord::Schema.define(version: 20170919155353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,14 @@ ActiveRecord::Schema.define(version: 20170910064229) do
     t.integer  "dashboard_id"
     t.index ["dashboard_id"], name: "index_pages_on_dashboard_id", using: :btree
     t.index ["navbar_tab_type", "navbar_tab_id"], name: "index_pages_on_navbar_tab_type_and_navbar_tab_id", using: :btree
+  end
+
+  create_table "panel_condition_measurements", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float    "temp_ext"
+    t.float    "temp_panel"
+    t.float    "radiation"
   end
 
   create_table "panel_conditions", force: :cascade do |t|
