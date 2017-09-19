@@ -6,5 +6,7 @@ class TrainingDataMeasurement < ApplicationRecord
       self.y ||= 0
       self.z||= 0
       self.label ||= 0
+      self.session ||= 0 
+      self.user ||= 0 
     end
 end
