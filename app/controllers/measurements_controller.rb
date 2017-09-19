@@ -59,11 +59,11 @@ class MeasurementsController < ApplicationController
     accepted[:temp_ext] = params[:temp_ext]
     accepted[:temp_panel] = params[:temp_panel]
     accepted[:radiation] = params[:radiation]
-    @panel_condition = PanelCondition.new(accepted)
-    attempt = @panel_condition.save
+    @panel_conditions_measurement = PanelConditionMeasurement.new(accepted)
+    attempt = @panel_conditions_measurement.save
     if attempt
-      create_notifications(PanelCondition)
-      render html: "PanelCondition #{accepted} saved successfully!", layout: true
+      create_notifications(PanelConditionMeasurement)
+      render html: "PanelConditionMeasurement #{accepted} saved successfully!", layout: true
     else
       render html: "Error saving to DB. Please check your GET URL.", layout: true
     end
