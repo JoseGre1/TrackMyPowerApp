@@ -1,0 +1,385 @@
+<% provide(:title, @page.title) %>
+
+<% content_for :speed_report do %>
+<div class="row weather-days">
+  <div class="col-sm-4">
+    <div class="daily-weather">
+      <h2 style="font-size: 32px;"><i class="wi wi-cloudy-gusts centered-ico"></i></h2>
+      <h3 style="text-align: center;"></h3>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <div class="daily-weather">
+      <h2 style="text-align: center;"><b>Speed</b><br><small style="text-align: center;">[...]</small></h2>
+    </div>
+  </div>
+</div>
+  <canvas id="gauge"></canvas>
+  <div class="goal-wrapper">
+    <span class="gauge-value pull-left"></span>
+    <span id="gauge-text" class="gauge-value pull-left"></span>
+    <span id="goal-text" class="goal-value pull-right" style="float: left;"></span>
+    </br>
+    <span style="font-weight: bold;text-align: center;display: block;">rpm</span>
+  </div>
+<% end %>
+
+<% content_for :speed do %>
+  <div class="demo-container resize_chart" style="height:280px">
+    <canvas id="speedChart" class="chartjs-responsive"></canvas>
+  </div>
+<% end %>
+
+<% content_for :vibration_report do %>
+<div class="row weather-days">
+  <div class="col-sm-4">
+    <div class="daily-weather">
+      <h2 style="font-size: 32px;"><i class="wi wi-lightning centered-ico"></i></h2>
+      <h3 style="text-align: center;"></h3>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <div class="daily-weather">
+      <h2 style="text-align: center;"><b>Axes</b><br><small style="text-align: center;">[...]</small></h2>
+    </div>
+  </div>
+</div>
+  <div class="row weather-days">
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Axis</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Max</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Avg</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>Min</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+  </div>
+  <div class="row weather-days">
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>x</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="max_ejex" style="text-align: center;"></h3>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="m_ejex" style="text-align: center;"></h3>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="min_ejex" style="text-align: center;"></h3>
+    </div>
+  </div>
+  <div class="row weather-days">
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>y</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="max_ejey" style="text-align: center;"></h3>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="m_ejey" style="text-align: center;"></h3>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="min_ejey" style="text-align: center;"></h3>
+    </div>
+  </div>
+  <div class="row weather-days">
+    <div class="col-sm-3">
+      <div class="daily-weather">
+        <h2 class="day"><b>z</b></h2>
+        <h3 style="text-align: center;"></h3>
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="max_ejez" style="text-align: center;"></h3>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="m_ejez" style="text-align: center;"></h3>
+    </div>
+    <div class="col-sm-3">
+        <h3 class=" " id="min_ejez" style="text-align: center;"></h3>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :vibration do %>
+  <div class="demo-container resize_chart" style="height:280px">
+    <canvas id="vibrationChart" class="chartjs-responsive"></canvas>
+  </div>
+<% end %>
+
+<% content_for :page_scripts do %>
+<script>
+  $(document).ready(function() {
+    var speed_chart = function (data) {
+      time = data.timestamp;
+      y_data = data.y_data;
+      var lineData = {
+        labels: time,
+        datasets: [{
+          label: 'Speed',
+          backgroundColor: "rgba(38, 185, 154, 0.31)",
+          borderColor: "rgba(38, 185, 154, 0.7)",
+          pointBorderColor: "rgba(38, 185, 154, 0.7)",
+          pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          pointRadius: 2,
+          cubicInterpolationMode: 'default',
+          lineTension: 0,
+          data: y_data
+        }]
+      };
+      var ctx = document.getElementById("speedChart").getContext('2d');
+      var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: lineData,
+        options: {
+          scales: {
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'hour',
+                displayFormats: {
+                  hour: 'HH:mm'
+                },
+                unitStepSize: 4,
+                min: (moment().subtract(1, 'days').format("YYYY-MM-DD")).concat(" 00:00:00"),
+                max: (moment().add(1, 'days').format("YYYY-MM-DD")).concat(" 00:00:00")
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Time'
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Speed [rpm]'
+              }
+            }]
+          },
+          pan: {
+            enabled: true,
+            mode: 'xy'
+          },
+          zoom: {
+            enabled: true,
+            mode: 'xy',
+            limits: {
+              max: 10,
+              min: 0.5
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          }
+        }
+      });
+    }
+
+    var vibration_chart = function (data) {
+      time = data.timestamp;
+      x_data = data.x_data;
+      y_data = data.y_data;
+      z_data = data.z_data;
+      var ctx = document.getElementById("vibrationChart").getContext('2d');
+      var lineData = {
+        labels: time,
+        datasets: [{
+          label: 'X Axis',
+          backgroundColor: "transparent",
+          borderColor: "rgba(38, 185, 154, 0.7)",
+          pointBorderColor: "rgba(38, 185, 154, 0.7)",
+          pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          pointRadius: 2,
+          cubicInterpolationMode: 'default',
+          linetension: 0,
+          data: x_data
+        },
+        {
+          label: 'Y Axis',
+          backgroundColor: "transparent",
+          borderColor: "rgba(55, 64, 181, 0.7)",
+          pointBorderColor: "rgba(55, 64, 181, 0.7)",
+          pointBackgroundColor: "rgba(55, 64, 181, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          pointRadius: 2,
+          cubicInterpolationMode: 'default',
+          linetension: 0,
+          data: y_data
+        },
+        {
+          label: 'Z Axis',
+          backgroundColor: "transparent",
+          borderColor: "rgba(147, 55, 181, 0.7)",
+          pointBorderColor: "rgba(147, 55, 181, 0.7)",
+          pointBackgroundColor: "rgba(147, 55, 181, 0.7)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          pointRadius: 2,
+          cubicInterpolationMode: 'default',
+          linetension: 0,
+          data: z_data
+        }]
+      };
+      var ctx = document.getElementById("vibrationChart").getContext('2d');
+      var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: lineData,
+        options: {
+          scales: {
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'hour',
+                displayFormats: {
+                  hour: 'HH:mm'
+                },
+                unitStepSize: 4,
+                min: (moment().subtract(1, 'days').format("YYYY-MM-DD")).concat(" 00:00:00"),
+                max: (moment().add(1, 'days').format("YYYY-MM-DD")).concat(" 00:00:00")
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Time'
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Position [g]'
+              }
+            }]
+          },
+          pan: {
+            enabled: true,
+            mode: 'xy'
+          },
+          zoom: {
+            enabled: true,
+            mode: 'xy',
+            limits: {
+              max: 10,
+              min: 0.5
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: true
+          }
+        }
+      });
+    }
+
+    ajax_call("json", "rpm", '<%= speed_chart_path %>', speed_chart, false);
+    ajax_call("json", "m_ejex", '<%= vibration_chart_path %>', vibration_chart, false);
+    ajax_call("json", "m_ejey", '<%= vibration_chart_path %>', vibration_chart, false);
+    ajax_call("json", "m_ejez", '<%= vibration_chart_path %>', vibration_chart, false);
+  });
+</script>
+
+<script>
+function ShowSpeed() {
+  var load_speed = function (data) {
+    variable = data.variable;
+    result = data.result;
+    timestamp = data.timestamp;
+    if (variable == "rpm") {
+      gauge.maxValue = parseFloat(200);
+      gauge.set(parseFloat(result));
+      document.getElementById("goal-text").innerHTML = 200;
+    }else if (variable == "timestamp" ){
+      document.getElementById("subtitle_speed_report").innerHTML = result;
+    } else {
+      document.getElementById(variable).innerHTML = result;
+      document.getElementById(variable.concat("_timestamp")).innerHTML = timestamp;
+    }
+  }
+  ajax_call("json", "rpm", '<%= load_speed_path %>', load_speed, true);
+  ajax_call("json", "timestamp", '<%= load_speed_path %>', load_speed, false);
+  ajax_call("json", "last_update", '<%= load_speed_path %>', load_speed, false);
+}
+
+function ShowVibration() {
+  var load_vibration = function (data) {
+    variable = data.variable;
+    result = data.result;
+    if (variable == "timestamp"){
+      document.getElementById("subtitle_vibration_report").innerHTML = result;
+    }else{
+      document.getElementById(variable).innerHTML = result;
+    }
+  }
+  variable_list = ["max_ejex", "m_ejex", "min_ejex", "max_ejey", "m_ejey", "min_ejey", "max_ejez", "m_ejez", "min_ejez"];
+  variable_list.forEach(function(item){
+    ajax_call("json", item, '<%= load_vibration_path %>', load_vibration, true);
+  });
+  ajax_call("json", "timestamp", '<%= load_vibration_path %>', load_vibration, false);
+}
+
+$(document).ready(function() {
+  var opts = {
+      lines: 12,
+      angle: 0,
+      lineWidth: 0.4,
+      pointer: {
+          length: 0.75,
+          strokeWidth: 0.042,
+          color: '#1D212A'
+      },
+      limitMax: 'false',
+      colorStart: '#1ABC9C',
+      colorStop: '#1ABC9C',
+      strokeColor: '#F0F3F3',
+      generateGradient: true
+  };
+  var target = document.getElementById('gauge');
+  gauge = new Gauge(target).setOptions(opts);
+  document.getElementById("gauge").removeAttribute("style");
+  gauge.animationSpeed = 32;
+  gauge.setTextField(document.getElementById("gauge-text"));
+  $('#gauge').css("width", "100%");
+  ShowVibration();
+  ShowSpeed();
+  setInterval(function() {
+    ShowVibration();
+    ShowSpeed();
+  }, 60000);
+});
+
+</script>
+
+<% end %>
+<%= render @page %>

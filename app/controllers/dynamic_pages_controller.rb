@@ -36,4 +36,10 @@ class DynamicPagesController < ApplicationController
     @group = ActiveRecord::Base.connection.tables.sort_by(&:downcase)
     @electrical_variables = ElectricalMeasurement.column_names - ["id", "created_at","updated_at"]
   end
+
+  def wind_turbine
+    @user = current_user
+    @page = Page.find_by(title:"Wind Turbine",dashboard:current_dashboard)
+    @notifications = last_notifications
+  end
 end

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   delete   '/logout',  to: 'sessions#destroy'
   get      '/publications',  to: 'static_pages#publications'
   get      '/projects',   to: 'static_pages#projects'
-  dynamic_pages =  ["dashboard", "charts_data", "export_tables", "alerts"]
+  dynamic_pages =  ["dashboard", "charts_data", "export_tables", "alerts", "wind_turbine"]
   dynamic_pages.each do |page|
     get "/users/:id/#{page.gsub("_","/")}", to: "dynamic_pages##{page}", as: page.to_sym
   end
@@ -32,6 +32,10 @@ Rails.application.routes.draw do
   get '/load_metereological', to: 'ajax_calls#load_metereological', as: :load_metereological
   get '/load_internal', to: 'ajax_calls#load_internal', as: :load_internal
   get '/load_stream', to: 'ajax_calls#load_stream', as: :load_stream
+  get '/load_speed', to: 'ajax_calls#load_speed', as: :load_speed
+  get '/load_vibration', to: 'ajax_calls#load_vibration', as: :load_vibration
+  get '/speed_chart', to: 'ajax_calls#speed_chart', as: :speed_chart
+  get '/vibration_chart', to: 'ajax_calls#vibration_chart', as: :vibration_chart
   get '/voltage_chart', to: 'ajax_calls#voltage_chart', as: :voltage_chart
   get '/energy_chart', to: 'ajax_calls#energy_chart', as: :energy_chart
   get '/wind_chart', to: 'ajax_calls#wind_chart', as: :wind_chart
