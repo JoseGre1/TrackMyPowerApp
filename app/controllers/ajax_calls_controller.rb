@@ -66,6 +66,7 @@ class AjaxCallsController < ApplicationController
     end
     render json: { result: @result, variable: variable, timestamp: timestamp}, layout: true
   end
+
   def load_panel
     variable = params[:variable]
     units = params[:units]
@@ -97,6 +98,45 @@ class AjaxCallsController < ApplicationController
     timestamp = "#{time_ago_in_words(Stream.last.created_at)} ago" if !Stream.last.nil?
     timestamp = "just now" if timestamp == "less than a minute ago"
     render json: { url: url, timestamp: timestamp }
+  end
+
+  def load_speed
+    variable = params[:variable]
+    units = params[:units]
+    variable = "created_at" if variable.downcase == "last_update"
+    @result = WindTurbineSpeedMeasurement.last[variable] if !WindTurbineSpeedMeasurement.last.nil?
+    @result = "#{@result.to_i}#{units(variable)}" if units == "true"
+    @result = 'N/A' if @result.blank?
+    timestamp = "#{time_ago_in_words(WindTurbineSpeedMeasurement.last.created_at)} ago" if !WindTurbineSpeedMeasurement.last.nil?
+    if variable.downcase == "timestamp"
+      @result = "#{time_ago_in_words(WindTurbineSpeedMeasurement.last.created_at)} ago"
+    end
+    case variable
+    when "rpm"
+      variable = "rpm"
+      @result = WindTurbineSpeedMeasurement.last["rpm"]
+    when "created_at"
+      @result = WindTurbineSpeedMeasurement.last[variable] if !WindTurbineSpeedMeasurement.last.nil?
+      timestamp = @result.strftime("%F")
+      @result = @result.strftime("%T")
+      variable = "last_update"
+    end
+    render json: { result: @result, variable: variable, timestamp: timestamp }, layout: true
+  end
+
+  def load_vibration
+    variable = params[:variable]
+    units = params[:units]
+    @result = WindTurbineVibrationMeasurement.last[variable] if !WindTurbineVibrationMeasurement.last.nil?
+    timestamp = "#{time_ago_in_words(WindTurbineVibrationMeasurement.last.created_at)} ago" if !WindTurbineVibrationMeasurement.last.nil?
+    @result =  "<h3>#{@result.to_i}</h3>"
+    if variable.downcase == "timestamp"
+      @result = "#{time_ago_in_words(WindTurbineVibrationMeasurement.last.created_at)} ago"
+    end
+    if @result.blank?
+      @result = 'N/A'
+    end
+    render json: { result: @result, variable: variable, timestamp: timestamp}, layout: true
   end
 
   def voltage_chart
@@ -162,6 +202,24 @@ class AjaxCallsController < ApplicationController
     end
     days.pop and days.push("Today")
     render json: { values: hsps, labels: days }
+  end
+
+  def speed_chart
+    @result = WindTurbineSpeedMeasurement.where('created_at >= ?', 1.day.ago.change(hour: 0, min: 0, sec: 0)).order(:created_at).select(:rpm, :created_at)
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:rpm)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def vibration_chart
+    @result = WindTurbineVibrationMeasurement.where('created_at >= ?', 1.day.ago.change(hour: 0, min: 0, sec: 0)).order(:created_at).select(:m_ejex, :m_ejey, :m_ejez, :created_at)
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    x_data = @result.pluck(:m_ejex)
+    y_data = @result.pluck(:m_ejey)
+    z_data = @result.pluck(:m_ejez)
+    render json: { timestamp: timestamp, x_data: x_data, y_data: y_data, z_data: z_data}, layout: true
   end
 
   def refresh_checkboxes_tables
