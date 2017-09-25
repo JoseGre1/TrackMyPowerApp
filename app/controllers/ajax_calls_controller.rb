@@ -66,6 +66,31 @@ class AjaxCallsController < ApplicationController
     end
     render json: { result: @result, variable: variable, timestamp: timestamp}, layout: true
   end
+  def load_panel
+    variable = params[:variable]
+    units = params[:units]
+    variable = "created_at" if variable.downcase == "last_update"
+    @result = PanelConditionMeasurement.last[variable] if !PanelConditionMeasurement.last.nil?
+    @result = "#{@result.to_i}#{units(variable)}" if units == "true"
+    @result = 'N/A' if @result.blank?
+    case variable
+    when "temp_panel"
+      variable = "panel_temp"
+      timestamp = nil
+    when "temp_ext"
+      variable = "ext_temp"
+      timestamp = nil
+    when "radiation"
+      variable = "radiation_panel"
+      timestamp = nil
+    when "created_at"
+      @result = PanelConditionMeasurement.last[variable] if !PanelConditionMeasurement.last.nil?
+      timestamp = @result.strftime("%F")
+      @result = @result.strftime("%T")
+      variable = "last_update"
+    end
+    render json: { result: @result, variable: variable, timestamp: timestamp}, layout: true
+  end
 
   def load_stream
     url = Stream.last["url"] if !Stream.last.nil?

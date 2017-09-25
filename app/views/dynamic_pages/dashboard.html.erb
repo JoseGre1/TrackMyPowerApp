@@ -105,8 +105,30 @@
   </div>
 <% end %>
 
-<% content_for :live_stream do %>
-<img id="stream" src="<%= Stream.last.url if !Stream.last.nil? %>"></img>
+<% content_for :panel_conditions do %>
+  <div class="col-sm-4">
+      <div class="daily-weather">
+        <h2 class="day"><b>Solar Radiation</b> <br><small>[ W/m<sup>2</sup> ]</small></h2>
+        <h3 class=" " id="radiation_panel" style="text-align: center;"></h3>
+        <h2 style="font-size: 32px;"><i class="wi wi-horizon-alt centered-ico"></i></h2>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="daily-weather">
+        <h2 class="day"><b>Panel Temperature</b> <br><small>[°C ]</small></h2>
+        <h3 class=" " id="panel_temp" style="text-align: center;"></h3>
+        <h2 style="font-size: 32px;"><i class="wi wi-thermometer centered-ico"></i></h2>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="daily-weather">
+        <h2 class="day"><b>Room Temperature</b> <br><small>[°C ]</small></h2>
+        <h3 class="" id="ext_temp" style="text-align: center"></h3>
+        <h2 style="font-size: 32px;"><i class="wi wi-thermometer-exterior centered-ico"></i></h2>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
 <% end %>
 
 <% content_for :page_scripts do %>
@@ -316,6 +338,19 @@ function unitsTemperature(element){
     ajax_call("json", "last_update", '<%= load_internal_path %>', load_internal, false);
   }
 
+  function ShowPanel() {
+    var load_panel = function (data) {
+      variable = data.variable;
+      result = data.result;
+      timestamp = data.timestamp;
+      document.getElementById(variable).innerHTML = result;
+      document.getElementById(variable.concat("_timestamp")).innerHTML = timestamp;
+    }
+    ajax_call("json", "temp_panel", '<%= load_panel_path %>', load_panel, true);
+    ajax_call("json", "temp_ext", '<%= load_panel_path %>', load_panel, true);
+    ajax_call("json", "radiation", '<%= load_panel_path %>', load_panel, true);
+  }
+
   function ShowStream() {
     var refresh_image = function (data) {
       url = data.url;
@@ -351,10 +386,12 @@ function unitsTemperature(element){
     ShowWeather();
     ShowElectrical();
     ShowInternal();
+    ShowPanel();
     setInterval(function() {
         ShowWeather();
         ShowElectrical();
         ShowInternal();
+        ShowPanel();
     }, 60000);
     setInterval(function() {
         ShowStream();
