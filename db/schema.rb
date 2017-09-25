@@ -125,6 +125,8 @@ ActiveRecord::Schema.define(version: 20170919155353) do
     t.index ["navbar_tab_type", "navbar_tab_id"], name: "index_pages_on_navbar_tab_type_and_navbar_tab_id", using: :btree
   end
 
+<<<<<<< HEAD
+=======
   create_table "panel_condition_measurements", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 20170919155353) do
     t.float    "radiation"
   end
 
+>>>>>>> upstream/master
   create_table "panel_conditions", force: :cascade do |t|
     t.float    "temp_ext"
     t.float    "temp_panel"
