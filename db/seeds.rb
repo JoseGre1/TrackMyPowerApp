@@ -31,11 +31,11 @@ guest_dashboard = Dashboard.find_by(description: "Guest")
 
 #[title, icon, dropdown, link]
 navbar_main_tab_list = [
-  #[ "Dashboard", "fa fa-tachometer", false, "/dashboard" ],
+  [ "Dashboard", "fa fa-tachometer", false, "/dashboard" ],
   [ "Charts and Stats", "fa fa-bar-chart-o", true, "javascript:;" ],
   [ "Export", "fa fa-download", true, "javascript:;" ],
-  [ "Alerts", "fa fa-bell", false, "/alerts" ],
-  [ "Wind Turbine", "fa fa-tachometer", false, "/wind/turbine" ]
+  [ "Alerts", "fa fa-bell", false, "/alerts" ]
+  #[ "Wind Turbine", "fa fa-tachometer", false, "/wind/turbine" ]
 ]
 
 navbar_main_tab_list.each do |title, icon, dropdown, link|
@@ -75,8 +75,8 @@ def create_general_tiles(dashboard)
     [Page.find_by(title: "Dashboard", dashboard: dashboard), "Last Update", "fa fa-refresh", "Last Update", 1],
     [Page.find_by(title: "Dashboard", dashboard: dashboard), "Internal Humidity", "wi wi-humidity", "Internal Humidity", 2],
     [Page.find_by(title: "Dashboard", dashboard: dashboard), "Internal Temperature", "wi wi-thermometer", "Internal Temperature", 3],
-    [Page.find_by(title: "Dashboard", dashboard: dashboard), "Total Delivered Energy", "fa fa-plug", "Total Delivered Energy", 4],
-    [Page.find_by(title: "Wind Turbine", dashboard: dashboard), "Last Update", "wi wi-cloud-refresh", "Last Update", 1]
+    [Page.find_by(title: "Dashboard", dashboard: dashboard), "Total Delivered Energy", "fa fa-plug", "Total Delivered Energy", 4]
+    #[Page.find_by(title: "Wind Turbine", dashboard: dashboard), "Last Update", "wi wi-cloud-refresh", "Last Update", 1]
   ]
   tiles_list.each do |page, title, icon, description, order|
     Tile.create(title:title, description:description, icon: icon, order: order, page: page)
@@ -92,14 +92,16 @@ def create_general_rows(dashboard)
   rows_list = [
     [Page.find_by(title: "Dashboard", dashboard: dashboard), 2, 420, nil],
     [Page.find_by(title: "Dashboard", dashboard: dashboard), 3, 340, nil],
+    [Page.find_by(title: "Dashboard", dashboard: dashboard), 1, 370, nil],
+    [Page.find_by(title: "Dashboard", dashboard: dashboard), 2, 370, nil],
     [Page.find_by(title: "Data Charts", dashboard: dashboard), 1, 370, nil],
     [Page.find_by(title: "Data Charts", dashboard: dashboard), 1, 370, nil],
     [Page.find_by(title: "Data Charts", dashboard: dashboard), 2, 370, nil],
     [Page.find_by(title: "Tables", dashboard: dashboard), 1, nil, nil],
     [Page.find_by(title: "Alerts", dashboard: dashboard), 1, nil, nil],
-    [Page.find_by(title: "Alerts", dashboard: dashboard), 1, nil, nil],
-    [Page.find_by(title: "Wind Turbine", dashboard: dashboard), 2, 370, nil],
-    [Page.find_by(title: "Wind Turbine", dashboard: dashboard), 3, 370, nil]
+    [Page.find_by(title: "Alerts", dashboard: dashboard), 1, nil, nil]
+    # [Page.find_by(title: "Wind Turbine", dashboard: dashboard), 2, 370, nil],
+    # [Page.find_by(title: "Wind Turbine", dashboard: dashboard), 3, 370, nil]
   ]
 
   rows_list.each do |page, capacity, height, order|
@@ -116,19 +118,22 @@ def create_general_panels(dashboard)
   panels_list = [
     [Row.find_by(order: 1, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Electrical Variables", nil, nil, 4, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Location", "Uninorte km5 - Bloque K - Mapuka", nil, 8, nil, nil, nil, nil ],
-    [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Weather Report", nil, nil, 4, 1, nil, nil, nil ],
-    [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Panel Conditions", nil, nil, 4, 3, nil, nil, nil ],
+    [Row.find_by(order: 4, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Weather Report", nil, nil, 4, 1, nil, nil, nil ],
+    [Row.find_by(order: 4, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Panel Conditions", nil, nil, 4, 3, nil, nil, nil ],
+    [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Speed", "last 2 days", nil, 12, nil, nil, nil, nil ],
+    [Row.find_by(order: 3, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Vibration Report", nil, nil, 4, nil, nil, nil, nil ],
+    [Row.find_by(order: 3, page: Page.find_by(title:"Dashboard", dashboard: dashboard)), "Vibration", "last 2 days", nil, 8, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Voltage", "last 2 days",  nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 2, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Energy", "monthly", nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Wind", "last 3 days", nil, 6, nil, nil, nil, nil ],
     [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "PSH", "last 7 days", nil, 6, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Tables", dashboard: dashboard)), "Tables", "filter results", nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Alerts", dashboard: dashboard)), "Notifications", nil, nil, 12, nil, nil, nil, nil ],
-    [Row.find_by(order: 2, page: Page.find_by(title:"Alerts", dashboard: dashboard)), "Settings", nil, nil, 12, nil, nil, nil, nil ],
-    [Row.find_by(order: 1, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Speed Report", nil, nil, 4, nil, nil, nil, nil ],
-    [Row.find_by(order: 1, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Speed", "last 2 days", nil, 8, nil, nil, nil, nil ],
-    [Row.find_by(order: 2, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Vibration Report", nil, nil, 4, nil, nil, nil, nil ],
-    [Row.find_by(order: 2, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Vibration", "last 2 days", nil, 8, nil, nil, nil, nil ]
+    [Row.find_by(order: 2, page: Page.find_by(title:"Alerts", dashboard: dashboard)), "Settings", nil, nil, 12, nil, nil, nil, nil ]
+    # [Row.find_by(order: 1, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Speed Report", nil, nil, 4, nil, nil, nil, nil ],
+    # [Row.find_by(order: 1, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Speed", "last 2 days", nil, 8, nil, nil, nil, nil ],
+    # [Row.find_by(order: 2, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Vibration Report", nil, nil, 4, nil, nil, nil, nil ],
+    # [Row.find_by(order: 2, page: Page.find_by(title:"Wind Turbine", dashboard: dashboard)), "Vibration", "last 2 days", nil, 8, nil, nil, nil, nil ]
   ]
 
   panels_list.each do |row, title, subtitle, description, width, order, movable, minimizable, closable|
@@ -141,7 +146,7 @@ create_general_panels(default_dashboard)
 create_general_panels(guest_dashboard)
 
 panels_list_default = [
-    [Row.find_by(order: 2, page: Page.find_by(title:"Dashboard", dashboard: default_dashboard)), "Control Panel", nil, nil, 4, 2, nil, nil, nil ]
+    [Row.find_by(order: 4, page: Page.find_by(title:"Dashboard", dashboard: default_dashboard)), "Control Panel", nil, nil, 4, 2, nil, nil, nil ]
 ]
 
 panels_list_default.each do |row, title, subtitle, description, width, order, movable, minimizable, closable|
