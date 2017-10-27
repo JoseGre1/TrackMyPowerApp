@@ -93,6 +93,8 @@ def create_general_rows(dashboard)
     [Page.find_by(title: "Data Charts", dashboard: dashboard), 1, 370, nil],
     [Page.find_by(title: "Data Charts", dashboard: dashboard), 1, 370, nil],
     [Page.find_by(title: "Data Charts", dashboard: dashboard), 2, 370, nil],
+    [Page.find_by(title: "Data Charts", dashboard: dashboard), 2, 370, nil],
+    [Page.find_by(title: "Tables", dashboard: dashboard), 1, nil, nil],
     [Page.find_by(title: "Tables", dashboard: dashboard), 1, nil, nil],
     [Page.find_by(title: "Alerts", dashboard: dashboard), 1, nil, nil],
     [Page.find_by(title: "Alerts", dashboard: dashboard), 1, nil, nil]
@@ -118,7 +120,10 @@ def create_general_panels(dashboard)
     [Row.find_by(order: 2, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Energy", "monthly", nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Wind", "last 3 days", nil, 6, nil, nil, nil, nil ],
     [Row.find_by(order: 3, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "PSH", "last 7 days", nil, 6, nil, nil, nil, nil ],
+    [Row.find_by(order: 4, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Panel Temperature", "last 7 days", nil, 6, nil, nil, nil, nil ],
+    [Row.find_by(order: 4, page: Page.find_by(title:"Data Charts", dashboard: dashboard)), "Panel PSH", "last 7 days", nil, 6, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Tables", dashboard: dashboard)), "Tables", "filter results", nil, 12, nil, nil, nil, nil ],
+    [Row.find_by(order: 2, page: Page.find_by(title:"Tables", dashboard: dashboard)), "Graphics", nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 1, page: Page.find_by(title:"Alerts", dashboard: dashboard)), "Notifications", nil, nil, 12, nil, nil, nil, nil ],
     [Row.find_by(order: 2, page: Page.find_by(title:"Alerts", dashboard: dashboard)), "Settings", nil, nil, 12, nil, nil, nil, nil ]
   ]

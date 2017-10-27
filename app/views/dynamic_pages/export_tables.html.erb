@@ -50,7 +50,14 @@
     <div id="refreshTable">
     </div>
   </div>
+
+ <% end %>
+
+<% content_for :graphics do %>
+    <canvas id="historicChart" class="chartjs-responsive"></canvas>
 <% end %>
+
+
 
 <% content_for :page_scripts do %>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
@@ -183,6 +190,7 @@
         columns.push($(this).attr('id'));
       }
     });
+
     return columns;
   }
 
@@ -196,6 +204,7 @@
       start_date: moment().subtract(1, 'month').format(),
       end_date: moment().format(),
       columns: getColumns()
+
     };
   }
 
@@ -217,6 +226,8 @@
   var newDataTable = function(response) {
     dataSet = response.dataSet;
     headers = response.columns;
+    
+    plotter(dataSet)
     $('#datatable').DataTable({
       data: dataSet,
       columns: headers,
@@ -250,8 +261,11 @@
   function createTable(){
     var new_table_element = '<table id="datatable" class="table table-striped table-bordered bulk_action"></table>';
     document.getElementById('refreshTable').innerHTML = new_table_element;
-    ajax_call('json', refreshRequest(), '<%= refresh_table_path %>', newDataTable, false);
+    datos= ajax_call('json', refreshRequest(), '<%= refresh_table_path %>', newDataTable, false);
+    
   }
+
+
 
   function deleteTable() {
     $('.checkbox').iCheck('disable');
@@ -267,6 +281,7 @@
     createTable();
   }
 </script>
+
 <script>
   $(document).ready(function() {
     var refresh_checkboxes = function (data) {
@@ -307,6 +322,130 @@
       }
     });
   });
-</script>
+
+  </script>
+
+  
+  
+  <script type="text/javascript">
+
+    function plotter(ydata){
+     
+      
+      var historic_chart = function (data) {
+        time = data.timestamp;
+
+        y_data = data.y_data;
+        var lineData = {
+          labels: time,
+          datasets: [{
+          label: 'Graphic',
+          backgroundColor: "rgba(38, 185, 154, 0.31)",
+          borderColor: "rgba(38, 185, 154, 0.7)",
+          pointBorderColor: "rgba(0, 0, 102, 0.9)",
+          pointBackgroundColor: "rgba(0, 0, 102, 0.9)",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointBorderWidth: 1,
+          pointRadius: 1,
+          cubicInterpolationMode: 'default',
+          data: y_data
+          }]
+        };
+        var ctx = document.getElementById("historicChart").getContext('2d');
+        var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: lineData,
+        options: {
+          scales: {
+            xAxes: [{
+              type: 'time',
+              time: {
+                unit: 'day',
+                displayFormats: {
+                  hour: 'MMM D'
+                },
+                unitStepSize: 4
+                
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Time'
+              }
+            }],
+            yAxes: [{
+              
+              scaleLabel: {
+                display: true,
+                labelString: setLabel(request["columns"])
+              }
+                                                  
+            }]
+          },
+          pan: {
+            enabled: true,
+            mode: 'xy'
+          },
+          zoom: {
+            enabled: true,
+            mode: 'xy',
+            limits: {
+              max: 10,
+              min: 0.5
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          }
+        }
+        });
+      }
+        if (request["columns"]=="temp_panel"){
+          ajax_call("json", refreshRequest(), '<%= temperature_historic_path %>', historic_chart, false);
+        }else if(request["columns"]=="rpm"){
+            ajax_call("json", refreshRequest(), '<%= speed_historic_path %>', historic_chart, false);
+        }else if (request["columns"]=="radiation"){
+            ajax_call("json", refreshRequest(), '<%= radiation_historic_path %>', historic_chart, false);
+        }else if (request["columns"]=="m_ejex"){
+            ajax_call("json", refreshRequest(), '<%= vibration_x_historic_path %>', historic_chart, false);
+        }else if (request["columns"]=="m_ejey"){
+            ajax_call("json", refreshRequest(), '<%= vibration_y_historic_path %>', historic_chart, false);
+        }else if (request["columns"]=="m_ejez"){
+            ajax_call("json", refreshRequest(), '<%= vibration_z_historic_path %>', historic_chart, false);
+        }else {
+         new PNotify({
+                title: "No graphics",
+                text: "This variable does not have available chart",
+                type: "info",
+                delay: 2000,
+                styling: 'bootstrap3'
+              });
+        }
+      }
+    function setLabel(type){
+        if (type=="temp_panel"){
+          return "Temperature [°C]";
+        }else if(request["columns"]=="rpm"){
+          return "Speed [rpm]";
+        }else if (request["columns"]=="radiation"){
+          return "Radiation [W/m\xB2]";
+        }else if (request["columns"]=="m_ejex"){
+          return "Vibration [g]";
+        }else if (request["columns"]=="m_ejey"){
+          return "Vibration [g]";
+        }else if (request["columns"]=="m_ejez"){
+          return "Vibration [g]";
+        }else {
+          return null
+    }
+  }
+
+  </script>
+
+
+
+
 <% end %>
 <%= render @page %>
