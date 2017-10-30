@@ -116,6 +116,20 @@ class MeasurementsController < ApplicationController
     end
   end
 
+  def new_wind_turbine_frequencies
+    accepted = {}
+    accepted[:mag] = params[:mag]
+    accepted[:freq] = params[:freq]
+    @wind_turbine_frequencies_measurement = WindTurbineFrequenciesMeasurement.new(accepted)
+    attempt = @wind_turbine_frequencies_measurement.save
+    if attempt
+      create_notifications(WindTurbineFrequenciesMeasurement)
+      render html: "WindTurbineFrequenciesMeasurements #{accepted} saved successfully!", layout: true
+    else
+      render html: "Error saving to DB. Please check your GET URL.", layout: true
+    end
+  end
+
   def new_wunderground
     station_id = 'IATLNTIC4'
     w_info = open("http://api.wunderground.com/api/606f3f6977348613/conditions/q/pws:#{station_id}.json")
