@@ -103,15 +103,9 @@ class MeasurementsController < ApplicationController
 
   def new_wind_turbine_vibration
     accepted = {}
-    accepted[:max_ejex] = params[:max_ejex]
     accepted[:m_ejex] = params[:m_ejex]
-    accepted[:min_ejex] = params[:min_ejex]
-    accepted[:max_ejey] = params[:max_ejey]
     accepted[:m_ejey] = params[:m_ejey]
-    accepted[:min_ejey] = params[:min_ejey]
-    accepted[:max_ejez] = params[:max_ejez]
     accepted[:m_ejez] = params[:m_ejez]
-    accepted[:min_ejez] = params[:min_ejez]
     @wind_turbine_vibration_measurement = WindTurbineVibrationMeasurement.new(accepted)
     attempt = @wind_turbine_vibration_measurement.save
     if attempt

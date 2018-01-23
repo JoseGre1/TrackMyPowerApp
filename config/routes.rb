@@ -37,6 +37,15 @@ Rails.application.routes.draw do
   get '/energy_chart', to: 'ajax_calls#energy_chart', as: :energy_chart
   get '/wind_chart', to: 'ajax_calls#wind_chart', as: :wind_chart
   get '/hsp_chart', to: 'ajax_calls#hsp_chart', as: :hsp_chart
+  get '/temperature_chart', to: 'ajax_calls#temperature_chart', as: :temperature_chart
+  get '/radiation_chart', to: 'ajax_calls#radiation_chart', as: :radiation_chart
+  get '/temperature_historic', to: 'ajax_calls#temperature_historic', as: :temperature_historic
+  get '/speed_historic', to: 'ajax_calls#speed_historic', as: :speed_historic
+  get '/radiation_historic', to: 'ajax_calls#radiation_historic', as: :radiation_historic
+  get '/vibration_x_historic', to: 'ajax_calls#vibration_x_historic', as: :vibration_x_historic
+  get '/vibration_y_historic', to: 'ajax_calls#vibration_y_historic', as: :vibration_y_historic
+  get '/vibration_z_historic', to: 'ajax_calls#vibration_z_historic', as: :vibration_z_historic
+
   get '/refresh_checkboxes_tables', to: 'ajax_calls#refresh_checkboxes_tables', as: :refresh_checkboxes_tables
   get '/refresh_table', to: 'ajax_calls#refresh_table', as: :refresh_table
 

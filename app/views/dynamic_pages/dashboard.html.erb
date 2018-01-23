@@ -351,15 +351,15 @@ function unitsTemperature(element){
     ajax_call("json", "radiation", '<%= load_panel_path %>', load_panel, true);
   }
 
-  function ShowStream() {
-    var refresh_image = function (data) {
-      url = data.url;
-      timestamp = data.timestamp;
-      document.getElementById("stream").src = url;
-      document.getElementById("subtitle_live_stream").innerHTML = timestamp;
-    }
-    ajax_call("json", "url", '<%= load_stream_path %>', refresh_image, true );
-  }
+  //function ShowStream() {
+    //var refresh_image = function (data) {
+      //url = data.url;
+      //timestamp = data.timestamp;
+      //document.getElementById("stream").src = url;
+      //document.getElementById("subtitle_live_stream").innerHTML = timestamp;
+   // }
+    //ajax_call("json", "url", '<%= load_stream_path %>', refresh_image, true );
+  //}
 
   $(document).ready(function() {
     var opts = {
@@ -394,7 +394,7 @@ function unitsTemperature(element){
         ShowPanel();
     }, 60000);
     setInterval(function() {
-        ShowStream();
+        //ShowStream();
     }, 400);
   });
 </script>

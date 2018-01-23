@@ -83,12 +83,14 @@ class AjaxCallsController < ApplicationController
     when "radiation"
       variable = "radiation_panel"
       timestamp = nil
+   
     when "created_at"
       @result = PanelConditionMeasurement.last[variable] if !PanelConditionMeasurement.last.nil?
       timestamp = @result.strftime("%F")
       @result = @result.strftime("%T")
       variable = "last_update"
     end
+
     render json: { result: @result, variable: variable, timestamp: timestamp}, layout: true
   end
 
@@ -164,6 +166,109 @@ class AjaxCallsController < ApplicationController
     render json: { values: hsps, labels: days }
   end
 
+  def temperature_chart
+    @result = PanelConditionMeasurement.where('created_at >= ?', 1.day.ago.change(hour: 0, min: 0, sec: 0)).order(:created_at).select(:temp_panel, :created_at)
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:temp_panel)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+   def radiation_chart
+    hsps = []
+    days = []
+    6.downto(0).to_a.each do |n_day|
+      start = n_day.day.ago.change(hour: 0, min: 0, sec: 0)
+      stop = n_day.day.ago.change(hour: 23, min: 59, sec: 59)
+      day_name = start.strftime("%A")
+      query = PanelConditionMeasurement.where("created_at >= ? and created_at <= ?", start, stop).order(:created_at)
+      calc = 0.0
+      query.select(:radiation).each_with_index do |entry, index|
+        if index == 0 || index == query.count-1
+          calc = calc + entry.radiation/24.0
+        else
+          calc = calc + entry.radiation/12.0
+        end
+      end
+      hsps.push(((calc/10.0).round)/100.0)
+      days.push(day_name)
+    end
+    days.pop and days.push("Today")
+    render json: { values: hsps, labels: days }
+  end
+
+  def temperature_historic
+    date_start = params[:variable][:start_date]
+    date_end = params[:variable][:end_date]
+
+    @result = PanelConditionMeasurement.where("created_at >= ? and created_at <= ?", date_start, date_end).order(:created_at).select(:temp_panel, :created_at)
+
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:temp_panel)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def radiation_historic
+    date_start = params[:variable][:start_date]
+    date_end = params[:variable][:end_date]
+
+    @result = PanelConditionMeasurement.where("created_at >= ? and created_at <= ?", date_start, date_end).order(:created_at).select(:radiation, :created_at)
+
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:radiation)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def speed_historic
+    date_start = params[:variable][:start_date]
+    date_end = params[:variable][:end_date]
+
+    @result = WindTurbineSpeedMeasurement.where("created_at >= ? and created_at <= ?", date_start, date_end).order(:created_at).select(:rpm, :created_at)
+
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:rpm)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def vibration_x_historic
+    date_start = params[:variable][:start_date]
+    date_end = params[:variable][:end_date]
+
+    @result = WindTurbineVibrationMeasurement.where("created_at >= ? and created_at <= ?", date_start, date_end).order(:created_at).select(:m_ejex, :created_at)
+
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:m_ejex)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def vibration_y_historic
+    date_start = params[:variable][:start_date]
+    date_end = params[:variable][:end_date]
+
+    @result = WindTurbineVibrationMeasurement.where("created_at >= ? and created_at <= ?", date_start, date_end).order(:created_at).select(:m_ejey, :created_at)
+
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:m_ejey)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+
+  def vibration_z_historic
+    date_start = params[:variable][:start_date]
+    date_end = params[:variable][:end_date]
+
+    @result = WindTurbineVibrationMeasurement.where("created_at >= ? and created_at <= ?", date_start, date_end).order(:created_at).select(:m_ejez, :created_at)
+
+    timestamp =  @result.pluck(:created_at)
+    timestamp.collect! { |element| element.strftime("%F %T") }
+    y_data = @result.pluck(:m_ejez)
+    render json: { timestamp: timestamp, y_data: y_data }, layout: true
+  end
+ 
   def refresh_checkboxes_tables
     group = params[:variable]
     group_class = group.squish.downcase.tr(" ","_").classify.constantize
@@ -190,9 +295,13 @@ class AjaxCallsController < ApplicationController
     columns.each do |column|
       columns_hash.push({title: column.humanize.titleize, data: column})
     end
-    render json: { columns: columns_hash, dataSet: dataSet }
+    
+
+    render json: { columns: columns_hash, dataSet: dataSet}
   end
 
+
+ 
   def new_alert
     alert_params = params.require(:variable).permit(:type,:variable,:comparator,:value1,:value2,:email,:enabled)
     alert_params["type"] = alert_params["type"].squish.parameterize(separator: '_')
